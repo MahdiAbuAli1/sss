@@ -1,0 +1,2 @@
+FROM qwen2:7b-instruct-q3_K_M
+PARAMETER num_gpu 999
