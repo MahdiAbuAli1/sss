@@ -1,8 +1,7 @@
---- تم إنشاء هذا الملف تلقائيًا للمراجعة ---
 --- إجمالي عدد الأجزاء: 37 ---
 
---- Document/Chunk 1 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 0, 'page_label': '1'}
+--- Chunk 1 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 0, 'page_label': '1'}
 ---
 الشبكاتالعصبية 
 م. أحمد شمسان أحمد علي . 
@@ -38,8 +37,8 @@ Windows 10 19044 أو أعلى64 بت). يتوافق هذا مع إصدار Wind
 • تثبيت WSL2 . 
 • إعداد دعم وحدة معالجة الرسومات NVIDIA® في WSL2 .
 
---- Document/Chunk 2 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 1, 'page_label': '2'}
+--- Chunk 2 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 1, 'page_label': '2'}
 ---
 2. إعداد وحدة معالجة الرسوميات GPU) 
 يمكنك تخطي هذا القسم إذا كنت تخطط لتشغيل TensorFlow على وحدة المعالجة المركزية CPU) فقط. 
@@ -89,8 +88,8 @@ Kepler 90i. بذلك يكون كبلر 90 هو النظام الآخر الوح�
 التالي.[4] 
 الشكل (1): نظام كبلر 90 اي
 
---- Document/Chunk 3 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 2, 'page_label': '3'}
+--- Chunk 3 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 2, 'page_label': '3'}
 ---
 ▪ منفّذ ايجر Eager execution 
 في حال كان هناك استياء سابق حيال تينسر فلو
@@ -119,8 +118,8 @@ Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 202
  
 ▪ يمكن القيام بكل شيء ضمن المتصفح
 
---- Document/Chunk 4 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 3, 'page_label': '4'}
+--- Chunk 4 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 3, 'page_label': '4'}
 ---
 في حال أردنا 
 استخدام جافا سكريبت 
@@ -166,8 +165,8 @@ Internet of Things متيحًا بذلك سرعة
  
 الشكل3): تقنية تخمين مفاصل الانسان المتحركة المكتوبة باستخدام المكتبة الخاصة بالجافا سكريبت للتينسرفلو jsTensorFlow
 
---- Document/Chunk 5 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 4, 'page_label': '5'}
+--- Chunk 5 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 4, 'page_label': '5'}
 ---
 ▪ تحسين المعداتالفيزيائية 
 ربما يعاني الجميع من بطء وحدة المعالجة المركزية CPU عند تدريب
@@ -195,8 +194,8 @@ Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 202
 الشكل5): وحدة معالجة تينسر السحابية 
 الشكل(6): زمن التنفيذ دون استخدام مسار تدفق بيانات فعّال هو0.25 ثانية– مأخوذة من موقع تينسرفلو
 
---- Document/Chunk 6 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 5, 'page_label': '6'}
+--- Chunk 6 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 5, 'page_label': '6'}
 ---
 ▪ لا داعي للبدء من الصفر 
 إحدى أهم الأشياء الأساسية في تطوير البرامج هي فكرة مخزن 
@@ -214,8 +213,8 @@ Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 202
 الشكل7): زمن التنفيذ بعد استخدام مسار تدفقبيانات فعّال هو 0.20 ثانية– مأخوذة من موقع تينسر فلو 
 الشكل(8): مخزن تينسر فلو
 
---- Document/Chunk 7 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 6, 'page_label': '7'}
+--- Chunk 7 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 6, 'page_label': '7'}
 ---
 • مثال يستخدم Tensorflow : 
  
@@ -229,8 +228,8 @@ Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 202
 في كيفية اتخاذ قرارات ذكية بشأن بُنية الشبكة العصبية الخاصة بك. 
 ١ .البُنية الأساسية للشبكة العصبية
 
---- Document/Chunk 8 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 7, 'page_label': '8'}
+--- Chunk 8 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 7, 'page_label': '8'}
 ---
 ١.١ مُدخَلات الشبكة العصبية 
 • يُقصد بعدد مُدخلات الشبكة العصبية عدد الخصائص/السمات Features) التي تستخدمها الشبكة العصبية لاستنتاج المُخرجات. 
@@ -248,8 +247,8 @@ Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 202
 إلى ٤ خلايا عصبية في طبقة الإخراج لتحديد مكان المستطيل الذي يحيط بالكائن في الصورة، خلية عصبية لكل من (الإحداثي س، الإحداثي ص، 
 عرض المستطيل، طول المستطيل.)
 
---- Document/Chunk 9 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 8, 'page_label': '9'}
+--- Chunk 9 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 8, 'page_label': '9'}
 ---
 • التصنيف Classification): في حالة التصنيف الثنائي (مثل: تصنيف البريد إلى مزعج وغير مزعج سنحتاج لخلية عصبية واحدة بحيث يُمَثّل 
 الناتج احتمال انتماء المُدخَل للفئة الإيجابية. بالنسبة للتصنيف متعدد الفئات (على سبيل المثال: التعرف على كائنات مختلفة مثل سيارة أو كلب 
@@ -280,8 +279,8 @@ Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 202
 تحسين تعميم النموذج وتحسين أداءه على بيانات التحقق). 
 ١.٤ دالة الخسارة Loss function)
 
---- Document/Chunk 10 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 9, 'page_label': '10'}
+--- Chunk 10 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 9, 'page_label': '10'}
 ---
 • الانحدار Regression): دالة متوسط الخطأ التربيعي Mean Squared Error) من أكثر دوال الخسارة استخداماً في خوارزميات التحسين في 
 مشاكل الانحدار، إذا كان هناك عدد كبير من القيم المتطرفة في هذه الحالة يُفضّل استبدالها بدالة متوسط الخطأ المطلق Mean Absolute 
@@ -303,8 +302,8 @@ Error) أو خطأ هوبر.
 تلاشي وانفجار مشتقة الخطأ). 
 ١.٧ تسوية الخصائص
 
---- Document/Chunk 11 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 10, 'page_label': '11'}
+--- Chunk 11 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 10, 'page_label': '11'}
 ---
 • قبل استخدام بياناتك كمدخلات للشبكة العصبية تحقق من أن جميع الخصائص على مقياس واحد فهذا يضمن الحصول على تقارب أسرع. 
 عندما يكون لخصائصك مقاييس مختلفة (على سبيل المثال رواتب الموظفين بالآلاف وعدد سنوات الخبرة بالعشرات)، سيكون شكل دالة 
@@ -318,8 +317,8 @@ Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 202
 قيمة عالية (على سبيل المثال 10). قم بقياس أداء النموذج الخاص بك مقابل كل قيمة من قيم معدل التعلم التي جربتها لتحديد معدل التعلم 
 المثالي لمشكلتك، يمكنك بعد ذلك إعادة تدريب نموذجك باستخدام معدل التعلم الأفضل.
 
---- Document/Chunk 12 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 11, 'page_label': '12'}
+--- Chunk 12 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 11, 'page_label': '12'}
 ---
 • أفضل قيمة لمعدل التعلم عادة ما تكون نصف قيمة معدل التعلم الذي يبدأ بعدها النموذج في التباعد. حاول تجربة قيم مختلفة لمعدل التعلم 
 ولاحظ كيف تؤثر على أداء النموذج لتطوير حدسك حول معدلات التعلم. 
@@ -353,8 +352,8 @@ logistic→ tanh → ReLU → Leaky ReLU → ELU → SELU
 • إذا كنت ترغب في تجربة دوال أخرى، فيمكنك تجربة الدوال التالية: 
  •لمقاومة مشكلة فرط التخصيص في الشبكة العصبية استخدم RReLU
 
---- Document/Chunk 13 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 12, 'page_label': '13'}
+--- Chunk 13 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 12, 'page_label': '13'}
 ---
 • لتقليل التأخير في وقت التشغيل استخدم Leaky ReLU 
 • لمجموعات التدريب الضخمة استخدم PReLU 
@@ -411,8 +410,8 @@ softplus.
 • النصيحة العامة استخدم خوارزمية النزول الاشتقاقي العشوائي Stochastic Gradient Descent) إذا كانت الأولوية والاهتمام الأكبر هو لجودة 
 الوصول لنقطة التقارب وكان الوقت الذي يستغرقه التقارب ليس بالأهمية القصوى.
 
---- Document/Chunk 14 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 13, 'page_label': '14'}
+--- Chunk 14 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 13, 'page_label': '14'}
 ---
 • إذا كانت الأولوية لوقت التقارب وليس لجودة نقطة التقارب أي أن الوصول إلى أي نقطة قريبة من نقطة التقارب المثلى يعتبر كافياً بالنسبة 
 لك، جرب خوارزميات مثل Adam و Nadam و RMSProp و Adamax. 
@@ -438,8 +437,8 @@ Step function)، أو تعديلها عندما يبدأ الأداء في ال�
 سَنُنشئ مجلدًا جديدًا خاصًا بمشروعنا وسندخل إليه هكذا: 
 mkdir tensorflow demo
 
---- Document/Chunk 15 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 14, 'page_label': '15'}
+--- Chunk 15 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 14, 'page_label': '15'}
 ---
 cd tensorflow demo 
 سننفذّ الأوامر التالية لإنشاء البيئة الافتراضية: 
@@ -470,8 +469,8 @@ tensorflow==2.6.0
 سننشئ ملفًا جديدًا باسم main.py، وسنفتح هذا الملف بأي محرر شيفرات لدينا مثل VS code  وسنُضيف هذه الأسطر البرمجية
 لاستيراد المكتبات اللازمة:
 
---- Document/Chunk 16 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 15, 'page_label': '16'}
+--- Chunk 16 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 15, 'page_label': '16'}
 ---
 import tensorflow as tf 
 import numpy as np 
@@ -531,8 +530,8 @@ n hidden3 = 128 # 3rd hidden layer
 n output = 10 # output layer (0 9 digits) 
 يُوضح الرسم البياني التالي تصورًا للبِنية التي صمّمناها، مع توصيل كلّ طبقةٍ بالطبقات المحيطة بها توصيلًا كاملًا :
 
---- Document/Chunk 17 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 16, 'page_label': '17'}
+--- Chunk 17 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 16, 'page_label': '17'}
 ---
 ويرتبط مصطلح الشبكة العصبية العميقة Deep Neural Network بعدد الطبقات المخفية، وعادةً ما تُشير كلمة السطحية في
 مصطلح الشبكة العصبية السطحية إلى وجود طبقةٍ مخفيةٍ واحدةٍ، بينما تُشير كلمة العميقة إلى وجود طبقاتٍ مخفيةٍ متعددةٍ. 
@@ -572,8 +571,8 @@ keep prob = tf.compat.v1.placeholder(tf.float32)
 شكل [None،784]، إذ ستمثل القيمة None كميةً غير محددةٍ، وسنُسند كميةً غير محددةٍ من الصور ذات حجم784 بكسل. بحيث
 يصبح شكل المتغير Y هو [None،10]، وستمثل None عددًا غير محددٍ من التصنيفات الناتجة، مع وجود10 أصنافٍ محتملةٍ
 
---- Document/Chunk 18 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 17, 'page_label': '18'}
+--- Chunk 18 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 17, 'page_label': '18'}
 ---
 وسنستخدم في المتغير keep prob tensor من نوع placeholders للتحكم في معدل dropout، وسنجعله من
 نوع placeholders وذلك لجعله متغيرًا من نوعٍ قابلٍ للتعديل، بدلًا من كونه متغيرًا من نوعٍ غير قابلٍ للتعديل immutable variable،
@@ -633,8 +632,8 @@ train step = tf.compat.v1.train.AdamOptimizer(1e 4).minimize(cross entropy)
 عرّفنا حتى الآن الشبكة وبنيناها باستخدام المكتبة البرمجية TensorFlow، والخطوة التالية هي إرسال البيانات عبر المخطط البياني
 لتدريبها، ومن ثَمّ اختبارها للتحقق فيما إن كانت تعلمت شيئًا بالفعل أم لا.
 
---- Document/Chunk 19 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 18, 'page_label': '19'}
+--- Chunk 19 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 18, 'page_label': '19'}
 ---
 5. التدريب والاختبار 
 تتضمن عملية التدريب تغذية المخطط البياني للشبكة بمجموعة بيانات التدريب، وتحسين نتيجة دالة الخسارة، إذ أن في كلّ مرةٍ تمر 
@@ -695,8 +694,8 @@ for i in range(n iterations):
 بعد100 عملية مرورٍ لكلّ خطوة تدريبٍ والتي أرسلنا فيها مجموعةً صغيرةً من الصور عبر الشبكة، سنطبع نتائج دالة الخسارة والدقة
 لتلك الدفعة. وينبغي ألّا نتوقع هنا انخفاض معدل الخسارة وزيادة الدقة، لأن القيم لكل دفعةٍ صغيرةٍ. إذ أن النتائج ليست للنموذج
 
---- Document/Chunk 20 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 19, 'page_label': '20'}
+--- Chunk 20 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 19, 'page_label': '20'}
 ---
 بأكمله. فنحن نستخدم مجموعاتٍ صغيرةٍ من الصور بدلًا من إرسال كلّ صورةٍ بمفردها، وذلك لتسريع عملية التدريب والسماح
 للشبكة برؤية عددٍ من الأمثلة المختلفة قبل تحديث الوسطاء. 
@@ -751,8 +750,8 @@ Prediction for test image: 4
 يمكنك الآن تجربة عملية اختبار الشبكة باستخدام صورٍ أكثر تعقيدًا مثل الأرقام المتشابهة مع الأرقام الأخرى، أو أرقامٍ مكتوبةٍ بخ طٍ 
 سيئٍ أو حتى خاطئةٍ، وذلك لمعرفة وقياس مدى نجاحها .
 
---- Document/Chunk 21 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 20, 'page_label': '21'}
+--- Chunk 21 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 20, 'page_label': '21'}
 ---
 ❖ متغيرات وطبقات الشبكات العصبية[7] : 
  
@@ -808,8 +807,8 @@ activation function) لإدخال غير خطية.
 الطبقات التكرارية، مثل الذاكرة قصيرة وطويلة المدى LSTM) والوحدات التكرارية المقفلة GRU)، تُستخدم في
 الشبكات العصبية التكرارية RNNs) للبيانات التسلسلية مثل السلاسل الزمنية أو اللغة الطبيعية. تحتوي هذه الطبقات
 
---- Document/Chunk 22 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 21, 'page_label': '22'}
+--- Chunk 22 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 21, 'page_label': '22'}
 ---
 على اتصالات تعود للخلف، مما يسمح للمعلومات بالاستمرار عبر الخطوات الزمنية. وهذا يجعلها مناسبة للمهام التي
 تكون فيها السياق والاعتمادية الزمنية مهمة. 
@@ -850,8 +849,8 @@ Pooling).
 تمر الصورة المدخلة بعدد لا نهائي من الخطوات؛ وهذا هو الجزء الملتف من الشبكة. وأخيرًا، يمكن للشبكة العصبية التنبؤ بالرقم الموج ود في 
 الصورة.
 
---- Document/Chunk 23 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 22, 'page_label': '23'}
+--- Chunk 23 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 22, 'page_label': '23'}
 ---
 Archi بنية الشبكة العصبية التلافيفية CNN) 
 تتكون الصورة من مجموعة من البكسلات ذات الارتفاع والعرض. تحتوي الصورة ذات التدرج الرمادي على قناة واحدة فقط بينما تحتوي الصورة 
@@ -866,8 +865,8 @@ Archi بنية الشبكة العصبية التلافيفية CNN)
 العنصر الأكثر أهمية في النموذج هو الطبقة التلافيفية. يهدف هذا الجزء إلى تقليل حجم الصورة لإجراء عمليات حسابية أسرع للأوزان وتحسين 
 تعميمها.
 
---- Document/Chunk 24 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 23, 'page_label': '24'}
+--- Chunk 24 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 23, 'page_label': '24'}
 ---
 أثناء الجزء التلافيفي، تحافظ الشبكة على السمات الأساسية للصورة وتستبعد الضوضاء غير ذات الصلة. على سبيل المثال، يتعلم النموذجكيفية 
 التعرف على الفيل من صورة بها جبل في الخلفية. إذا كنت تستخدم شبكة عصبية تقليدية، فسيقوم النموذج بتعيين وزن لجميع وحدات البكسل، 
@@ -890,22 +889,22 @@ Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 202
  
 يوجد أدناه عنوان URL لمعرفة كيفية عمل الالتفاف عمليًا.
 
---- Document/Chunk 25 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 24, 'page_label': '25'}
+--- Chunk 25 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 24, 'page_label': '25'}
 ---
 هناك العديد من القنوات المتاحة. أدناه، قمنا بإدراج بعض القنوات. يمكنك أن ترى أن كل مرشح له غرض محدد. ملاحظة في الصورة أدناه؛النواة 
 هي مرادف للمرشح.
 
---- Document/Chunk 26 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 25, 'page_label': '26'}
+--- Chunk 26 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 25, 'page_label': '26'}
 ---
 الحساب وراء الإلتواء 
 ستطبق المرحلة التلافيفية الفلتر على مجموعة صغيرة من وحدات البكسل داخل الصورة. سيتحرك الفلتر على طول الصورة المدخلة بشكل عام 
 3×3 أو5 ×5. وهذا يعني أن الشبكة ستنقل هذه النوافذ عبر الصورة المدخلة بالكامل وتحسب التلافيفية. توضح الصورة أدناه كيفية عمل 
 التلافيفية. حجم الرقعة هو 3×3، ومصفوفة الإخراج هي نتيجة العملية على مستوى العنصر بين مصفوفة الصورة والفلتر.
 
---- Document/Chunk 27 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 26, 'page_label': '27'}
+--- Chunk 27 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 26, 'page_label': '27'}
 ---
 لاحظت أن عرض الإخراج وارتفاعه يمكن أن يختلفا عن عرض الإدخال وارتفاعه. يحدث ذلك بسبب تأثير الحدود. 
 تأثير الحدود 
@@ -915,15 +914,15 @@ Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 202
 للحصول على نفس البعد الناتج مثل البعد الإدخال، تحتاج إلى إضافة الحشو. الحشو يتكون من إضافة العدد الصحيح من الصفوف والأعمدة على 
 كل جانب من المصفوفة. سيسمح للالتواء بالتوسيط ليناسب كل بلاطة إدخال. في الصورة أدناه، مصفوفة الإدخال/الإخراج لها نفس البعد 5×5
 
---- Document/Chunk 28 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 27, 'page_label': '28'}
+--- Chunk 28 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 27, 'page_label': '28'}
 ---
 عند تحديد الشبكة، يتم التحكم في الميزات المجمعة بواسطة ثلاث معلمات: 
 1. عمق:يحدد عدد المرشحات التي سيتم تطبيقها أثناء الالتفاف. في المثال السابق، رأيت عمقًا قدره 1، مما يعني أنه يتم استخدام مرشح
 واحد فقط. في معظم الحالات، يوجد أكثر من مرشح واحد. تُظهر الصورة أدناه العمليات التي تم إجراؤها في موقف به ثلاثة مرشحات
 
---- Document/Chunk 29 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 28, 'page_label': '29'}
+--- Chunk 29 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 28, 'page_label': '29'}
 ---
 2. خطوة:يحدد عدد "قفزات البكسل" بين شريحتين. إذا كانت الخطوة تساوي 1، ستتحرك النوافذ بمسافة بكسل واحدة. إذا كانت الخطوة
 تساوي 2، ستقفز النوافذ بمقدار XNUMX بكسل. إذا قمت بزيادة الخطوة، فستحصل علىخرائط ميزات أصغر. 
@@ -937,8 +936,8 @@ Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 202
 في نهاية عملية الالتفاف، يخضع الناتج لدالة تنشيط للسماح باللاخطية. دالة التنشيط المعتادة لشبكة الالتفاف هي Relu. سيتم استبدال جميع
 وحدات البكسل ذات القيمة السالبة بالصفر.
 
---- Document/Chunk 30 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 29, 'page_label': '30'}
+--- Chunk 30 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 29, 'page_label': '30'}
 ---
 Pooling Opera الإنتاج 
 هذه الخطوة سهلة الفهم. الغرض من التجميع هو تقليل أبعاد الصورة المدخلة. يتم تنفيذ الخطوات لتقليل التعقيد الحسابي للعملية. من خلال 
@@ -967,8 +966,8 @@ Pooling Opera الإنتاج
 الآن بعد أن أصبحت على دراية بالعناصر الأساسية لشبكات الاتصال، أنت جاهز لبناء واحدة باستخدامها .TensorFlow سوف نستخدم مجموعة
 بيانات MNIST لتصنيف صور CNN.
 
---- Document/Chunk 31 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 30, 'page_label': '31'}
+--- Chunk 31 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 30, 'page_label': '31'}
 ---
 إن إعداد البيانات هو نفس ما تم في البرنامج التعليمي السابق. يمكنك تشغيل التعليمات البرمجية والانتقال مباشرة إلى بنية CNN. 
 ستتبع الخطوات أدناه لتصنيف الصور باستخدام CNN: 
@@ -988,8 +987,8 @@ fetch mldata('MNIST original').
 أخيرًا، يمكنك توسيع نطاق الميزة باستخدام MinMaxScaler كما هو موضح في تصنيف الصورة أدناه باستخدام مثال TensorFlow 
 CNN.
 
---- Document/Chunk 32 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 31, 'page_label': '32'}
+--- Chunk 32 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 31, 'page_label': '32'}
 ---
 تعريف CNN : 
 تستخدم CNN مرشحات على البكسل الخام للصورة لتعلم نمط التفاصيلومقارنته بالنمط العالمي باستخدام شبكة عصبية تقليدية. 
@@ -1031,8 +1030,8 @@ Relu لإضافة عدم الخطية إلى الشبكة.
 نفس الحجم. 
 يمكنك استخدام وظيفة التنشيط Relu. سيكون حجم الإخراج [28،28،14].
 
---- Document/Chunk 33 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 32, 'page_label': '33'}
+--- Chunk 33 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 32, 'page_label': '33'}
 ---
 الخطوة 4 Poolin طبقة ز : 
 الخطوة التالية بعد الالتفاف هي حساب التجميع. 
@@ -1083,8 +1082,8 @@ if mode == tf.estimator.ModeKeys.PREDICT:
 يمكن حساب الخسارة بسهولة باستخدام الكود التالي: 
 Calculate Loss (for both TRAIN and EVAL modes)
 
---- Document/Chunk 34 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 33, 'page_label': '34'}
+--- Chunk 34 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 33, 'page_label': '34'}
 ---
 loss = tf.losses.sparse softmax cross entropy(labels=labels  logits=logits) 
  
@@ -1104,13 +1103,13 @@ return tf.estimator.EstimatorSpec(mode=mode  loss=loss  eval metric ops=eval met
  
 كود الخطوات السابقة كاملَا
 
---- Document/Chunk 35 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 34, 'page_label': '35'}
+--- Chunk 35 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 34, 'page_label': '35'}
 ---
 
 
---- Document/Chunk 36 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 35, 'page_label': '36'}
+--- Chunk 36 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 35, 'page_label': '36'}
 ---
 ....بإختصار 
 أولاً، عليك تحديد مُقدِّر باستخدام نموذج CNN لتصنيف الصور. 
@@ -1160,8 +1159,8 @@ INFO:tensorflow:Saving dict for global step 15652: accuracy = 0.9589286  global 
 أفضل بكثير من ANN أو الانحدار اللوجستي. في البرنامج التعليمي حول الشبكة العصبية الاصطناعية، حصلت على دقة96%، وهي أقل من 
 CNN. أداء CNN مثيرللإعجاب مع صورة أكبر طقم سواء من حيث سرعة الحساب أو الدقة.
 
---- Document/Chunk 37 ---
-Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': '/home/mahdi/projects/support_service_platform/4_client_docs/school_beta/CNN.pdf', 'total_pages': 37, 'page': 36, 'page_label': '37'}
+--- Chunk 37 ---
+Metadata: {'producer': 'Microsoft® Word 2024', 'creator': 'Microsoft® Word 2024', 'creationdate': '2025-02-15T22:46:46-08:00', 'author': 'Sam Al mekhlafi', 'moddate': '2025-02-15T22:46:46-08:00', 'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'total_pages': 37, 'page': 36, 'page_label': '37'}
 ---
 ❖ المراجع 
  

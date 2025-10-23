@@ -1,8 +1,7 @@
---- تم إنشاء هذا الملف تلقائيًا للمراجعة ---
 --- إجمالي عدد الأجزاء: 55 ---
 
---- Document/Chunk 1 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 1 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\person.txt', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 مهورية اليمنية
 
@@ -39,8 +38,8 @@ Plant Care
 الخلاصة
 نظرا لانتشار التقنيات الحديثة والذكاء الاصطناعي وإنترنت الأشياء حيث أصبحت بمعظم ايدي الأفراد وصول إلى المزارعين ومن منطلق ومن منطلق تسهيل جهود المزارعين ومواكبة التطور التكنلوجي والحضاري وتحقيق التنمية والاكتفاء الذاتي من زراعتنا انطلقت فكرة هذا البحث
 
---- Document/Chunk 2 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 2 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\person.txt', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 الذي يهدف إلى تطوير تطبيق ذكي لا ادارة مكافحة الآفات والأمراض الزراعية من خلال التعرف عليها وتشخيصها باستخدام تقنيات الذكاء الاصطناعي والتعلم العميق، وعرض معلومات عن النباتات وآفاتها وأمراضها ويعرض التوصيات وطرق الوقاية وطرق المكافحة الكيميائية مع التركيز على محاصيل القات والعنب. تم تصميم النظام لتقديم تشخيص دقيق للآفات بناءً على الصور، مما يتيح للمزارعين الحصول على توصيات فعالة للعلاج والوقاية.
 ‎توصل البحث إلى أن استخدام الذكاء الاصطناعي في الزراعة يعزز من كفاءة الإنتاج ويقلل من الاعتماد على الحلول الكيميائية الضارة، ويساعد المزارعين على اتخاذ قرارت زراعية صائبة من خلال التوصيات المقدمة، مما يسهم في تحقيق تنمية زراعية مستدامة. ومن التوصيات المستقبلية توسيع نطاق التطبيق ليشمل محاصيل إضافية، وتحسين دقة نماذج التنبؤ، لضمان وصوله إلى شريحة أكبر من المزارعين.
@@ -65,8 +64,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 وقال رسول الله صلى الله عليه وسلم: (من صنع إليكم معروفاً فكافئوه،
 
---- Document/Chunk 3 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 3 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\person.txt', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 إلى عائلاتنا الذين جعلوا هذا الإنجاز ممكنًا
 
@@ -115,8 +114,8 @@ Plant Care،
 
 انا مهدي ابوعلي عالم ذكاء اصطناعي وعندي مهارات كثيره جدا
 
---- Document/Chunk 4 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 4 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 الرقم الاسم المنصب التوقيع 1 وليد شاهر رئيس قسم تكنولوجيا المعلومات
 
@@ -200,8 +199,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 شكل ‏4.27 واجهة التواصل	70
 
---- Document/Chunk 5 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 5 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 شكل ‏4.21 واجهة تأكيد تعديل البيانات	64
 
@@ -285,8 +284,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 شكل ‏5.19 واجهة قائمة معلومات الدفع	105
 
---- Document/Chunk 6 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 6 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 شكل ‏5.14 واجهات معلومات الآفة	100
 
@@ -358,8 +357,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول ‏3.14 وصف حالة استخدام بحث عن (المستخدمين، معلومات الدفع، الاشتراكات)	34
 
---- Document/Chunk 7 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 7 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 جدول ‏3.12 وصف حالة استخدام بحث عن (الآفات، النبات)	33
 
@@ -409,8 +408,8 @@ III
 
 منذ العصور القديمة، كانت الزراعة حجر الأساس الذي بنيت عليه الحضارات الإنسانية. بدأت المجتمعات البشرية بتطوير أساليب زراعية بدائية لتلبية احتياجاتها الغذائية. ومع مرور الزمن، شهدت هذه الأساليب تطورًا كبيرًا مع تزايد فهم الإنسان لدورة الحياة النباتية، مما ساهم في تحسين إنتاج المحاصيل وزيادة التنوع الزراعي. ورغم ذلك، ظلت الآفات والأمراض الزراعية تشكل تحديًا كبيرًا أمام تحقيق الأمن الغذائي، حيث تسببت عبر التاريخ في خسائر فادحة للمحاصيل، مهددة بذلك استقرار المجتمعات وازدهارها.
 
---- Document/Chunk 8 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 8 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 في البداية، اعتمدت وسائل المكافحة على التجارب التقليدية واستخدام المستخلصات النباتية والممارسات الزراعية اليدوية. ومع تقدم العلوم، تم اكتشاف مبيدات كيميائية فعالة ساهمت بشكل كبير في حماية المحاصيل من الآفات والأمراض، إلا أن الاعتماد المفرط على هذه المواد الكيميائية أدى إلى آثار سلبية على البيئة وصحة الإنسان. هذا الأمر دفع العلماء والمزارعين للبحث عن بدائل أكثر استدامة وصديقة للبيئة، حيث أصبح من الضروري تبني نهج زراعي جديد يجمع بين الكفاءة والاستدامة.
 
@@ -420,8 +419,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 إضافة إلى ذلك، يسعى تطبيق Plant Care إلى تقديم توصيات علاجية دقيقة تقلل من الاعتماد على المبيدات الكيميائية الضارة، وتعزز من فعالية الزراعة المستدامة. من خلال دمج المعرفة الزراعية التقليدية مع أحدث الأبحاث العلمية، يساهم هذا التطبيق في حماية المحاصيل، وزيادة الإنتاجية الزراعية، وتحسين جودة المنتجات الزراعية بطرق صديقة للبيئة ومستدامة.
 
---- Document/Chunk 9 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 9 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 في ظل التحديات البيئية العالمية المتزايدة، يمثل تطبيق Plant Care خطوة هامة نحو تحقيق زراعة أكثر استدامة وكفاءة، مما يساهم في تحقيق الأمن الغذائي وتحسين حياة المزارعين في مختلف أنحاء العالم.
 
@@ -443,8 +442,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 استخدام خوارزميات الذكاء الاصطناعي في التطبيق للتنبؤ بوجود أي آفات زراعية لتقليل الاعتماد على المبيدات الكيميائية والاستخدام المفرط أو الخاطئ لها.
 
---- Document/Chunk 10 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 10 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 استخدام خوارزميات الذكاء الاصطناعي في التطبيق للتنبؤ بوجود أي آفات زراعية لتقليل الاعتماد على المبيدات الكيميائية والاستخدام المفرط أو الخاطئ لها.
 
@@ -478,8 +477,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول خطأ: لم يُعثر على مصدر المرجع.1 خصائص المستخدمين
 
---- Document/Chunk 11 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 11 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 خصائص المستخدمين
 
@@ -517,8 +516,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 الأدوات المستخدمة في المشروع:
 
---- Document/Chunk 12 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 12 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 شكل خطأ: لم يُعثر على مصدر المرجع.2 الخطة الزمنية المقترحة الجزء الأول
 
@@ -550,8 +549,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 الفصل الأول (الإطار العام للمشروع)
 
---- Document/Chunk 13 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 13 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 تنظيم المشروع
 
@@ -597,8 +596,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 الخلفية النظرية
 
---- Document/Chunk 14 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 14 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 مقدمة
 
@@ -616,8 +615,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 الذكاء الاصطناعي: هو مجال من مجالات علوم الحاسوب يركز على تطوير الأنظمة والبرامج التي تمكن الأجهزة من القيام بمهام تعتبر ذكية إذا قام بها البشر. تتضمن هذه المهام التفكير المنطقي، التعلم من التجربة، التكيف مع الظروف الجديدة، والتفاعل مع البيئة.
 
---- Document/Chunk 15 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 15 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 الذكاء الاصطناعي: هو مجال من مجالات علوم الحاسوب يركز على تطوير الأنظمة والبرامج التي تمكن الأجهزة من القيام بمهام تعتبر ذكية إذا قام بها البشر. تتضمن هذه المهام التفكير المنطقي، التعلم من التجربة، التكيف مع الظروف الجديدة، والتفاعل مع البيئة.
 
@@ -629,8 +628,8 @@ Flutter: هي إطار عمل (Framework) مفتوح المصدر تم تطوي�
 
 Shared preferences: مكون إضافي (Plugin) لـ Flutter لقراءة وكتابة قوائم أزواج المفاتيح والقيم البسيطة. يقوم بتغليف NSUserDefaults على نظام iOS و Shared Preferences على نظام Android.
 
---- Document/Chunk 16 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 16 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 Shared preferences: مكون إضافي (Plugin) لـ Flutter لقراءة وكتابة قوائم أزواج المفاتيح والقيم البسيطة. يقوم بتغليف NSUserDefaults على نظام iOS و Shared Preferences على نظام Android.
 
@@ -658,8 +657,8 @@ Sqflite: مكون إضافي (Plugin) لـ Flutter لـ SQLite، وهو محرك
 
 تختلف المبيدات في تركيبتها وآثارها الجانبية على البيئة، وهناك جهود لاستخدام طرق مستدامة وتقليل الاعتماد على المبيدات الكيميائية.
 
---- Document/Chunk 17 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 17 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 مبيدات القوارض: تُستخدم للقضاء على القوارض التي تسبب تلف المحاصيل.
 
@@ -705,8 +704,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 القيود الجغرافية:
 
---- Document/Chunk 18 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 18 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 الاعتماد على الإنترنت:
 
@@ -750,8 +749,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 خلفية التطبيق:
 
---- Document/Chunk 19 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 19 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 العيوب:
 
@@ -797,8 +796,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 تكاليف التكنولوجيا:
 
---- Document/Chunk 20 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 20 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 التكامل مع التقنيات الحديثة:
 
@@ -832,8 +831,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 هو تطبيق مدعوم بالذكاء الاصطناعي تم تطويره ضمن مشروع PlantVillage، وهو مشروع يهدف إلى مساعدة المزارعين في الدول النامية على تحسين إنتاجية محاصيلهم من خلال استخدام التقنيات الحديثة. تم تطوير هذا التطبيق من قبل جامعة ولاية بنسلفانيا بالتعاون مع المنظمات غير الحكومية، ويعمل على تقديم الدعم الفوري للمزارعين، خاصة في المناطق الريفية، من خلال تشخيص الأمراض التي تصيب النبات وتقديم حلول وإرشادات.
 
---- Document/Chunk 21 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 21 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 المميزات:
 
@@ -873,8 +872,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 قدرة التطبيق على التعرف على أنواع الأمراض:
 
---- Document/Chunk 22 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 22 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 العيوب:
 
@@ -912,8 +911,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 تشخيص سريع:
 
---- Document/Chunk 23 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 23 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 المميزات:
 
@@ -969,8 +968,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 التعرف على الأمراض:
 
---- Document/Chunk 24 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 24 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 المميزات:
 
@@ -1020,8 +1019,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 على الرغم من تغطيته الواسعة للمحاصيل، قد لا يدعم بعض المحاصيل النادرة أو المناطق الزراعية الخاصة التي تحتاج إلى تحليلات متخصصة.
 
---- Document/Chunk 25 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 25 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 محدودية المحاصيل:
 
@@ -1065,8 +1064,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 عدم دعم المحاصيل المتعددة:
 
---- Document/Chunk 26 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 26 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 قدرات تحليل محدودة للأعراض المخفية:
 
@@ -1096,8 +1095,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 المقدمة
 
---- Document/Chunk 27 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 27 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 الفصل الثالث
 
@@ -1131,8 +1130,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 المجموع (بالدولار) التكلفة (بالدولار) الكمية البند 3000 1500 2 أجهزة كمبيوتر للمطورين 500 500   الانترنت 3500     الإجمالي
 
---- Document/Chunk 28 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 28 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 جدول خطأ: لم يُعثر على مصدر المرجع.1 التكاليف الأولية
 
@@ -1168,8 +1167,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 التكاليف السنوية المتكررة: 2 400 دولار شهريًا * 12 = 28 800 دولار سنويًا
 
---- Document/Chunk 29 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 29 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 تحليل الجدوى الاقتصادية:
 
@@ -1207,8 +1206,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 الجدوى التشغيلية
 
---- Document/Chunk 30 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 30 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 جدول خطأ: لم يُعثر على مصدر المرجع.5 الأدوات البرمجية
 
@@ -1260,8 +1259,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 تطبيق المستخدم
 
---- Document/Chunk 31 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 31 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 المقابلات:
 
@@ -1367,8 +1366,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 بحث.
 
---- Document/Chunk 32 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 32 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 المتطلبات الوظيفية لتطبيق المدير
 
@@ -1474,8 +1473,8 @@ Actor model
 
 جدول خطأ: لم يُعثر على مصدر المرجع.7 وصف حالة استخدام انشاء حساب
 
---- Document/Chunk 33 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 33 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 مخطط حالة استخدام النظام
 
@@ -1497,8 +1496,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 وصف حالة استخدام تشخيص النبات موضحة في الجدول 3.9
 
---- Document/Chunk 34 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 34 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالة استخدام تشخيص النبات موضحة في الجدول 3.9
 
@@ -1510,8 +1509,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول خطأ: لم يُعثر على مصدر المرجع.10 وصف حالات استخدام (إضافة، تعديل، حذف) بيانات (المستخدمين، النبات، الآفات، معلومات الدفع، والاشتراكات)
 
---- Document/Chunk 35 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 35 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالات استخدام (إضافة، تعديل، حذف) بيانات (المستخدمين، النبات، الآفات، والاشتراكات) موضحة في الجدول 3.10
 
@@ -1523,8 +1522,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول خطأ: لم يُعثر على مصدر المرجع.11 وصف حالات استخدام عرض بيانات (الآفات، النبات)
 
---- Document/Chunk 36 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 36 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالات استخدام عرض بيانات (الآفات، النبات) موضحة في الجدول 3.11
 
@@ -1536,8 +1535,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول خطأ: لم يُعثر على مصدر المرجع.12 وصف حالة استخدام بحث عن (الآفات، النبات)
 
---- Document/Chunk 37 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 37 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالة استخدام بحث عن (الآفات، النبات) موضحة في الجدول 3.12
 
@@ -1549,8 +1548,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول خطأ: لم يُعثر على مصدر المرجع.13 وصف حالات استخدام عرض بيانات (المستخدمين، معلومات الدفع، الاشتراكات)
 
---- Document/Chunk 38 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 38 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالات استخدام عرض بيانات (المستخدمين، الاشتراكات) موضحة في الجدول 3.13
 
@@ -1562,8 +1561,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول خطأ: لم يُعثر على مصدر المرجع.14 وصف حالة استخدام بحث عن (المستخدمين، معلومات الدفع، الاشتراكات)
 
---- Document/Chunk 39 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 39 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالة استخدام بحث عن (المستخدمين، الاشتراكات) موضحة في الجدول 3.14
 
@@ -1575,8 +1574,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول خطأ: لم يُعثر على مصدر المرجع.15 وصف حالة استخدام تصفح التشخيصات السابقة
 
---- Document/Chunk 40 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 40 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالة استخدام تصفح التشخيصات السابقة موضحة في الجدول 3.15
 
@@ -1589,8 +1588,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول خطأ: لم يُعثر على مصدر المرجع.16 وصف حالة استخدام الاشتراك في التطبيق
 
---- Document/Chunk 41 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 41 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالة استخدام الاشتراك في التطبيق موضحة في الجدول 3.16
 
@@ -1600,8 +1599,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 وصف حالة استخدام تغيير (اسم المستخدم، البريد الالكتروني، كلمة المرور) موضحة في الجدول 3.17
 
---- Document/Chunk 42 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 42 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالة استخدام تغيير (اسم المستخدم، البريد الالكتروني، كلمة المرور) موضحة في الجدول 3.17
 
@@ -1613,8 +1612,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول خطأ: لم يُعثر على مصدر المرجع.18 وصف حالة استخدام التواصل مع الدعم
 
---- Document/Chunk 43 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 43 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالة استخدام التواصل مع الدعم موضحة في الشكل 3.18
 
@@ -1626,8 +1625,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدول خطأ: لم يُعثر على مصدر المرجع.19 وصف حالة استخدام إعادة تعيين كلمة مرور المستخدم
 
---- Document/Chunk 44 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 44 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 وصف حالة استخدام إعادة تعيين كلمة مرور المستخدم موضحة في الجدول3.19
 
@@ -1653,8 +1652,8 @@ Class Diagram
 
 مقدمة
 
---- Document/Chunk 45 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 45 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 شكل خطأ: لم يُعثر على مصدر المرجع.4 مخطط علاقات الكيانات
 
@@ -1704,8 +1703,8 @@ Class Diagram
 
 سيوضح هذا القسم مخططات التسلسل في Plant Care والتي تعد مخططات تفاعلية توضح بالتفصيل كيفية تنفيذ العمليات بين الكائنات وترتيب التفاعل.
 
---- Document/Chunk 46 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 46 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 شكل خطأ: لم يُعثر على مصدر المرجع.5 تصميم هيكلية المعلومات للمستخدم الضيف
 
@@ -1749,8 +1748,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 جدولخطأ: لم يُعثر على مصدر المرجع.1 جدول المستخدمين
 
---- Document/Chunk 47 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 47 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 تصميم قاعدة البيانات
 
@@ -1774,8 +1773,8 @@ Subscriptions References Constraint Length Data Type Caption Filed name Primary 
 
 Payment Information References Constraint Length Data Type Caption Filed name Primary key 16 Varchar(2) Payment Information number paymentInfoId Not null 30 Varchar(2) Payment Information Name paymentInfoName Not null 10 Varchar(2) Payment Information Account Number paymentInfoAccountNumber Not null 3 Varchar(2) Payment Information Account Name paymentInfoAccountName
 
---- Document/Chunk 48 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 48 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 جدول عمليات الدفع
 
@@ -1799,8 +1798,8 @@ Payment References Constraint Length Data Type Caption Filed name Primary key 16
 
 جدول خطأ: لم يُعثر على مصدر المرجع.7 جدول النبات
 
---- Document/Chunk 49 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 49 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 جدول النبات
 
@@ -1824,8 +1823,8 @@ Pests References Constraint Length Data Type Caption Filed name Primary key 16 V
 
 جدول خطأ: لم يُعثر على مصدر المرجع.10 جدول صور الآفات
 
---- Document/Chunk 50 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 50 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 جدول صور الآفات
 
@@ -1879,8 +1878,8 @@ Pest Images References Constraint Length Data Type Caption Filed name Primary ke
 
 شكل خطأ: لم يُعثر على مصدر المرجع.31 واجهة إضافة مستخدم جديد
 
---- Document/Chunk 51 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 51 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 شكل خطأ: لم يُعثر على مصدر المرجع.28 واجهات تسجيل الدخول
 
@@ -1936,8 +1935,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 شكل خطأ: لم يُعثر على مصدر المرجع.5 الواجهة الرئيسية للمستخدم المشترك
 
---- Document/Chunk 52 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 52 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 شكل خطأ: لم يُعثر على مصدر المرجع.2 واجهة تسجيل الدخول
 
@@ -1989,8 +1988,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 شكل خطأ: لم يُعثر على مصدر المرجع.25 واجهة إضافة نبات جديد
 
---- Document/Chunk 53 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 53 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 شكل خطأ: لم يُعثر على مصدر المرجع.22 واجهة قائمة أصناف النبات
 
@@ -2022,8 +2021,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 تحسين إدارة الآفات: يساهم تطبيق Plant Care في تحسين إدارة الآفات الزراعية من خلال استخدام تقنيات الذكاء الاصطناعي، مما يساعد المزارعين على التعرف بشكل أسرع وأكثر دقة على الآفات والأمراض.
 
---- Document/Chunk 54 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 54 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 الاستنتاجات
 
@@ -2051,8 +2050,8 @@ Metadata: {'tenant_id': 'university_alpha'}
 
 [2]	J. Pretty  “Agricultural sustainability: concepts  principles and evidence ” Philosophical Transactions of the Royal Society B: Biological Sciences  vol. 363  no. 1491  pp. 447–465  Feb. 2007  doi: 10.1098/RSTB.2007.2163.
 
---- Document/Chunk 55 ---
-Metadata: {'tenant_id': 'university_alpha'}
+--- Chunk 55 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx', 'tenant_id': 'university_alpha', 'entity_name': 'جامعة العلوم والتكنولوجيا'}
 ---
 المراجع
 

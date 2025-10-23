@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.env
+.env.*
+*.env
+
+# IDE
+.vscode/
+.idea/
+
+# Logs and outputs
+*.log
+*.jsonl
+agent_logs/
+
+# Byte-compiled / optimized / DLL files
+*.so
+
+# Data & caches
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Local artifacts
+3_shared_resources/vector_db/*
+!3_shared_resources/vector_db/.gitkeep
+
+# History/backup
+.history/
+conda

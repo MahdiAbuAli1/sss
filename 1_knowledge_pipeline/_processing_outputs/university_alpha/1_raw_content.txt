@@ -1,8 +1,7 @@
---- تم إنشاء هذا الملف تلقائيًا للمراجعة ---
 --- إجمالي عدد الأجزاء: 2 ---
 
---- Document/Chunk 1 ---
-Metadata: {'source': '/home/mahdi/projects/support_service_platform/4_client_docs/university_alpha/person.txt'}
+--- Chunk 1 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\person.txt'}
 ---
 مهورية اليمنية
 
@@ -102,8 +101,8 @@ Plant Care،
 
 انا مهدي ابوعلي عالم ذكاء اصطناعي وعندي مهارات كثيره جدا 
 
---- Document/Chunk 2 ---
-Metadata: {'source': '/home/mahdi/projects/support_service_platform/4_client_docs/university_alpha/project.docx'}
+--- Chunk 2 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\university_alpha\\project.docx'}
 ---
 الرقم الاسم المنصب التوقيع 1 وليد شاهر رئيس قسم تكنولوجيا المعلومات
 
