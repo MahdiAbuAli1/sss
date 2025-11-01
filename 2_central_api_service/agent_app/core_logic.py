@@ -1,1809 +1,1043 @@
-# # 2_central_api_service/agent_app/core_logic.py (النسخة الاحترافية النهائية)
-
 # import os
 # import logging
-# from typing import List, Dict, Any, AsyncGenerator
-# from langchain_core.prompts import PromptTemplate
-# from langchain_core.runnables import RunnablePassthrough
-# from langchain_core.output_parsers import StrOutputParser
-# from langchain_community.vectorstores import FAISS
-# from langchain_community.embeddings import OllamaEmbeddings
-# from langchain_community.llms import Ollama
+# import asyncio
+# import httpx
+# from typing import AsyncGenerator, Dict, List
+
 # from dotenv import load_dotenv
-# import langchain
-# from langchain_core.caches import InMemoryCache
+# from langchain_community.embeddings import OllamaEmbeddings
+# from langchain_community.vectorstores import FAISS
+# from langchain_community.llms import Ollama
+# from langchain_core.prompts import ChatPromptTemplate
+# from langchain_core.messages import HumanMessage, AIMessage
 
+# # --- vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv ---
+# # --- هذا هو القسم الذي يجب تعديله ---
+# # --- vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv ---
+
+# # الاستيراد الصحيح للإصدارات الحديثة من LangChain
+# # يتم استيراد كل وظيفة من مسارها الكامل والدقيق داخل الحزمة
+
+# try:
+#     from langchain.chains import create_history_aware_retriever
+#     from langchain.chains.combine_documents import create_stuff_documents_chain
+#     from langchain.chains import create_retrieval_chain
+# except ImportError:
+#     try:
+#         from langchain.chains.history_aware_retriever import create_history_aware_retriever
+#         from langchain.chains.combine_documents import create_stuff_documents_chain
+#         from langchain.chains.retrieval import create_retrieval_chain
+#     except ImportError:
+#         # للإصدارات القديمة جداً
+#         from langchain.chains import (
+#             create_history_aware_retriever,
+#             create_stuff_documents_chain,
+#             create_retrieval_chain
+#         )
+
+
+# # --- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ---
+# # --- نهاية القسم الذي يجب تعديله ---
+# # --- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ---
+
+# # استيراد مسجل الأداء
 # from .performance_tracker import PerformanceLogger
-# #هذا الكود الاستدعا الخاص
-# perf_logger = PerformanceLogger()
-# # --- تفعيل الذاكرة المؤقتة (Cache) ---
-# logging.info("🚀 تفعيل الذاكرة المؤقتة (InMemoryCache) لـ LangChain...")
-# langchain.llm_cache = InMemoryCache()
 
-# # --- الإعدادات الأولية ---
+# # --- 1. الإعدادات ---
+# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__ ), "../../"))
+# load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
 # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-# load_dotenv(dotenv_path=os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.env")))
 
+# EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL_NAME", "qwen3-embedding:4b")
+# CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "qwen2:7b-instruct-q3_K_M")
+# OLLAMA_HOST = os.getenv("OLLAMA_HOST")
 
-# global vector_store, llm, prompt, embeddings_model
-# embeddings_model = OllamaEmbeddings(model=EMBEDDING_MODEL_NAME)
-
-# # --- قراءة الإعدادات من متغيرات البيئة ---
-# EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME")
-# CHAT_MODEL_NAME = os.getenv("CHAT_MODEL_NAME")
-# VECTOR_DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../3_shared_resources/vector_db"))
-
-# # --- قالب الأسئلة المحسن ---
-# RAG_PROMPT_TEMPLATE = """
-# **مهمتك:** أنت مساعد دعم فني خبير ومختص. استخدم المعلومات المتوفرة في "السياق" التالي للإجابة على "سؤال المستخدم" بدقة واحترافية.
-# - السياق المقدم عبارة عن مجموعة من المستندات ذات الصلة.
-# - إذا كانت المعلومات غير موجودة في السياق، أجب بـ "أنا آسف، لا أملك معلومات كافية للإجابة على هذا السؤال." ولا تحاول اختلاق إجابة.
-# - أجب دائمًا باللغة العربية.
-
-# **السياق:**
-# {context}
-
-# **سؤال المستخدم:**
-# {question}
-
-# **الإجابة:**
-# """
+# UNIFIED_DB_PATH = os.path.join(PROJECT_ROOT, "3_shared_resources", "vector_db")
 
 # # --- متغيرات عالمية ---
-# vector_store = None
-# llm = None
-# prompt = None
+# llm: Ollama = None
+# vector_store: FAISS = None
+# embeddings: OllamaEmbeddings = None
+# chat_history: Dict[str, List[HumanMessage | AIMessage]] = {}
+# initialization_lock = asyncio.Lock()
+# # --- إنشاء نسخة من مسجل الأداء ---
+# perf_logger = PerformanceLogger()
 
-# def initialize_agent():
-#     """ تقوم بتحميل قاعدة المعرفة والنماذج. تُستدعى مرة واحدة عند بدء تشغيل الـ API. """
-#     global vector_store, llm, prompt
+# # --- 2. القوالب (لا تغيير هنا) ---
+# REPHRASE_PROMPT = ChatPromptTemplate.from_template("""
+# بالنظر إلى سجل المحادثة والسؤال الأخير، قم بصياغة سؤال مستقل يمكن فهمه بدون سجل المحادثة.
+# سجل المحادثة: {chat_history}
+# السؤال الأخير: {input}
+# السؤال المستقل:""")
+
+# ANSWER_PROMPT = ChatPromptTemplate.from_template("""
+# أنت "مرشد الدعم"، مساعد ذكي وخبير. مهمتك هي الإجابة على سؤال المستخدم بالاعتماد **حصرياً** على "السياق" المقدم.
+# - كن دائماً متعاوناً ومحترفاً.
+# - إذا كان السياق يحتوي على إجابة، قدمها بشكل مباشر ومنظم.
+# - إذا كانت المعلومات غير موجودة بشكل واضح في السياق، قل بأسلوب لطيف: "بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال."
+# - لا تخترع إجابات أبداً. التزم بالسياق.
+
+# السياق:
+# {context}
+
+# السؤال: {input}
+# الإجابة:""")
+
+# # --- 3. الدوال الأساسية (لا تغيير هنا) ---
+# async def initialize_agent():
+#     global llm, embeddings, vector_store
+#     async with initialization_lock:
+#         if vector_store is not None: return
+#         logging.info("بدء تهيئة النماذج وقاعدة البيانات الموحدة...")
+#         try:
+#             async with httpx.AsyncClient( ) as client:
+#                 await client.get(OLLAMA_HOST, timeout=10.0)
+#             llm = Ollama(model=CHAT_MODEL, base_url=OLLAMA_HOST, temperature=0.1)
+#             embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL, base_url=OLLAMA_HOST)
+            
+#             if not os.path.isdir(UNIFIED_DB_PATH):
+#                 raise FileNotFoundError(f"قاعدة البيانات الموحدة غير موجودة. يرجى تشغيل سكرت 'main_builder.py' أولاً.")
+
+#             vector_store = await asyncio.to_thread(
+#                 FAISS.load_local, UNIFIED_DB_PATH, embeddings, allow_dangerous_deserialization=True
+#             )
+#             logging.info("✅ الوكيل جاهز للعمل بقاعدة بيانات موحدة.")
+#         except Exception as e:
+#             logging.error(f"فشل فادح أثناء التهيئة: {e}", exc_info=True)
+#             raise
+
+# # --- 4. دالة للتحقق من جاهزية الوكيل ---
+# def agent_ready() -> bool:
+#     """التحقق من أن الوكيل جاهز للعمل"""
+#     return vector_store is not None and llm is not None
+
+# # --- 5. دالة get_answer_stream مع تسجيل الأداء ---
+# async def get_answer_stream(request_info: Dict) -> AsyncGenerator[Dict, None]:
+#     """دالة رئيسية لتوليد الإجابات بشكل متدفق"""
+#     question = request_info.get("question", "")
+#     tenant_id = request_info.get("tenant_id", "default_session")
+#     k_results = request_info.get("k_results", 4)
     
-#     if vector_store:
-#         logging.info("الوكيل مُهيأ بالفعل.")
+#     session_id = tenant_id or "default_session"
+
+#     if not vector_store:
+#         yield {"type": "error", "content": "الوكيل غير جاهز. يرجى إعادة تحميل الصفحة."}
 #         return
 
-#     try:
-#         logging.info("="*50)
-#         logging.info("🚀 بدء تهيئة وكيل الدعم الفني...")
-        
-#         # 1. تحميل نموذج التضمين
-#         logging.info(f"تحميل نموذج التضمين: {EMBEDDING_MODEL_NAME}...")
-#         embeddings_model = OllamaEmbeddings(model=EMBEDDING_MODEL_NAME)
+#     perf_logger.start("total_request", tenant_id, question, {"k_results": k_results})
 
-#         # 2. تحميل قاعدة بيانات المتجهات FAISS
-#         logging.info(f"تحميل قاعدة المعرفة من: {VECTOR_DB_PATH}...")
-#         if not os.path.exists(os.path.join(VECTOR_DB_PATH, "index.faiss")):
-#             raise FileNotFoundError(f"قاعدة المعرفة (index.faiss) غير موجودة في المسار: {VECTOR_DB_PATH}. يرجى تشغيل خط أنابيب البيانات أولاً.")
-        
-#         vector_store = FAISS.load_local(
-#             VECTOR_DB_PATH,
-#             embeddings=embeddings_model,
-#             allow_dangerous_deserialization=True
-#         )
-#         logging.info("✅ تم تحميل قاعدة المعرفة بنجاح.")
-
-#         # 3. تحميل النموذج اللغوي الكبير للمحادثة مع إعدادات إضافية
-#         logging.info(f"تحميل نموذج المحادثة: {CHAT_MODEL_NAME}...")
-#         llm = Ollama(
-#             model=CHAT_MODEL_NAME,
-#             temperature=0.1,  # تقليل العشوائية لجعل الإجابات أكثر اتساقًا
-#             # يمكنك إضافة المزيد من الإعدادات هنا مثل top_p, top_k
-#         )
-
-#         # 4. إعداد قالب الأسئلة
-#         prompt = PromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
-        
-#         logging.info("✅ اكتملت تهيئة وكيل الدعم الفني بنجاح!")
-#         logging.info("="*50)
-#     except FileNotFoundError as e:
-#         logging.critical(f" فشل التهيئة: ملف قاعدة المعرفة غير موجود. {e}", exc_info=True)
-#         raise
-#     except Exception as e:
-#         logging.critical(f" فشل فادح وغير متوقع أثناء تهيئة الوكيل: {e}", exc_info=True)
-#         raise
-
-# def format_docs_with_source(docs: List[Dict[str, Any]]) -> str:
-#     """ دالة مساعدة محسنة: تنسق المستندات مع ذكر مصدرها. """
-#     if not docs:
-#         return "لا يوجد سياق متوفر."
+#     retriever = vector_store.as_retriever(
+#         search_kwargs={'k': k_results, 'filter': {'tenant_id': tenant_id}}
+#     )
     
-#     sources = {doc.metadata.get('source', 'مصدر غير معروف') for doc in docs}
-#     formatted_docs = "\n\n---\n\n".join(doc.page_content for doc in docs)
-#     return f"المعلومات التالية تم استرجاعها من المصادر: {', '.join(sources)}\n\n{formatted_docs}"
-# async def get_answer_stream(question: str, tenant_id: str, k_results: int = 4) -> AsyncGenerator[str, None]:
-#     """
-#     تستقبل سؤالاً وهوية العميل، وتستخدم سلسلة RAG لبث الإجابة بشكل تفاعلي.
-#     مع تتبع الأداء لكل مرحلة: التضمين، الاسترجاع، تنسيق المستندات، واستدعاء النموذج.
-#     """
-#     if not vector_store or not llm or not prompt:
-#         raise RuntimeError("الوكيل غير مُهيأ. يرجى استدعاء initialize_agent() أولاً.")
+#     user_chat_history = chat_history.get(session_id, [])
 
-#     logging.info(f"استقبال طلب بث للعميل '{tenant_id}' (k={k_results}): '{question}'")
+#     # --- بناء السلاسل ---
+#     history_aware_retriever = create_history_aware_retriever(llm, retriever, REPHRASE_PROMPT)
+#     document_chain = create_stuff_documents_chain(llm, ANSWER_PROMPT)
+#     conversational_rag_chain = create_retrieval_chain(history_aware_retriever, document_chain)
+
+#     logging.info(f"[{session_id}] بدء معالجة السؤال '{question}'...")
+#     try:
+#         full_answer = ""
+#         # بدء تسجيل وقت تدفق الإجابة
+#         perf_logger.start("llm_stream_generation", tenant_id, question)
+
+#         async for chunk in conversational_rag_chain.astream({"input": question, "chat_history": user_chat_history}):
+#             if "answer" in chunk and chunk["answer"] is not None:
+#                 answer_chunk = chunk["answer"]
+#                 full_answer += answer_chunk
+#                 yield {"type": "chunk", "content": answer_chunk}
+        
+#         # إنهاء تسجيل وقت تدفق الإجابة
+#         perf_logger.end("llm_stream_generation", tenant_id, question, {"answer_length": len(full_answer)})
+
+#         # تحديث سجل المحادثة
+#         user_chat_history.append(HumanMessage(content=question))
+#         user_chat_history.append(AIMessage(content=full_answer))
+#         chat_history[session_id] = user_chat_history[-10:] # الاحتفاظ بآخر 10 رسائل
+#         logging.info(f"[{session_id}] الإجابة الكاملة: '{full_answer}'")
+#     except Exception as e:
+#         logging.error(f"[{session_id}] فشل في سلسلة RAG. الخطأ: {e}", exc_info=True)
+#         yield {"type": "error", "content": "عذراً، حدث خطأ فادح."}
+#     finally:
+#         # تسجيل إجمالي وقت الطلب في كل الحالات (نجاح أو فشل)
+#         perf_logger.end("total_request", tenant_id, question)
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- النسخة النهائية المدمجة مع البحث الهجين ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- النسخة النهائية المصححة لمشكلة الاستيراد ---
+
+# import os
+# import logging
+# import asyncio
+# import httpx
+# from typing import AsyncGenerator, Dict, List, cast
+
+# from dotenv import load_dotenv
+# from langchain_community.embeddings import OllamaEmbeddings
+# from langchain_community.vectorstores import FAISS
+# from langchain_community.llms import Ollama
+# from langchain_core.prompts import ChatPromptTemplate
+# from langchain_core.messages import HumanMessage, AIMessage
+# from langchain_core.documents import Document
+
+# # --- vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv ---
+# # --- هذا هو القسم الذي تم تعديله ---
+# # --- vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv ---
+
+# # 1. إضافة استيرادات جديدة للبحث الهجين
+# from langchain.retrievers import BM25Retriever, EnsembleRetriever
+
+# # 2. استخدام المسارات الصحيحة والحديثة لوظائف السلاسل
+# # هذا يحل مشكلة ImportError
+# from langchain.chains.history_aware_retriever import create_history_aware_retriever
+# from langchain.chains.combine_documents import create_stuff_documents_chain
+# from langchain.chains.retrieval import create_retrieval_chain
+
+# # --- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ---
+# # --- نهاية القسم الذي تم تعديله ---
+# # --- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ---
+
+# from .performance_tracker import PerformanceLogger
+
+# # --- 1. الإعدادات (لا تغيير هنا ) ---
+# # ... (بقية الكود يبقى كما هو دون أي تغيير) ...
+# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+# load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
+# logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL_NAME", "qwen3-embedding:0.6b")
+# CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "qwen2:7b-instruct-q3_K_M")
+# OLLAMA_HOST = os.getenv("OLLAMA_HOST")
+# UNIFIED_DB_PATH = os.path.join(PROJECT_ROOT, "3_shared_resources", "vector_db")
+
+# # --- متغيرات عالمية ---
+# llm: Ollama = None
+# ensemble_retriever: EnsembleRetriever = None 
+# chat_history: Dict[str, List[HumanMessage | AIMessage]] = {}
+# initialization_lock = asyncio.Lock()
+# perf_logger = PerformanceLogger()
+
+# # --- 2. القوالب (لا تغيير هنا) ---
+# REPHRASE_PROMPT = ChatPromptTemplate.from_template("""
+# بالنظر إلى سجل المحادثة والسؤال الأخير، قم بصياغة سؤال مستقل يمكن فهمه بدون سجل المحادثة.
+# سجل المحادثة: {chat_history}
+# السؤال الأخير: {input}
+# السؤال المستقل:""")
+
+# ANSWER_PROMPT = ChatPromptTemplate.from_template("""
+# أنت "مرشد الدعم"، مساعد ذكي وخبير. مهمتك هي الإجابة على سؤال المستخدم بالاعتماد **حصرياً** على "السياق" المقدم.
+# - كن دائماً متعاوناً ومحترفاً.
+# - إذا كان السياق يحتوي على إجابة، قدمها بشكل مباشر ومنظم.
+# - إذا كانت المعلومات غير موجودة بشكل واضح في السياق، قل بأسلوب لطيف: "بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال."
+# - لا تخترع إجابات أبداً. التزم بالسياق.
+
+# السياق:
+# {context}
+
+# السؤال: {input}
+# الإجابة:""")
+
+# # --- 3. الدوال الأساسية (لا تغيير هنا) ---
+# def _load_all_docs_from_faiss(vector_store: FAISS) -> List[Document]:
+#     return list(cast(dict, vector_store.docstore._dict).values())
+
+# async def initialize_agent():
+#     global llm, ensemble_retriever
+#     async with initialization_lock:
+#         if ensemble_retriever is not None: return
+#         logging.info("بدء تهيئة النماذج والمسترجع الهجين...")
+#         try:
+#             async with httpx.AsyncClient( ) as client:
+#                 await client.get(OLLAMA_HOST, timeout=10.0)
+#             llm = Ollama(model=CHAT_MODEL, base_url=OLLAMA_HOST, temperature=0.1)
+            
+#             logging.info("تحميل قاعدة بيانات FAISS...")
+#             if not os.path.isdir(UNIFIED_DB_PATH):
+#                 raise FileNotFoundError(f"قاعدة البيانات الموحدة غير موجودة. يرجى تشغيل 'main_builder.py' أولاً.")
+            
+#             embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL, base_url=OLLAMA_HOST)
+#             faiss_vector_store = await asyncio.to_thread(
+#                 FAISS.load_local, UNIFIED_DB_PATH, embeddings, allow_dangerous_deserialization=True
+#             )
+#             faiss_retriever = faiss_vector_store.as_retriever(search_kwargs={'k': 4})
+#             logging.info("✅ تم تحميل المسترجع الدلالي (FAISS).")
+
+#             logging.info("بناء مسترجع الكلمات المفتاحية (BM25)...")
+#             all_docs = await asyncio.to_thread(_load_all_docs_from_faiss, faiss_vector_store)
+#             bm25_retriever = BM25Retriever.from_documents(all_docs)
+#             bm25_retriever.k = 4
+#             logging.info("✅ تم بناء المسترجع (BM25).")
+
+#             ensemble_retriever = EnsembleRetriever(
+#                 retrievers=[bm25_retriever, faiss_retriever],
+#                 weights=[0.5, 0.5]
+#             )
+#             logging.info("🚀 الوكيل جاهز للعمل مع المسترجع الهجين.")
+
+#         except Exception as e:
+#             logging.error(f"فشل فادح أثناء التهيئة: {e}", exc_info=True)
+#             raise
+
+# # --- 4. دالة للتحقق من جاهزية الوكيل (لا تغيير هنا) ---
+# def agent_ready() -> bool:
+#     return ensemble_retriever is not None and llm is not None
+
+# # --- 5. دالة get_answer_stream (لا تغيير هنا) ---
+# async def get_answer_stream(request_info: Dict) -> AsyncGenerator[Dict, None]:
+#     question = request_info.get("question", "")
+#     tenant_id = request_info.get("tenant_id", "default_session")
+    
+#     session_id = tenant_id or "default_session"
+
+#     if not ensemble_retriever:
+#         yield {"type": "error", "content": "الوكيل غير جاهز. يرجى إعادة تحميل الصفحة."}
+#         return
+
+#     perf_logger.start("total_request", tenant_id, question, {"retriever_type": "hybrid"})
+    
+#     user_chat_history = chat_history.get(session_id, [])
+
+#     history_aware_retriever = create_history_aware_retriever(llm, ensemble_retriever, REPHRASE_PROMPT)
+#     document_chain = create_stuff_documents_chain(llm, ANSWER_PROMPT)
+#     conversational_rag_chain = create_retrieval_chain(history_aware_retriever, document_chain)
+
+#     logging.info(f"[{session_id}] بدء معالجة السؤال '{question}'...")
+#     try:
+#         full_answer = ""
+#         perf_logger.start("llm_stream_generation", tenant_id, question)
+
+#         async for chunk in conversational_rag_chain.astream({"input": question, "chat_history": user_chat_history}):
+#             if "answer" in chunk and chunk["answer"] is not None:
+#                 answer_chunk = chunk["answer"]
+#                 full_answer += answer_chunk
+#                 yield {"type": "chunk", "content": answer_chunk}
+        
+#         perf_logger.end("llm_stream_generation", tenant_id, question, {"answer_length": len(full_answer)})
+
+#         user_chat_history.append(HumanMessage(content=question))
+#         user_chat_history.append(AIMessage(content=full_answer))
+#         chat_history[session_id] = user_chat_history[-10:]
+#         logging.info(f"[{session_id}] الإجابة الكاملة: '{full_answer}'")
+#     except Exception as e:
+#         logging.error(f"[{session_id}] فشل في سلسلة RAG. الخطأ: {e}", exc_info=True)
+#         yield {"type": "error", "content": "عذراً، حدث خطأ فادح."}
+#     finally:
+#         perf_logger.end("total_request", tenant_id, question)
+
+
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- النسخة النهائية مع سلسلة RAG المتقدمة (إعادة صياغة + بحث هجين) ---
+#الاصدار الثاني
+# import os
+# import logging
+# import asyncio
+# import httpx
+# from typing import AsyncGenerator, Dict, List
+
+# from dotenv import load_dotenv
+# from langchain_core.documents import Document
+# from langchain_core.prompts import ChatPromptTemplate
+# from langchain_core.messages import HumanMessage, AIMessage
+# from langchain_core.output_parsers import StrOutputParser
+# from langchain_community.llms import Ollama
+# from langchain_community.embeddings import OllamaEmbeddings
+# from langchain_community.vectorstores import FAISS
+# from langchain.retrievers import BM25Retriever, EnsembleRetriever
+# from langchain.chains import create_history_aware_retriever, create_retrieval_chain
+# from langchain.chains.combine_documents import create_stuff_documents_chain
+
+# from .performance_tracker import PerformanceLogger
+
+# # --- 1. الإعدادات ---
+# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__ ), "../../"))
+# load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
+# logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL_NAME", "qwen3-embedding:0.6b")
+# CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "qwen2:7b-instruct-q3_K_M")
+# OLLAMA_HOST = os.getenv("OLLAMA_HOST")
+# UNIFIED_DB_PATH = os.path.join(PROJECT_ROOT, "3_shared_resources", "vector_db")
+
+# # --- 2. الملفات الشخصية للأنظمة (فكرتك الرائعة!) ---
+# SYSTEM_PROFILES = {
+#     "sys": {
+#         "name": "نظام إدارة طلبات الاعتماد",
+#         "description": "نظام لتتبع مراحل الحصول على الاعتماد من التقديم حتى إصدار الشهادة.",
+#         "keywords": ["طلب اعتماد", "قوائم التحقق", "دراسة مكتبية", "زيارة ميدانية", "إجراءات تصحيحية"]
+#     },
+#     "university_alpha": {
+#         "name": "تطبيق Plant Care",
+#         "description": "تطبيق ذكي لمساعدة المزارعين في التعرف على الآفات الزراعية.",
+#         "keywords": ["متطلبات وظيفية", "حالات استخدام", "تصميم النظام", "مخطط علاقات", "plant care"]
+#     },
+#     "school_beta": {
+#         "name": "مستندات الشبكات العصبية",
+#         "description": "مجموعة من المستندات التعليمية حول الشبكات العصبية التلافيفية (CNN) ومكتبة TensorFlow.",
+#         "keywords": ["شبكة عصبية", "tensorflow", "convolutional layer", "relu", "pooling"]
+#     },
+#     "un": {
+#         "name": "بوابة المشتريات الإلكترونية للأمم المتحدة",
+#         "description": "دليل استخدام نظام الشراء الإلكتروني الخاص بمكتب الأمم المتحدة لخدمات المشاريع (UNOPS).",
+#         "keywords": ["مناقصات", "تسجيل الدخول", "عطاءات", "unops", "esourcing"]
+#     }
+# }
+
+# # --- 3. القوالب المتقدمة ---
+# REWRITE_PROMPT_TEMPLATE = """
+# أنت خبير في النظام التالي:
+# - اسم النظام: {system_name}
+# - وصفه: {system_description}
+# - مصطلحات هامة: {system_keywords}
+
+# مهمتك هي تحويل سؤال المستخدم العام إلى استعلام بحث دقيق ومحدد لاستخدامه في قاعدة بيانات تقنية. استخدم المصطلحات الهامة لإنشاء أفضل استعلام ممكن.
+
+# سؤال المستخدم: {question}
+
+# الاستعلام المحسّن:"""
+
+# REPHRASE_HISTORY_PROMPT = ChatPromptTemplate.from_template("""
+# بالنظر إلى سجل المحادثة والسؤال الأخير، قم بصياغة سؤال مستقل يمكن فهمه بدون سجل المحادثة.
+# سجل المحادثة: {chat_history}
+# السؤال الأخير: {input}
+# السؤال المستقل:""")
+
+# ANSWER_PROMPT = ChatPromptTemplate.from_template("""
+# أنت "مرشد الدعم"، مساعد ذكي وخبير. مهمتك هي الإجابة على سؤال المستخدم بالاعتماد **حصرياً** على "السياق" المقدم.
+# - كن دائماً متعاوناً ومحترفاً.
+# - إذا كان السياق يحتوي على إجابة، قدمها بشكل مباشر ومنظم.
+# - إذا كانت المعلومات غير موجودة بشكل واضح في السياق، قل بأسلوب لطيف: "بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال."
+# - لا تخترع إجابات أبداً. التزم بالسياق.
+
+# السياق:
+# {context}
+
+# السؤال: {input}
+# الإجابة:""")
+
+# # --- 4. المتغيرات العالمية ---
+# llm: Ollama = None
+# vector_store: FAISS = None
+# chat_history: Dict[str, List[HumanMessage | AIMessage]] = {}
+# initialization_lock = asyncio.Lock()
+# perf_logger = PerformanceLogger()
+
+# # --- 5. الدوال الأساسية ---
+
+# def _load_all_docs_from_faiss(vs: FAISS) -> List[Document]:
+#     return list(vs.docstore._dict.values())
+
+# async def initialize_agent():
+#     global llm, vector_store
+#     async with initialization_lock:
+#         if vector_store is not None: return
+#         logging.info("بدء تهيئة النماذج وقاعدة البيانات الموحدة...")
+#         try:
+#             async with httpx.AsyncClient( ) as client:
+#                 await client.get(OLLAMA_HOST, timeout=10.0)
+            
+#             llm = Ollama(model=CHAT_MODEL, base_url=OLLAMA_HOST, temperature=0.1)
+#             embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL, base_url=OLLAMA_HOST)
+            
+#             if not os.path.isdir(UNIFIED_DB_PATH):
+#                 raise FileNotFoundError("قاعدة البيانات الموحدة غير موجودة.")
+
+#             vector_store = await asyncio.to_thread(
+#                 FAISS.load_local, UNIFIED_DB_PATH, embeddings, allow_dangerous_deserialization=True
+#             )
+#             logging.info("✅ الوكيل جاهز للعمل بقاعدة بيانات موحدة.")
+#         except Exception as e:
+#             logging.error(f"فشل فادح أثناء التهيئة: {e}", exc_info=True)
+#             raise
+
+# def agent_ready() -> bool:
+#     return vector_store is not None and llm is not None
+
+# async def get_answer_stream(request_info: Dict) -> AsyncGenerator[Dict, None]:
+#     question = request_info.get("question", "")
+#     tenant_id = request_info.get("tenant_id", "default_session")
+#     k_results = request_info.get("k_results", 8)
+#     session_id = tenant_id or "default_session"
+
+#     if not agent_ready():
+#         yield {"type": "error", "content": "الوكيل غير جاهز. يرجى إعادة تحميل الصفحة."}
+#         return
+
+#     perf_logger.start("total_request", tenant_id, question)
+#     user_chat_history = chat_history.get(session_id, [])
 
 #     try:
-#         # --- مرحلة التضمين (Embedding) ---
-#         perf_logger.start("embedding")
-#         embeddings_model = OllamaEmbeddings(model=EMBEDDING_MODEL_NAME)
-#         question_vector = embeddings_model.embed_query(question)
-#         perf_logger.end("embedding", tenant_id, question)
+#         # --- المرحلة 1: إعادة صياغة السؤال بناءً على السياق (فكرتك!) ---
+#         profile = SYSTEM_PROFILES.get(tenant_id, {})
+#         if profile:
+#             logging.info(f"[{session_id}] استخدام ملف شخصي لإعادة صياغة السؤال للعميل '{tenant_id}'.")
+#             rewrite_prompt = ChatPromptTemplate.from_template(REWRITE_PROMPT_TEMPLATE)
+#             rewriter_chain = rewrite_prompt | llm | StrOutputParser()
+            
+#             # هذه هي الخطوة التي قد تكون بطيئة
+#             effective_question = await rewriter_chain.ainvoke({
+#                 "system_name": profile.get("name", ""),
+#                 "system_description": profile.get("description", ""),
+#                 "system_keywords": ", ".join(profile.get("keywords", [])),
+#                 "question": question
+#             })
+#             logging.info(f"[{session_id}] السؤال الأصلي: '{question}' -> السؤال المحسّن: '{effective_question}'")
+#         else:
+#             effective_question = question
+#             logging.warning(f"[{session_id}] لم يتم العثور على ملف شخصي للعميل '{tenant_id}'. سيتم استخدام السؤال الأصلي.")
 
-#         # --- مرحلة استرجاع المستندات (Retriever) ---
-#         perf_logger.start("retriever")
-#         retriever = vector_store.as_retriever(
-#             search_type="similarity",
+#         # --- المرحلة 2: بناء المسترجع الهجين المفلتر ---
+#         all_docs = _load_all_docs_from_faiss(vector_store)
+#         tenant_docs = [doc for doc in all_docs if doc.metadata.get("tenant_id") == tenant_id]
+
+#         if not tenant_docs:
+#             yield {"type": "error", "content": f"لا توجد بيانات للعميل '{tenant_id}'."}
+#             return
+
+#         bm25_retriever = BM25Retriever.from_documents(tenant_docs)
+#         bm25_retriever.k = k_results // 2
+        
+#         faiss_retriever = vector_store.as_retriever(
+#             search_kwargs={'k': k_results // 2, 'filter': {'tenant_id': tenant_id}}
+#         )
+        
+#         ensemble_retriever = EnsembleRetriever(
+#             retrievers=[bm25_retriever, faiss_retriever],
+#             weights=[0.5, 0.5]
+#         )
+
+#         # --- المرحلة 3: بناء سلسلة RAG الكاملة ---
+#         history_aware_retriever = create_history_aware_retriever(llm, ensemble_retriever, REPHRASE_HISTORY_PROMPT)
+#         document_chain = create_stuff_documents_chain(llm, ANSWER_PROMPT)
+#         conversational_rag_chain = create_retrieval_chain(history_aware_retriever, document_chain)
+
+#         # --- المرحلة 4: التنفيذ والبث ---
+#         logging.info(f"[{session_id}] بدء معالجة السؤال '{effective_question}'...")
+#         full_answer = ""
+#         perf_logger.start("llm_stream_generation", tenant_id, question)
+
+#         async for chunk in conversational_rag_chain.astream({"input": effective_question, "chat_history": user_chat_history}):
+#             if "answer" in chunk and chunk["answer"] is not None:
+#                 answer_chunk = chunk["answer"]
+#                 full_answer += answer_chunk
+#                 yield {"type": "chunk", "content": answer_chunk}
+        
+#         perf_logger.end("llm_stream_generation", tenant_id, question)
+
+#         # تحديث سجل المحادثة
+#         user_chat_history.append(HumanMessage(content=question)) # نحفظ السؤال الأصلي
+#         user_chat_history.append(AIMessage(content=full_answer))
+#         chat_history[session_id] = user_chat_history[-10:]
+#         logging.info(f"[{session_id}] الإجابة الكاملة: '{full_answer}'")
+
+#     except Exception as e:
+#         logging.error(f"[{session_id}] فشل في سلسلة RAG. الخطأ: {e}", exc_info=True)
+#         yield {"type": "error", "content": "عذراً، حدث خطأ فادح."}
+#     finally:
+#         perf_logger.end("total_request", tenant_id, question)
+
+
+
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- النسخة 3.0: مع محرك إعادة صياغة متقدم (تفكير + أمثلة + قواعد صارمة) ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- النسخة 4.0: مع محرك إعادة صياغة ذكي ومتوازن (أمثلة متعددة + قواعد مرنة) ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- النسخة 4.1: إصلاح خطأ NameError وإعادة المتغيرات العالمية ---
+
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 5.0: مع محرك إعادة صياغة ذكي ومتوازن (سلسلة التفكير المنطقية) ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 6.0: مع Reranker لتحقيق أقصى دقة (الحل النهائي لمشكلة السياق) ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 6.1: إصلاح مسار استيراد FlashrankRerank ---
+
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 6.2: إصلاح نهائي لمسار استيراد FlashRankRerank ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 6.3: تطبيق الحل الصحيح باستخدام مكتبة flashrank مباشرة ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 6.4: استخدام الاسم الصحيح 'Ranker' بناءً على بيئة المستخدم ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 6.5: إصلاح نهائي لـ TypeError في Ranker ---
+
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 6.6: إصلاح نهائي لـ KeyError في rewriter_chain ---
+
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 6.7: إصلاح نهائي لـ TypeError في reranker.rerank ---
+
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 6.8: إصلاح نهائي لـ TypeError باستخدام الوسائط الموضعية ---
+
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 6.9: الإصلاح الحاسم لـ TypeError في reranker.rerank ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 7.0: الإصلاح الجذري والأخير لـ rerank باستخدام RerankRequest ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 8.0: النسخة النهائية مع القالب الأكثر ذكاءً ---
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 10.0: الإصدار النهائي مع إصلاح chat_history ---
+
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 11.0: النسخة النهائية مع قالب البساطة المطلقة ---
+#الصور المرسله لرمزي هي نتيجه لهذا 
+# import os
+# import logging
+# import asyncio
+# import httpx
+# from typing import AsyncGenerator, Dict, List
+
+# from dotenv import load_dotenv
+# from langchain_core.documents import Document
+# from langchain_core.prompts import ChatPromptTemplate
+# from langchain_core.messages import HumanMessage, AIMessage
+# from langchain_core.output_parsers import StrOutputParser
+# from langchain_community.llms import Ollama
+# from langchain_community.embeddings import OllamaEmbeddings
+# from langchain_community.vectorstores import FAISS
+# from langchain.retrievers import BM25Retriever, EnsembleRetriever
+# from langchain.chains import create_retrieval_chain
+# from langchain.chains.combine_documents import create_stuff_documents_chain
+
+# from flashrank import Ranker, RerankRequest
+
+# from .performance_tracker import PerformanceLogger
+
+# # --- 1. الإعدادات ---
+# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__ ), "../../"))
+# load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
+# logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL_NAME", "qwen3-embedding:0.6b")
+# CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "qwen2:7b-instruct-q3_K_M")
+# OLLAMA_HOST = os.getenv("OLLAMA_HOST")
+# UNIFIED_DB_PATH = os.path.join(PROJECT_ROOT, "3_shared_resources", "vector_db")
+
+# # --- 2. الملفات الشخصية للأنظمة ---
+# SYSTEM_PROFILES = {
+#     "sys": {
+#         "name": "نظام إدارة طلبات الاعتماد",
+#         "description": "نظام إلكتروني لتتبع رحلة الحصول على الاعتماد، بدءًا من إنشاء الحساب، تقديم الطلب، دفع الفواتير، مرورًا بمراحل التقييم والزيارات الميدانية، وانتهاءً باتخاذ القرار وإصدار الشهادة.",
+#         "keywords": ["إنشاء حساب", "تسجيل الدخول", "طلب اعتماد جديد", "قوائم التحقق", "دراسة مكتبية", "زيارة ميدانية", "إجراءات تصحيحية", "فاتورة", "شهادة الاعتماد"]
+#     },
+#     "university_alpha": {
+#         "name": "تطبيق Plant Care الزراعي",
+#         "description": "تطبيق ذكي لمساعدة المزارعين في تشخيص أمراض النباتات والآفات الزراعية باستخدام الذكاء الاصطناعي، مع التركيز على محصولي القات والعنب.",
+#         "keywords": ["تشخيص النبات", "الآفات الزراعية", "متطلبات وظيفية", "حالات استخدام", "تصميم النظام", "plant care", "الذكاء الاصطناعي في الزراعة"]
+#     },
+#     "school_beta": {
+#         "name": "مستندات الشبكات العصبية",
+#         "description": "مادة تعليمية تشرح مفاهيم الشبكات العصبية، مكتبة TensorFlow، والشبكات التلافيفية (CNN)، بما في ذلك الطبقات، دوال التنشيط، وخوارزميات التحسين.",
+#         "keywords": ["شبكة عصبية", "tensorflow", "convolutional layer", "relu", "pooling", "dense layer", "loss function", "optimizer", "backpropagation"]
+#     },
+#     "un": {
+#         "name": "بوابة المشتريات الإلكترونية للأمم المتحدة (UNOPS eSourcing)",
+#         "description": "دليل إرشادي للموردين حول كيفية استخدام نظام الشراء الإلكتروني الخاص بمكتب الأمم المتحدة لخدمات المشاريع (UNOPS)، ويشمل التسجيل، البحث عن المناقصات، وتقديم العطاءات.",
+#         "keywords": ["مناقصات", "تسجيل الدخول", "تقديم العطاءات", "unops", "esourcing", "ungm.org", "موردين", "حالة المناقصة"]
+#     }
+# }
+
+# # --- 3. القالب النهائي لإعادة الصياغة (الإصدار 11.0: البساطة المطلقة) ---
+# REWRITE_PROMPT_TEMPLATE = """
+# مهمتك واضحة ومحددة: حول سؤال المستخدم إلى جملة بحث قصيرة ومركزة.
+
+# **سياق النظام:**
+# - اسم النظام: {system_name}
+# - وصفه: {system_description}
+# - مصطلحات هامة: {system_keywords}
+
+# ---
+# **قواعد صارمة لا يمكن كسرها:**
+# 1.  **الناتج جملة واحدة فقط:** يجب أن يكون الناتج جملة قصيرة وموجزة.
+# 2.  **التركيز على النية:** استخدم الكلمات الأساسية من سؤال المستخدم والمصطلحات الهامة لبناء جملة تعبر عن القصد.
+# 3.  **إذا كان السؤال عن تعريف النظام:** (مثل "ما هو هذا النظام؟")، يجب أن يكون الناتج "وصف {system_name}".
+# 4.  **إذا كان السؤال خارج السياق تمامًا:** (مثل "من هو ميسي؟")، **أعد السؤال الأصلي كما هو بالضبط.**
+# 5.  **ممنوع الشرح:** لا تقم أبدًا بشرح الاستعلام أو إضافة أي نص إضافي. الناتج هو جملة البحث فقط.
+
+# ---
+# **أمثلة للتنفيذ الصحيح:**
+
+# سؤال المستخدم: ماهو هذا النظام؟
+# الاستعلام المحسّن: وصف نظام إدارة طلبات الاعتماد
+
+# سؤال المستخدم: كيف اضيف حساب جديد؟
+# الاستعلام المحسّن: خطوات إضافة حساب جديد في نظام إدارة طلبات الاعتماد
+
+# سؤال المستخدم: من هي جورجينا؟
+# الاستعلام المحسّن: من هي جورجينا؟
+# ---
+
+# **المهمة المطلوبة:**
+
+# سؤال المستخدم: {question}
+
+# الاستعلام المحسّن:
+# """
+
+# # --- باقي القوالب ---
+# ANSWER_PROMPT = ChatPromptTemplate.from_template("أنت \"مرشد الدعم\"، مساعد ذكي وخبير. مهمتك هي الإجابة على سؤال المستخدم بالاعتماد **حصرياً** على \"السياق\" المقدم.\n- كن دائماً متعاوناً ومحترفاً.\n- إذا كان السياق يحتوي على إجابة، قدمها بشكل مباشر ومنظم.\n- إذا كانت المعلومات غير موجودة بشكل واضح في السياق، قل بأسلوب لطيف: \"بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال.\"\n- لا تخترع إجابات أبداً. التزم بالسياق.\n\nالسياق:\n{context}\n\nالسؤال: {input}\nالإجابة:")
+
+# # --- 4. المتغيرات العالمية ---
+# llm: Ollama = None
+# vector_store: FAISS = None
+# reranker: Ranker = None
+# chat_history: Dict[str, List[HumanMessage | AIMessage]] = {}
+# initialization_lock = asyncio.Lock()
+# perf_logger = PerformanceLogger()
+
+# # --- 5. الدوال الأساسية ---
+
+# def _load_all_docs_from_faiss(vs: FAISS) -> List[Document]:
+#     return list(vs.docstore._dict.values())
+
+# def _clean_rewritten_query(raw_query: str) -> str:
+#     lines = raw_query.strip().split('\n')
+#     for line in reversed(lines):
+#         cleaned_line = line.strip()
+#         if cleaned_line:
+#             if cleaned_line.startswith("الاستعلام المحسّن:"):
+#                 return cleaned_line.replace("الاستعلام المحسّن:", "").strip()
+#             return cleaned_line
+#     return raw_query
+
+# async def initialize_agent():
+#     global llm, vector_store, reranker
+#     async with initialization_lock:
+#         if vector_store is not None: return
+#         logging.info("بدء تهيئة النماذج وقاعدة البيانات و Reranker...")
+#         try:
+#             async with httpx.AsyncClient( ) as client:
+#                 await client.get(OLLAMA_HOST, timeout=10.0)
+            
+#             llm = Ollama(model=CHAT_MODEL, base_url=OLLAMA_HOST, temperature=0.0)
+#             embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL, base_url=OLLAMA_HOST)
+            
+#             if not os.path.isdir(UNIFIED_DB_PATH):
+#                 raise FileNotFoundError("قاعدة البيانات الموحدة غير موجودة.")
+
+#             vector_store = await asyncio.to_thread(
+#                 FAISS.load_local, UNIFIED_DB_PATH, embeddings, allow_dangerous_deserialization=True
+#             )
+            
+#             reranker = Ranker()
+            
+#             logging.info("✅ الوكيل جاهز للعمل (مع Reranker).")
+#         except Exception as e:
+#             logging.error(f"فشل فادح أثناء التهيئة: {e}", exc_info=True)
+#             raise
+
+# def agent_ready() -> bool:
+#     return vector_store is not None and llm is not None and reranker is not None
+
+# async def get_answer_stream(request_info: Dict) -> AsyncGenerator[Dict, None]:
+#     question = request_info.get("question", "")
+#     tenant_id = request_info.get("tenant_id", "default_session")
+#     k_results = request_info.get("k_results", 10)
+#     session_id = tenant_id or "default_session"
+
+#     if not agent_ready():
+#         yield {"type": "error", "content": "الوكيل غير جاهز. يرجى إعادة تحميل الصفحة."}
+#         return
+
+#     user_chat_history = chat_history.get(session_id, [])
+
+#     try:
+#         effective_question = question
+#         profile = SYSTEM_PROFILES.get(tenant_id)
+        
+#         if profile:
+#             logging.info(f"[{session_id}] استخدام ملف شخصي متقدم لإعادة صياغة السؤال...")
+#             rewrite_prompt = ChatPromptTemplate.from_template(REWRITE_PROMPT_TEMPLATE)
+#             rewriter_chain = rewrite_prompt | llm | StrOutputParser()
+            
+#             # هنا لا يوجد متغير {الفعل}، لذا لن يحدث الخطأ
+#             raw_rewritten_query = await rewriter_chain.ainvoke({
+#                 "system_name": profile.get("name", ""),
+#                 "system_description": profile.get("description", ""),
+#                 "system_keywords": ", ".join(profile.get("keywords", [])),
+#                 "question": question
+#             })
+            
+#             effective_question = _clean_rewritten_query(raw_rewritten_query)
+#             logging.info(f"[{session_id}] السؤال الأصلي: '{question}' -> السؤال المحسّن: '{effective_question}'")
+
+#         all_docs = _load_all_docs_from_faiss(vector_store)
+#         tenant_docs = [doc for doc in all_docs if doc.metadata.get("tenant_id") == tenant_id]
+
+#         if not tenant_docs:
+#             yield {"type": "error", "content": f"لا توجد بيانات للعميل '{tenant_id}'."}
+#             return
+
+#         bm25_retriever = BM25Retriever.from_documents(tenant_docs, k=k_results)
+#         faiss_retriever = vector_store.as_retriever(
 #             search_kwargs={'k': k_results, 'filter': {'tenant_id': tenant_id}}
 #         )
+#         ensemble_retriever = EnsembleRetriever(retrievers=[bm25_retriever, faiss_retriever], weights=[0.5, 0.5])
         
-#         relevant_docs = retriever.invoke(question)
+#         logging.info(f"[{session_id}] بدء الاسترجاع الأولي لـ '{effective_question}'...")
+#         initial_docs = await ensemble_retriever.ainvoke(effective_question)
+#         logging.info(f"[{session_id}] تم استرجاع {len(initial_docs)} مستند أولي.")
 
-#         perf_logger.end("retriever", tenant_id, question, extra_info={"retrieved_docs": len(relevant_docs)})
-
-#         # --- مرحلة تنسيق المستندات (Format Docs) ---
-#         perf_logger.start("format_docs")
-#         formatted_context = format_docs_with_source(relevant_docs)
-#         perf_logger.end("format_docs", tenant_id, question, extra_info={"formatted_length": len(formatted_context)})
-
-#         # --- مرحلة استدعاء النموذج (LLM Response) ---
-#         perf_logger.start("llm_response")
-#         rag_chain = (
-#             RunnablePassthrough.assign(context=lambda x: relevant_docs)
-#             | RunnablePassthrough.assign(context=lambda x: formatted_context)
-#             | prompt
-#             | llm
-#         )
-
-#         logging.info(f"جارٍ البحث عن إجابة ضمن نطاق العميل '{tenant_id}'...")
-
-#         # --- البث التفاعلي ---
-#         async for chunk in rag_chain.astream({"question": question}):
-#             yield chunk
-
-#         perf_logger.end("llm_response", tenant_id, question, extra_info={"k_results": k_results})
-
-#     except Exception as e:
-#         logging.error(f"حدث خطأ أثناء بث الإجابة للعميل '{tenant_id}': {e}", exc_info=True)
-#         yield "عذرًا، حدث خطأ داخلي أثناء محاولة الإجابة على سؤالك."
-#         perf_logger.end("error", tenant_id, question, extra_info={"error": str(e)})
-
-
-# 22222222222222_central_api_service/agent_app/core_logic.py (نسخة محسنة لتسريع مرحلة التضمين)
-# {
-#   "question": "من هو مشرف هذا المشروع ومن هم الطلاب الذي عملوه وفي اي جامعه ",
-#   "tenant_id": "university_alpha",
-#   "k_results": 4
-# }
-# #"""المشرف: الدكتور وليد شاهر  
-# الطلاب الذين عملوا على المشروع:  
-# - عبد العزيز علي حسين القاضي  
-# - مهدي محمد مهدي أبو علي  
-# - علي أحمد عبد الله السعيدي  
-# - فاروق حسين الغريبي  
-# الجامعة: جامعة العلوم والتكنولوجيا"""
-# import os
-# import logging
-# from typing import List, Dict, Any, AsyncGenerator
-# from langchain_core.prompts import PromptTemplate
-# from langchain_core.runnables import RunnablePassthrough
-# from langchain_core.output_parsers import StrOutputParser
-# from langchain_community.vectorstores import FAISS
-# from langchain_community.embeddings import OllamaEmbeddings
-# from langchain_community.llms import Ollama
-# from dotenv import load_dotenv
-# import langchain
-# from langchain_core.caches import InMemoryCache
-
-# from .performance_tracker import PerformanceLogger
-
-# # ------------------- تسجيل الأداء -------------------
-# perf_logger = PerformanceLogger()
-
-# # ------------------- تفعيل الذاكرة المؤقتة -------------------
-# logging.info("🚀 تفعيل الذاكرة المؤقتة (InMemoryCache) لـ LangChain...")
-# langchain.llm_cache = InMemoryCache()
-
-# # ------------------- الإعدادات العامة -------------------
-# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-# load_dotenv(dotenv_path=os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.env")))
-
-# # ------------------- متغيرات البيئة -------------------
-# EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME")
-# CHAT_MODEL_NAME = os.getenv("CHAT_MODEL_NAME")
-# VECTOR_DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../3_shared_resources/vector_db"))
-
-# # ------------------- قالب الـ Prompt -------------------
-# RAG_PROMPT_TEMPLATE = """
-# **مهمتك:** أنت مساعد دعم فني خبير ومختص. استخدم المعلومات المتوفرة في "السياق" التالي للإجابة على "سؤال المستخدم" بدقة واحترافية.
-# - السياق المقدم عبارة عن مجموعة من المستندات ذات الصلة.
-# - إذا كانت المعلومات غير موجودة في السياق، أجب بـ "أنا آسف، لا أملك معلومات كافية للإجابة على هذا السؤال." ولا تحاول اختلاق إجابة.
-# - أجب دائمًا باللغة العربية.
-
-# **السياق:**
-# {context}
-
-# **سؤال المستخدم:**
-# {question}
-
-# **الإجابة:**
-# """
-
-# # ------------------- المتغيرات العالمية -------------------
-# vector_store = None
-# llm = None
-# prompt = None
-# embeddings_model = None  # ✅ مضافة: للاحتفاظ بنموذج التضمين في الذاكرة
-
-# # ==============================================================
-# # 🧠 تهيئة الوكيل (تحميل الموارد مرة واحدة فقط)
-# # ==============================================================
-# def initialize_agent():
-#     """تهيئة وكيل الدعم الفني (تحميل قاعدة المعرفة والنماذج مرة واحدة فقط)."""
-#     global vector_store, llm, prompt, embeddings_model
-
-#     if vector_store:
-#         logging.info("الوكيل مُهيأ بالفعل.")
-#         return
-
-#     try:
-#         logging.info("=" * 60)
-#         logging.info("🚀 بدء تهيئة وكيل الدعم الفني...")
-
-#         # 1️⃣ تحميل نموذج التضمين مرة واحدة فقط (بدلاً من كل استعلام)
-#         logging.info(f"📦 تحميل نموذج التضمين: {EMBEDDING_MODEL_NAME}...")
-#         embeddings_model = OllamaEmbeddings(model=EMBEDDING_MODEL_NAME)
-#         logging.info("✅ تم تحميل نموذج التضمين في الذاكرة بنجاح.")
-
-#         # 2️⃣ تحميل قاعدة بيانات المتجهات FAISS
-#         logging.info(f"📂 تحميل قاعدة المعرفة من: {VECTOR_DB_PATH}...")
-#         index_path = os.path.join(VECTOR_DB_PATH, "index.faiss")
-#         if not os.path.exists(index_path):
-#             raise FileNotFoundError(f"قاعدة المعرفة (index.faiss) غير موجودة في المسار: {VECTOR_DB_PATH}.")
+#         logging.info(f"[{session_id}] بدء إعادة الترتيب والفلترة...")
         
-#         vector_store = FAISS.load_local(
-#             VECTOR_DB_PATH,
-#             embeddings=embeddings_model,
-#             allow_dangerous_deserialization=True
-#         )
-#         logging.info("✅ تم تحميل قاعدة المعرفة بنجاح.")
-
-#         # 3️⃣ تحميل نموذج المحادثة
-#         logging.info(f"🧩 تحميل نموذج المحادثة: {CHAT_MODEL_NAME}...")
-#         llm = Ollama(model=CHAT_MODEL_NAME, temperature=0.1)
-
-#         # 4️⃣ إعداد القالب
-#         prompt = PromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
-
-#         logging.info("✅ اكتملت تهيئة وكيل الدعم الفني بنجاح!")
-#         logging.info("=" * 60)
-
-#     except Exception as e:
-#         logging.critical(f"❌ فشل أثناء التهيئة: {e}", exc_info=True)
-#         raise
-
-# # ==============================================================
-# # 🔧 تنسيق المستندات
-# # ==============================================================
-# def format_docs_with_source(docs: List[Dict[str, Any]]) -> str:
-#     """تنسق المستندات مع ذكر المصدر."""
-#     if not docs:
-#         return "لا يوجد سياق متوفر."
-    
-#     sources = {doc.metadata.get("source", "مصدر غير معروف") for doc in docs}
-#     formatted_docs = "\n\n---\n\n".join(doc.page_content for doc in docs)
-#     return f"المعلومات التالية تم استرجاعها من المصادر: {', '.join(sources)}\n\n{formatted_docs}"
-
-# # ==============================================================
-# # 🔄 بث الإجابة
-# # ==============================================================
-# async def get_answer_stream(question: str, tenant_id: str, k_results: int = 4) -> AsyncGenerator[str, None]:
-#     """تبث الإجابة على السؤال بشكل تفاعلي باستخدام RAG."""
-#     if not vector_store or not llm or not prompt or not embeddings_model:
-#         raise RuntimeError("⚠️ الوكيل غير مُهيأ. يرجى استدعاء initialize_agent() أولاً.")
-
-#     logging.info(f"🗣️ استقبال سؤال من العميل '{tenant_id}': {question}")
-
-#     try:
-#         # --- مرحلة التضمين (Embedding) ---
-#         perf_logger.start("embedding")
-#         question_vector = embeddings_model.embed_query(question)
-#         perf_logger.end("embedding", tenant_id, question)
-
-#         # --- مرحلة الاسترجاع ---
-#         perf_logger.start("retriever")
-#         retriever = vector_store.as_retriever(
-#             search_type="similarity",
-#             search_kwargs={"k": k_results, "filter": {"tenant_id": tenant_id}},
-#         )
-#         relevant_docs = retriever.invoke(question)
-#         perf_logger.end("retriever", tenant_id, question, extra_info={"retrieved_docs": len(relevant_docs)})
-
-#         # --- تنسيق المستندات ---
-#         perf_logger.start("format_docs")
-#         formatted_context = format_docs_with_source(relevant_docs)
-#         perf_logger.end("format_docs", tenant_id, question, extra_info={"formatted_length": len(formatted_context)})
-
-#         # --- استدعاء النموذج ---
-#         perf_logger.start("llm_response")
-#         rag_chain = (
-#             RunnablePassthrough.assign(context=lambda x: relevant_docs)
-#             | RunnablePassthrough.assign(context=lambda x: formatted_context)
-#             | prompt
-#             | llm
-#         )
-
-#         async for chunk in rag_chain.astream({"question": question}):
-#             yield chunk
-
-#         perf_logger.end("llm_response", tenant_id, question, extra_info={"k_results": k_results})
-
-#     except Exception as e:
-#         logging.error(f"❌ حدث خطأ أثناء بث الإجابة: {e}", exc_info=True)
-#         yield "عذرًا، حدث خطأ داخلي أثناء محاولة الإجابة على سؤالك."
-#         perf_logger.end("error", tenant_id, question, extra_info={"error": str(e)})
-#3333333333333
-# #نموذج كانت سرعته 5 دقايق ويعتبر افضل من السابق 
-# import os
-# import logging
-# import time
-# from typing import List, Dict, Any, AsyncGenerator
-# from langchain_core.prompts import PromptTemplate
-# from langchain_core.runnables import RunnablePassthrough
-# from langchain_core.output_parsers import StrOutputParser
-# from langchain_community.vectorstores import FAISS
-# from langchain_community.embeddings import OllamaEmbeddings
-# from langchain_community.llms import Ollama
-# from dotenv import load_dotenv
-# import langchain
-# from langchain_core.caches import InMemoryCache
-
-# from .performance_tracker import PerformanceLogger
-
-# # -----------------------------------------------------------------------------
-# # 🧩 نظام تسجيل الأداء
-# # -----------------------------------------------------------------------------
-# perf_logger = PerformanceLogger()
-
-# # -----------------------------------------------------------------------------
-# # 🧠 تفعيل الذاكرة المؤقتة
-# # -----------------------------------------------------------------------------
-# logging.info("🚀 تفعيل الذاكرة المؤقتة (InMemoryCache) لـ LangChain...")
-# langchain.llm_cache = InMemoryCache()
-
-# # -----------------------------------------------------------------------------
-# # ⚙️ الإعدادات العامة
-# # -----------------------------------------------------------------------------
-# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-# load_dotenv(dotenv_path=os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.env")))
-
-# # -----------------------------------------------------------------------------
-# # 📦 متغيرات البيئة
-# # -----------------------------------------------------------------------------
-# EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME")
-# CHAT_MODEL_NAME = os.getenv("CHAT_MODEL_NAME")
-# VECTOR_DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../3_shared_resources/vector_db"))
-
-# # -----------------------------------------------------------------------------
-# # 🧠 قالب الـ Prompt
-# # -----------------------------------------------------------------------------
-# RAG_PROMPT_TEMPLATE = """
-# **مهمتك:** أنت مساعد دعم فني خبير ومختص. استخدم المعلومات المتوفرة في "السياق" التالي للإجابة على "سؤال المستخدم" بدقة واحترافية.
-# - السياق المقدم عبارة عن مجموعة من المستندات ذات الصلة.
-# - إذا كانت المعلومات غير موجودة في السياق، أجب بـ "أنا آسف، لا أملك معلومات كافية للإجابة على هذا السؤال." ولا تحاول اختلاق إجابة.
-# - أجب دائمًا باللغة العربية.
-
-# **السياق:**
-# {context}
-
-# **سؤال المستخدم:**
-# {question}
-
-# **الإجابة:**
-# """
-
-# # -----------------------------------------------------------------------------
-# # 🌍 المتغيرات العالمية
-# # -----------------------------------------------------------------------------
-# vector_store = None
-# llm = None
-# prompt = None
-# embeddings_model = None  # ✅ نموذج التضمين يُحمّل مرة واحدة فقط
-
-# # -----------------------------------------------------------------------------
-# # 🚀 تهيئة الوكيل (تحميل الموارد مرة واحدة فقط)
-# # -----------------------------------------------------------------------------
-# def initialize_agent():
-#     """تهيئة وكيل الدعم الفني (تحميل النماذج والبيانات مرة واحدة فقط)."""
-#     global vector_store, llm, prompt, embeddings_model
-
-#     if vector_store:
-#         logging.info("✅ الوكيل مُهيأ مسبقًا.")
-#         return
-
-#     try:
-#         logging.info("=" * 60)
-#         logging.info("🚀 بدء تهيئة وكيل الدعم الفني...")
-
-#         # 1️⃣ تحميل نموذج التضمين مرة واحدة
-#         perf_logger.start("embedding_model_load")
-#         embeddings_model = OllamaEmbeddings(model=EMBEDDING_MODEL_NAME)
-#         perf_logger.end("embedding_model_load", "system", "initialization")
-#         logging.info("✅ تم تحميل نموذج التضمين في الذاكرة.")
-
-#         # 2️⃣ تحميل قاعدة بيانات المتجهات FAISS
-#         perf_logger.start("vector_db_load")
-#         if not os.path.exists(os.path.join(VECTOR_DB_PATH, "index.faiss")):
-#             raise FileNotFoundError(f"قاعدة المعرفة (index.faiss) غير موجودة في: {VECTOR_DB_PATH}")
-#         vector_store = FAISS.load_local(
-#             VECTOR_DB_PATH,
-#             embeddings=embeddings_model,
-#             allow_dangerous_deserialization=True
-#         )
-#         perf_logger.end("vector_db_load", "system", "initialization")
-#         logging.info("✅ تم تحميل قاعدة المعرفة بنجاح.")
-
-#         # 3️⃣ تحميل نموذج المحادثة (LLM)
-#         perf_logger.start("chat_model_load")
-#         llm = Ollama(model=CHAT_MODEL_NAME, temperature=0.1)
-#         perf_logger.end("chat_model_load", "system", "initialization")
-#         logging.info("✅ تم تحميل نموذج المحادثة بنجاح.")
-
-#         # 4️⃣ إعداد القالب (Prompt)
-#         prompt = PromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
-#         logging.info("✅ اكتملت التهيئة بنجاح!")
-#         logging.info("=" * 60)
-
-#     except Exception as e:
-#         logging.critical(f"❌ فشل أثناء التهيئة: {e}", exc_info=True)
-#         raise
-
-# # -----------------------------------------------------------------------------
-# # 🧾 تنسيق المستندات
-# # -----------------------------------------------------------------------------
-# def format_docs_with_source(docs: List[Dict[str, Any]]) -> str:
-#     """تنسق المستندات المسترجعة وتضيف المصادر."""
-#     if not docs:
-#         return "لا يوجد سياق متوفر."
-#     sources = {doc.metadata.get("source", "مصدر غير معروف") for doc in docs}
-#     formatted_docs = "\n\n---\n\n".join(doc.page_content for doc in docs)
-#     return f"المعلومات التالية تم استرجاعها من المصادر: {', '.join(sources)}\n\n{formatted_docs}"
-
-# # -----------------------------------------------------------------------------
-# # 🧠 بث الإجابة بشكل تفاعلي (RAG Stream)
-# # -----------------------------------------------------------------------------
-# async def get_answer_stream(question: str, tenant_id: str, k_results: int = 4) -> AsyncGenerator[str, None]:
-#     """
-#     بث الإجابة بشكل تفاعلي مع تسجيل الأداء لكل مرحلة.
-#     """
-#     if not vector_store or not llm or not prompt or not embeddings_model:
-#         raise RuntimeError("⚠️ الوكيل غير مُهيأ. يرجى استدعاء initialize_agent() أولاً.")
-
-#     logging.info(f"📩 استقبال سؤال من العميل '{tenant_id}': {question}")
-
-#     try:
-#         # ================================
-#         # 1️⃣ مرحلة التضمين (Embedding)
-#         # ================================
-#         perf_logger.start("embedding")
-#         question_vector = embeddings_model.embed_query(question)
-#         perf_logger.end("embedding", tenant_id, question)
-
-#         # ================================
-#         # 2️⃣ مرحلة الاسترجاع (Retriever)
-#         # ================================
-#         perf_logger.start("retriever")
-#         retriever = vector_store.as_retriever(
-#             search_type="similarity",
-#             search_kwargs={"k": k_results, "filter": {"tenant_id": tenant_id}},
-#         )
-#         relevant_docs = retriever.invoke(question)
-#         perf_logger.end("retriever", tenant_id, question, extra_info={"retrieved_docs": len(relevant_docs)})
-
-#         # ================================
-#         # 3️⃣ مرحلة تنسيق المستندات (Formatting)
-#         # ================================
-#         perf_logger.start("format_docs")
-#         formatted_context = format_docs_with_source(relevant_docs)
-#         perf_logger.end("format_docs", tenant_id, question, extra_info={"formatted_length": len(formatted_context)})
-
-#         # ================================
-#         # 4️⃣ مرحلة استدعاء النموذج (LLM)
-#         # ================================
-#         perf_logger.start("llm_response")
-#         rag_chain = (
-#             RunnablePassthrough.assign(context=lambda x: relevant_docs)
-#             | RunnablePassthrough.assign(context=lambda x: formatted_context)
-#             | prompt
-#             | llm
-#         )
-
-#         async for chunk in rag_chain.astream({"question": question}):
-#             yield chunk
-
-#         perf_logger.end("llm_response", tenant_id, question, extra_info={"k_results": k_results})
-
-#     except Exception as e:
-#         logging.error(f"❌ خطأ أثناء بث الإجابة: {e}", exc_info=True)
-#         yield "عذرًا، حدث خطأ داخلي أثناء معالجة سؤالك."
-#         perf_logger.end("error", tenant_id, question, extra_info={"error": str(e)})
- 
-
-#التعديل الجديد مع اضافه نموذج ترتيب وتعديل نموذج البحث الى نموذج بحث هجين 
-# core_logic.py
-# core_logic.py
-# core_logic.py
-# core_logic.py
-# core_logic.py (النسخة النهائية - مع التوجيه والهوية الديناميكية)
-# 
-# # ميسي: لا يوجد أي معلومات عن ميسي في السياق المقدم.  
-#الدكتور وليد شاهر: هو رئيس قسم تكنولوجيا المعلومات في جامعة العلوم والتكنولوجيا في اليمن، ويعتبر مشرفًا على مشروع هذا الكود ممتاز من حيث النتائج لكنه بطي بس لانه يستخدم النموذج اللغوي الكبير في تصنيف نوع السوال هل هوعام ام فني ام دعم وهذه المرحله تستهلك الكثبر من الوقت 
-# import os
-# import logging
-# import time
-# from typing import List, AsyncGenerator, Dict
-# from langchain_core.prompts import PromptTemplate
-# from langchain_core.runnables import RunnablePassthrough
-# from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
-# from langchain_community.vectorstores import FAISS
-# from langchain_community.embeddings import OllamaEmbeddings
-# from langchain_community.llms import Ollama
-# from dotenv import load_dotenv
-# import langchain
-# from langchain_core.caches import InMemoryCache
-# from langchain_core.documents import Document
-# from sentence_transformers import CrossEncoder
-# from rank_bm25 import BM25Okapi
-
-# from .performance_tracker import PerformanceLogger
-
-# # -----------------------------------------------------------------------------
-# # 🧩 إعدادات عامة وتسجيل
-# # -----------------------------------------------------------------------------
-# perf_logger = PerformanceLogger()
-# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-# load_dotenv(dotenv_path=os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.env")))
-# langchain.llm_cache = InMemoryCache()
-
-# # -----------------------------------------------------------------------------
-# # 📦 متغيرات البيئة والنماذج
-# # -----------------------------------------------------------------------------
-# EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME")
-# CHAT_MODEL_NAME = os.getenv("CHAT_MODEL_NAME")
-# VECTOR_DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../3_shared_resources/vector_db"))
-# RERANK_MODEL_NAME = "BAAI/bge-reranker-base"
-
-# # -----------------------------------------------------------------------------
-# # 🧠 قوالب الـ Prompts (مع دعم الشخصية الديناميكية)
-# # -----------------------------------------------------------------------------
-
-# # --- 1. قالب التوجيه (Classifier) ---
-# ROUTING_PROMPT_TEMPLATE = """
-# مهمتك هي تصنيف سؤال المستخدم إلى أحد الفئتين التاليتين: "technical" أو "general".
-# - "technical": إذا كان السؤال يتطلب البحث عن معلومات أو تفاصيل في قاعدة معرفة. (مثل: من هو المشرف، ما هو الرقم الأكاديمي، كيف أحل المشكلة).
-# - "general": إذا كان السؤال عبارة عن تحية، سؤال عام لا يتطلب بحث (مثل "من أنت؟"، "كيف حالك؟")، حديث صغير، أو إهانة.
-
-# أجب بصيغة JSON فقط، مع مفتاح "category".
-
-# أمثلة:
-# - سؤال المستخدم: "اشرح لي خطوات تثبيت البرنامج." -> {{"category": "technical"}}
-# - سؤال المستخدم: "من هو مهدي أبو علي؟" -> {{"category": "technical"}}
-# - سؤال المستخدم: "مرحباً يا ساعد" -> {{"category": "general"}}
-# - سؤال المستخدم: "من تكون؟" -> {{"category": "general"}}
-
-# سؤال المستخدم:
-# {question}
-# """
-
-# # --- 2. قالب نظام RAG التقني ---
-# RAG_PROMPT_TEMPLATE = """
-# **مهمتك:** أنت مساعد دعم فني خبير ومختص لـ **{tenant_name}**. استخدم "السياق" التالي للإجابة على "سؤال المستخدم" بدقة.
-# - إذا كانت المعلومات غير موجودة في السياق، أجب بـ "أنا آسف، لا أملك معلومات كافية للإجابة على هذا السؤال."
-# - أجب دائمًا باللغة العربية.
-
-# **السياق:**
-# {context}
-
-# **سؤال المستخدم:**
-# {question}
-
-# **الإجابة:**
-# """
-
-# # --- 3. قالب المحادثة العامة (مع شخصية ديناميكية) ---
-# GENERAL_PROMPT_TEMPLATE = """
-# **مهمتك:** أنت "ساعد"، المساعد الآلي لـ **{tenant_name}**. أنت ذكي وودود. تفاعل مع "سؤال المستخدم" بطريقة مناسبة ومهذبة.
-# - إذا كان السؤال "من أنت؟" أو ما شابه: عرّف بنفسك: "أنا ساعد، مساعد الدعم الآلي لـ {tenant_name}. كيف يمكنني خدمتك؟"
-# - إذا كان السؤال تحية: رد التحية بلطف. (مثال: "وعليكم السلام! أهلاً بك في خدمة الدعم لـ {tenant_name}.")
-# - إذا كان السؤال إهانة: حافظ على هدوئك ورد باحترافية: "أنا هنا لمساعدتك في أي استفسارات لديك حول {tenant_name}."
-# - أجب دائمًا باللغة العربية.
-
-# سؤال المستخدم:
-# {question}
-# """
-
-# # -----------------------------------------------------------------------------
-# # 🌍 المتغيرات العالمية وسلاسل العمل
-# # -----------------------------------------------------------------------------
-# vector_store: FAISS = None
-# llm: Ollama = None
-# embeddings_model: OllamaEmbeddings = None
-# all_docs_for_bm25: List[Document] = []
-# cross_encoder: CrossEncoder = None
-# full_rag_chain = None
-# general_chain = None
-# routing_chain = None
-
-# # -----------------------------------------------------------------------------
-# # 🚀 تهيئة الوكيل (مع إعادة التوجيه)
-# # -----------------------------------------------------------------------------
-# def initialize_agent():
-#     global vector_store, llm, embeddings_model, all_docs_for_bm25, cross_encoder, full_rag_chain, general_chain, routing_chain
-#     if routing_chain:
-#         logging.info("✅ الوكيل الذكي (مع التوجيه) مُهيأ مسبقًا.")
-#         return
-    
-#     try:
-#         logging.info("=" * 80)
-#         logging.info("🚀 بدء تهيئة الوكيل الذكي (مع التوجيه والشخصية الديناميكية)...")
+#         passages = [{"id": i, "text": doc.page_content} for i, doc in enumerate(initial_docs)]
         
-#         llm = Ollama(model=CHAT_MODEL_NAME, temperature=0.1)
-#         embeddings_model = OllamaEmbeddings(model=EMBEDDING_MODEL_NAME)
-#         vector_store = FAISS.load_local(VECTOR_DB_PATH, embeddings=embeddings_model, allow_dangerous_deserialization=True)
-#         docstore_ids = list(vector_store.docstore._dict.keys())
-#         all_docs_for_bm25 = [vector_store.docstore._dict[i] for i in docstore_ids]
-#         cross_encoder = CrossEncoder(RERANK_MODEL_NAME)
+#         rerank_request = RerankRequest(query=question, passages=passages)
+#         all_reranked_results = reranker.rerank(rerank_request)
+#         top_4_results = all_reranked_results[:4]
         
-#         # --- بناء السلاسل ---
-#         rag_prompt = PromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
-#         full_rag_chain = (
-#             RunnablePassthrough.assign(context=lambda x: format_docs_with_source(x["docs"]))
-#             | rag_prompt
-#             | llm
-#             | StrOutputParser()
-#         )
-
-#         general_prompt = PromptTemplate.from_template(GENERAL_PROMPT_TEMPLATE)
-#         general_chain = general_prompt | llm | StrOutputParser()
-
-#         routing_prompt = PromptTemplate.from_template(ROUTING_PROMPT_TEMPLATE)
-#         routing_chain = routing_prompt | llm | JsonOutputParser()
-
-#         logging.info(" اكتملت تهيئة الوكيل الذكي بنجاح! ✨")
-#     except Exception as e:
-#         logging.critical(f" فشل حاسم أثناء التهيئة: {e}", exc_info=True)
-#         raise
-
-# # -----------------------------------------------------------------------------
-# # 헬 دوال مساعدة
-# # -----------------------------------------------------------------------------
-# def format_docs_with_source(docs: List[Document]) -> str:
-#     """تنسق المستندات المسترجعة وتضيف المصادر."""
-#     if not docs:
-#         return "لا يوجد سياق متوفر."
-#     sources = {doc.metadata.get("source", "مصدر غير معروف") for doc in docs}
-#     formatted_docs = "\n\n---\n\n".join(doc.page_content for doc in docs)
-#     return f"المعلومات التالية تم استرجاعها من المصادر: {', '.join(sources)}\n\n{formatted_docs}"
-
-# def perform_hybrid_retrieval_and_rerank(question: str, tenant_id: str, k: int) -> List[Document]:
-#     """ينفذ البحث الهجين الكامل مع إعادة الترتيب."""
-#     faiss_retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 15, "filter": {"tenant_id": tenant_id}})
-#     faiss_docs = faiss_retriever.invoke(question)
-    
-#     tenant_docs_indices = [i for i, doc in enumerate(all_docs_for_bm25) if doc.metadata.get("tenant_id") == tenant_id]
-#     bm25_docs = []
-#     if tenant_docs_indices:
-#         tenant_corpus = [all_docs_for_bm25[i].page_content.split(" ") for i in tenant_docs_indices]
-#         bm25_for_tenant = BM25Okapi(tenant_corpus)
-#         tokenized_query = question.split(" ")
-#         doc_scores = bm25_for_tenant.get_scores(tokenized_query)
-#         top_n_indices = sorted(range(len(doc_scores)), key=lambda i: doc_scores[i], reverse=True)[:15]
-#         bm25_docs = [all_docs_for_bm25[tenant_docs_indices[i]] for i in top_n_indices]
-    
-#     combined_docs_list = list({doc.page_content: doc for doc in faiss_docs + bm25_docs}.values())
-#     if not combined_docs_list:
-#         return []
-
-#     model_input_pairs = [[question, doc.page_content] for doc in combined_docs_list]
-#     scores = cross_encoder.predict(model_input_pairs)
-#     docs_with_scores = sorted(zip(combined_docs_list, scores), key=lambda x: x[1], reverse=True)
-    
-#     return [doc for doc, score in docs_with_scores[:k]]
-
-# # -----------------------------------------------------------------------------
-# # 🧠 بث الإجابة (النسخة النهائية مع الهوية الديناميكية المستنبطة)
-# # -----------------------------------------------------------------------------
-# async def get_answer_stream(question: str, tenant_id: str, k_results: int = 4) -> AsyncGenerator[str, None]:
-#     if not routing_chain:
-#         raise RuntimeError("⚠️ الوكيل الذكي غير مُهيأ. يرجى استدعاء initialize_agent() أولاً.")
-    
-#     logging.info(f"📩 استقبال سؤال من '{tenant_id}': {question}")
-#     try:
-#         # 1. مرحلة التوجيه
-#         perf_logger.start("routing")
-#         route_decision = await routing_chain.ainvoke({"question": question})
-#         category = route_decision.get("category", "technical")
-#         perf_logger.end("routing", tenant_id, question, extra_info={"decision": category})
-#         logging.info(f"🧠 قرار التوجيه: '{category}'")
-
-#         # 2. تنفيذ المسار
-#         if category == "technical":
-#             logging.info("🚀 تنفيذ مسار الدعم الفني (RAG)...")
-#             perf_logger.start("retrieval_rerank")
-#             final_docs = perform_hybrid_retrieval_and_rerank(question, tenant_id, k_results)
-#             perf_logger.end("retrieval_rerank", tenant_id, question, extra_info={"final_doc_count": len(final_docs)})
-            
-#             # استنباط الهوية الديناميكية من المستندات المسترجعة
-#             entity_name = "الخدمة" # اسم افتراضي
-#             if final_docs and "entity_name" in final_docs[0].metadata:
-#                 entity_name = final_docs[0].metadata["entity_name"]
-#             logging.info(f"🏢 الهوية الديناميكية المستنبطة: '{entity_name}'")
-            
-#             async for chunk in full_rag_chain.astream({"question": question, "docs": final_docs, "tenant_name": entity_name}):
-#                 yield chunk
-#         else: # general
-#             logging.info("💬 تنفيذ مسار المحادثة العامة...")
-            
-#             # استنباط الهوية الديناميكية عبر بحث خفيف جداً
-#             temp_docs = vector_store.similarity_search("", filter={"tenant_id": tenant_id}, k=1)
-#             entity_name = "الخدمة" # اسم افتراضي
-#             if temp_docs and "entity_name" in temp_docs[0].metadata:
-#                 entity_name = temp_docs[0].metadata["entity_name"]
-#             logging.info(f"🏢 الهوية الديناميكية المستنبطة: '{entity_name}'")
-
-#             async for chunk in general_chain.astream({"question": question, "tenant_name": entity_name}):
-#                 yield chunk
-#     except Exception as e:
-#         logging.error(f"❌ خطأ أثناء بث الإجابة: {e}", exc_info=True)
-#         yield "عذرًا، حدث خطأ داخلي أثناء معالجة سؤالك."
-#         perf_logger.end("error", tenant_id, question, extra_info={"error": str(e)})
-
-
-# core_logic.py (النسخة النهائية فائقة السرعة)
-#
-
-# # #
-# import os
-# import logging
-# from typing import List, AsyncGenerator
-# from langchain_core.prompts import PromptTemplate
-# from langchain_core.runnables import RunnablePassthrough
-# from langchain_core.output_parsers import StrOutputParser
-# from langchain_community.vectorstores import FAISS
-# from langchain_community.embeddings import OllamaEmbeddings
-# from langchain_community.llms import Ollama
-# from dotenv import load_dotenv
-# import langchain
-# from langchain_core.caches import InMemoryCache
-# from langchain_core.documents import Document
-# from sentence_transformers import CrossEncoder
-# from rank_bm25 import BM25Okapi
-# # 🔴🔴🔴 --- استيراد جديد ومهم --- 🔴🔴🔴
-# from transformers import pipeline
-
-# from .performance_tracker import PerformanceLogger
-
-# # -----------------------------------------------------------------------------
-# # 🧩 إعدادات عامة وتسجيل
-# # -----------------------------------------------------------------------------
-# perf_logger = PerformanceLogger()
-# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-# load_dotenv(dotenv_path=os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.env")))
-# langchain.llm_cache = InMemoryCache()
-
-# # -----------------------------------------------------------------------------
-# # 📦 متغيرات البيئة والنماذج
-# # -----------------------------------------------------------------------------
-# EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME")
-# CHAT_MODEL_NAME = os.getenv("CHAT_MODEL_NAME")
-# VECTOR_DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../3_shared_resources/vector_db"))
-# RERANK_MODEL_NAME = "BAAI/bge-reranker-base"
-# # 🔴🔴🔴 --- اسم نموذج التصنيف السريع --- 🔴🔴🔴
-# CLASSIFIER_MODEL_NAME = "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli"
-
-# # -----------------------------------------------------------------------------
-# # 🧠 قوالب الـ Prompts (لم نعد نحتاج قالب التوجيه)
-# # -----------------------------------------------------------------------------
-# RAG_PROMPT_TEMPLATE = """
-# **مهمتك:** أنت مساعد دعم فني خبير ومختص لـ **{tenant_name}**. استخدم "السياق" التالي للإجابة على "سؤال المستخدم" بدقة.
-# - إذا كانت المعلومات غير موجودة في السياق، أجب بـ "أنا آسف، لا أملك معلومات كافية للإجابة على هذا السؤال."
-# - أجب دائمًا باللغة العربية.
-# **السياق:** {context}
-# **سؤال المستخدم:** {question}
-# **الإجابة:**"""
-
-# GENERAL_PROMPT_TEMPLATE = """
-# **مهمتك:** أنت "ساعد"، المساعد الآلي لـ **{tenant_name}**. أنت ذكي وودود. تفاعل مع "سؤال المستخدم" بطريقة مناسبة ومهذبة.
-# - إذا كان السؤال "من أنت؟" أو ما شابه: عرّف بنفسك: "أنا ساعد، مساعد الدعم الآلي لـ {tenant_name}. كيف يمكنني خدمتك؟"
-# - إذا كان السؤال تحية: رد التحية بلطف. (مثال: "وعليكم السلام! أهلاً بك في خدمة الدعم لـ {tenant_name}.")
-# - إذا كان السؤال إهانة: حافظ على هدوئك ورد باحترافية: "أنا هنا لمساعدتك في أي استفسارات لديك حول {tenant_name}."
-# - أجب دائمًا باللغة العربية.
-# **سؤال المستخدم:** {question}
-# """
-
-# # -----------------------------------------------------------------------------
-# # 🌍 المتغيرات العالمية
-# # -----------------------------------------------------------------------------
-# vector_store: FAISS = None
-# llm: Ollama = None
-# embeddings_model: OllamaEmbeddings = None
-# all_docs_for_bm25: List[Document] = []
-# cross_encoder: CrossEncoder = None
-# full_rag_chain = None
-# general_chain = None
-# # 🔴🔴🔴 --- تم استبدال routing_chain بـ classifier --- 🔴🔴🔴
-# classifier = None
-
-# # -----------------------------------------------------------------------------
-# # 🚀 تهيئة الوكيل (مع المصنف السريع)
-# # -----------------------------------------------------------------------------
-# def initialize_agent():
-#     global vector_store, llm, embeddings_model, all_docs_for_bm25, cross_encoder, full_rag_chain, general_chain, classifier
-#     if classifier:
-#         logging.info("✅ الوكيل فائق السرعة مُهيأ مسبقًا.")
-#         return
-    
-#     try:
-#         logging.info("=" * 80)
-#         logging.info("🚀 بدء تهيئة الوكيل فائق السرعة (مع مصنف مخصص)...")
+#         original_docs_map = {doc.page_content: doc for doc in initial_docs}
+#         reranked_docs = [original_docs_map[res["text"]] for res in top_4_results if res["text"] in original_docs_map]
         
-#         # تحميل المكونات الأساسية
-#         llm = Ollama(model=CHAT_MODEL_NAME, temperature=0.1)
-#         embeddings_model = OllamaEmbeddings(model=EMBEDDING_MODEL_NAME)
-#         vector_store = FAISS.load_local(VECTOR_DB_PATH, embeddings=embeddings_model, allow_dangerous_deserialization=True)
-#         docstore_ids = list(vector_store.docstore._dict.keys())
-#         all_docs_for_bm25 = [vector_store.docstore._dict[i] for i in docstore_ids]
-#         cross_encoder = CrossEncoder(RERANK_MODEL_NAME)
+#         logging.info(f"[{session_id}] تم فلترة المستندات إلى {len(reranked_docs)} مستند عالي الصلة.")
+
+#         document_chain = create_stuff_documents_chain(llm, ANSWER_PROMPT)
         
-#         # 🔴🔴🔴 --- تهيئة المصنف السريع --- 🔴🔴🔴
-#         logging.info(f"[*] جارٍ تحميل نموذج التصنيف السريع: '{CLASSIFIER_MODEL_NAME}'...")
-#         classifier = pipeline("zero-shot-classification", model=CLASSIFIER_MODEL_NAME)
-#         logging.info("[*] تم تحميل المصنف بنجاح.")
-
-#         # بناء السلاسل
-#         rag_prompt = PromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
-#         full_rag_chain = (
-#             RunnablePassthrough.assign(context=lambda x: format_docs_with_source(x["docs"]))
-#             | rag_prompt
-#             | llm
-#             | StrOutputParser()
-#         )
-
-#         general_prompt = PromptTemplate.from_template(GENERAL_PROMPT_TEMPLATE)
-#         general_chain = general_prompt | llm | StrOutputParser()
-
-#         logging.info("✨ اكتملت تهيئة الوكيل فائق السرعة بنجاح! ✨")
-#     except Exception as e:
-#         logging.critical(f"❌ فشل حاسم أثناء التهيئة: {e}", exc_info=True)
-#         raise
-
-# # -----------------------------------------------------------------------------
-# # 헬 دوال مساعدة (بدون تغيير)
-# # -----------------------------------------------------------------------------
-# def format_docs_with_source(docs: List[Document]) -> str:
-#     # ... (نفس الكود)
-#     if not docs: return "لا يوجد سياق متوفر."
-#     sources = {doc.metadata.get("source", "مصدر غير معروف") for doc in docs}
-#     formatted_docs = "\n\n---\n\n".join(doc.page_content for doc in docs)
-#     return f"المعلومات التالية تم استرجاعها من المصادر: {', '.join(sources)}\n\n{formatted_docs}"
-
-# def perform_hybrid_retrieval_and_rerank(question: str, tenant_id: str, k: int) -> List[Document]:
-#     # ... (نفس الكود)
-#     faiss_retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 15, "filter": {"tenant_id": tenant_id}})
-#     faiss_docs = faiss_retriever.invoke(question)
-#     tenant_docs_indices = [i for i, doc in enumerate(all_docs_for_bm25) if doc.metadata.get("tenant_id") == tenant_id]
-#     bm25_docs = []
-#     if tenant_docs_indices:
-#         tenant_corpus = [all_docs_for_bm25[i].page_content.split(" ") for i in tenant_docs_indices]
-#         bm25_for_tenant = BM25Okapi(tenant_corpus)
-#         tokenized_query = question.split(" ")
-#         doc_scores = bm25_for_tenant.get_scores(tokenized_query)
-#         top_n_indices = sorted(range(len(doc_scores)), key=lambda i: doc_scores[i], reverse=True)[:15]
-#         bm25_docs = [all_docs_for_bm25[tenant_docs_indices[i]] for i in top_n_indices]
-#     combined_docs_list = list({doc.page_content: doc for doc in faiss_docs + bm25_docs}.values())
-#     if not combined_docs_list: return []
-#     model_input_pairs = [[question, doc.page_content] for doc in combined_docs_list]
-#     scores = cross_encoder.predict(model_input_pairs)
-#     docs_with_scores = sorted(zip(combined_docs_list, scores), key=lambda x: x[1], reverse=True)
-#     return [doc for doc, score in docs_with_scores[:k]]
-
-# # -----------------------------------------------------------------------------
-# # 🧠 بث الإجابة (النسخة فائقة السرعة)
-# # -----------------------------------------------------------------------------
-# async def get_answer_stream(question: str, tenant_id: str, k_results: int = 4) -> AsyncGenerator[str, None]:
-#     if not classifier:
-#         raise RuntimeError("⚠️ الوكيل فائق السرعة غير مُهيأ.")
-    
-#     logging.info(f"📩 استقبال سؤال من '{tenant_id}': {question}")
-#     try:
-#         # 🔴🔴🔴 --- 1. مرحلة التوجيه فائقة السرعة --- 🔴🔴🔴
-#         perf_logger.start("routing")
-#         candidate_labels = ["سؤال تقني", "محادثة عامة"]
-#         # ملاحظة: لا نستخدم ainvoke هنا لأن pipeline لا تدعمها افتراضيًا
-#         result = classifier(question, candidate_labels, multi_label=False)
-#         # أعلى تصنيف هو القرار
-#         decision = result['labels'][0]
-#         category = "technical" if decision == "سؤال تقني" else "general"
-#         perf_logger.end("routing", tenant_id, question, extra_info={"decision": category, "score": result['scores'][0]})
-#         logging.info(f"🧠 قرار التوجيه فائق السرعة: '{category}' (بثقة: {result['scores'][0]:.2f})")
-
-#         # 2. تنفيذ المسار (نفس المنطق السابق)
-#         if category == "technical":
-#             logging.info("🚀 تنفيذ مسار الدعم الفني (RAG)...")
-#             perf_logger.start("retrieval_rerank")
-#             final_docs = perform_hybrid_retrieval_and_rerank(question, tenant_id, k_results)
-#             perf_logger.end("retrieval_rerank", tenant_id, question, extra_info={"final_doc_count": len(final_docs)})
-            
-#             entity_name = "الخدمة"
-#             if final_docs and "entity_name" in final_docs[0].metadata:
-#                 entity_name = final_docs[0].metadata["entity_name"]
-#             logging.info(f"🏢 الهوية الديناميكية المستنبطة: '{entity_name}'")
-            
-#             async for chunk in full_rag_chain.astream({"question": question, "docs": final_docs, "tenant_name": entity_name}):
-#                 yield chunk
-#         else: # general
-#             logging.info("💬 تنفيذ مسار المحادثة العامة...")
-#             temp_docs = vector_store.similarity_search("", filter={"tenant_id": tenant_id}, k=1)
-#             entity_name = "الخدمة"
-#             if temp_docs and "entity_name" in temp_docs[0].metadata:
-#                 entity_name = temp_docs[0].metadata["entity_name"]
-#             logging.info(f"🏢 الهوية الديناميكية المستنبطة: '{entity_name}'")
-
-#             async for chunk in general_chain.astream({"question": question, "tenant_name": entity_name}):
-#                 yield chunk
-#     except Exception as e:
-#         logging.error(f"❌ خطأ أثناء بث الإجابة: {e}", exc_info=True)
-#         yield "عذرًا، حدث خطأ داخلي أثناء معالجة سؤالك."
-#         perf_logger.end("error", tenant_id, question, extra_info={"error": str(e)})
-
-# # core_logic.py (النسخة النهائية فائقة السرعة)
-
-# import os
-# import logging
-# from typing import List, AsyncGenerator
-# from langchain_core.prompts import PromptTemplate
-# from langchain_core.runnables import RunnablePassthrough
-# from langchain_core.output_parsers import StrOutputParser
-# from langchain_community.vectorstores import FAISS
-# from langchain_community.embeddings import OllamaEmbeddings
-# from langchain_community.llms import Ollama
-# from dotenv import load_dotenv
-# import langchain
-# from langchain_core.caches import InMemoryCache
-# from langchain_core.documents import Document
-# from sentence_transformers import CrossEncoder
-# from rank_bm25 import BM25Okapi
-# # 🔴🔴🔴 --- استيراد جديد ومهم --- 🔴🔴🔴
-# from transformers import pipeline
-
-# from .performance_tracker import PerformanceLogger
-
-# # -----------------------------------------------------------------------------
-# # 🧩 إعدادات عامة وتسجيل
-# # -----------------------------------------------------------------------------
-# perf_logger = PerformanceLogger()
-# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-# load_dotenv(dotenv_path=os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.env")))
-# langchain.llm_cache = InMemoryCache()
-
-# # -----------------------------------------------------------------------------
-# # 📦 متغيرات البيئة والنماذج
-# # -----------------------------------------------------------------------------
-# EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME")
-# CHAT_MODEL_NAME = os.getenv("CHAT_MODEL_NAME")
-# VECTOR_DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../3_shared_resources/vector_db"))
-# RERANK_MODEL_NAME = "BAAI/bge-reranker-base"
-# # 🔴🔴🔴 --- اسم نموذج التصنيف السريع --- 🔴🔴🔴
-# CLASSIFIER_MODEL_NAME = "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli"
-
-# # -----------------------------------------------------------------------------
-# # 🧠 قوالب الـ Prompts (لم نعد نحتاج قالب التوجيه)
-# # -----------------------------------------------------------------------------
-# RAG_PROMPT_TEMPLATE = """
-# **مهمتك:** أنت مساعد دعم فني خبير ومختص لـ **{tenant_name}**. استخدم "السياق" التالي للإجابة على "سؤال المستخدم" بدقة.
-# - إذا كانت المعلومات غير موجودة في السياق، أجب بـ "أنا آسف، لا أملك معلومات كافية للإجابة على هذا السؤال."
-# - أجب دائمًا باللغة العربية.
-# **السياق:** {context}
-# **سؤال المستخدم:** {question}
-# **الإجابة:**"""
-
-# GENERAL_PROMPT_TEMPLATE = """
-# **مهمتك:** أنت "ساعد"، المساعد الآلي لـ **{tenant_name}**. أنت ذكي وودود. تفاعل مع "سؤال المستخدم" بطريقة مناسبة ومهذبة.
-# - إذا كان السؤال "من أنت؟" أو ما شابه: عرّف بنفسك: "أنا ساعد، مساعد الدعم الآلي لـ {tenant_name}. كيف يمكنني خدمتك؟"
-# - إذا كان السؤال تحية: رد التحية بلطف. (مثال: "وعليكم السلام! أهلاً بك في خدمة الدعم لـ {tenant_name}.")
-# - إذا كان السؤال إهانة: حافظ على هدوئك ورد باحترافية: "أنا هنا لمساعدتك في أي استفسارات لديك حول {tenant_name}."
-# - أجب دائمًا باللغة العربية.
-# **سؤال المستخدم:** {question}
-# """
-
-# # -----------------------------------------------------------------------------
-# # 🌍 المتغيرات العالمية
-# # -----------------------------------------------------------------------------
-# vector_store: FAISS = None
-# llm: Ollama = None
-# embeddings_model: OllamaEmbeddings = None
-# all_docs_for_bm25: List[Document] = []
-# cross_encoder: CrossEncoder = None
-# full_rag_chain = None
-# general_chain = None
-# # 🔴🔴🔴 --- تم استبدال routing_chain بـ classifier --- 🔴🔴🔴
-# classifier = None
-
-# # -----------------------------------------------------------------------------
-# # 🚀 تهيئة الوكيل (مع المصنف السريع)
-# # -----------------------------------------------------------------------------
-# def initialize_agent():
-#     global vector_store, llm, embeddings_model, all_docs_for_bm25, cross_encoder, full_rag_chain, general_chain, classifier
-#     if classifier:
-#         logging.info("✅ الوكيل فائق السرعة مُهيأ مسبقًا.")
-#         return
-    
-#     try:
-#         logging.info("=" * 80)
-#         logging.info("🚀 بدء تهيئة الوكيل فائق السرعة (مع مصنف مخصص)...")
+#         logging.info(f"[{session_id}] بدء توليد الإجابة النهائية...")
+#         full_answer = ""
         
-#         # تحميل المكونات الأساسية
-#         llm = Ollama(model=CHAT_MODEL_NAME, temperature=0.1)
-#         embeddings_model = OllamaEmbeddings(model=EMBEDDING_MODEL_NAME)
-#         vector_store = FAISS.load_local(VECTOR_DB_PATH, embeddings=embeddings_model, allow_dangerous_deserialization=True)
-#         docstore_ids = list(vector_store.docstore._dict.keys())
-#         all_docs_for_bm25 = [vector_store.docstore._dict[i] for i in docstore_ids]
-#         cross_encoder = CrossEncoder(RERANK_MODEL_NAME)
-        
-#         # 🔴🔴🔴 --- تهيئة المصنف السريع --- 🔴🔴🔴
-#         logging.info(f"[*] جارٍ تحميل نموذج التصنيف السريع: '{CLASSIFIER_MODEL_NAME}'...")
-#         classifier = pipeline("zero-shot-classification", model=CLASSIFIER_MODEL_NAME)
-#         logging.info("[*] تم تحميل المصنف بنجاح.")
+#         async for chunk in document_chain.astream({"input": question, "context": reranked_docs, "chat_history": user_chat_history}):
+#             if chunk:
+#                 full_answer += chunk
+#                 yield {"type": "chunk", "content": chunk}
 
-#         # بناء السلاسل
-#         rag_prompt = PromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
-#         full_rag_chain = (
-#             RunnablePassthrough.assign(context=lambda x: format_docs_with_source(x["docs"]))
-#             | rag_prompt
-#             | llm
-#             | StrOutputParser()
-#         )
+#         user_chat_history.extend([HumanMessage(content=question), AIMessage(content=full_answer)])
+#         chat_history[session_id] = user_chat_history[-10:]
+#         logging.info(f"[{session_id}] الإجابة الكاملة: '{full_answer}'")
 
-#         general_prompt = PromptTemplate.from_template(GENERAL_PROMPT_TEMPLATE)
-#         general_chain = general_prompt | llm | StrOutputParser()
-
-#         logging.info("✨ اكتملت تهيئة الوكيل فائق السرعة بنجاح! ✨")
 #     except Exception as e:
-#         logging.critical(f"❌ فشل حاسم أثناء التهيئة: {e}", exc_info=True)
-#         raise
+#         logging.error(f"[{session_id}] فشل في سلسلة RAG. الخطأ: {e}", exc_info=True)
+#         yield {"type": "error", "content": "عذراً، حدث خطأ فادح."}
 
-# # -----------------------------------------------------------------------------
-# # 헬 دوال مساعدة (بدون تغيير)
-# # -----------------------------------------------------------------------------
-# def format_docs_with_source(docs: List[Document]) -> str:
-#     # ... (نفس الكود)
-#     if not docs: return "لا يوجد سياق متوفر."
-#     sources = {doc.metadata.get("source", "مصدر غير معروف") for doc in docs}
-#     formatted_docs = "\n\n---\n\n".join(doc.page_content for doc in docs)
-#     return f"المعلومات التالية تم استرجاعها من المصادر: {', '.join(sources)}\n\n{formatted_docs}"
 
-# def perform_hybrid_retrieval_and_rerank(question: str, tenant_id: str, k: int) -> List[Document]:
-#     # ... (نفس الكود)
-#     faiss_retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 15, "filter": {"tenant_id": tenant_id}})
-#     faiss_docs = faiss_retriever.invoke(question)
-#     tenant_docs_indices = [i for i, doc in enumerate(all_docs_for_bm25) if doc.metadata.get("tenant_id") == tenant_id]
-#     bm25_docs = []
-#     if tenant_docs_indices:
-#         tenant_corpus = [all_docs_for_bm25[i].page_content.split(" ") for i in tenant_docs_indices]
-#         bm25_for_tenant = BM25Okapi(tenant_corpus)
-#         tokenized_query = question.split(" ")
-#         doc_scores = bm25_for_tenant.get_scores(tokenized_query)
-#         top_n_indices = sorted(range(len(doc_scores)), key=lambda i: doc_scores[i], reverse=True)[:15]
-#         bm25_docs = [all_docs_for_bm25[tenant_docs_indices[i]] for i in top_n_indices]
-#     combined_docs_list = list({doc.page_content: doc for doc in faiss_docs + bm25_docs}.values())
-#     if not combined_docs_list: return []
-#     model_input_pairs = [[question, doc.page_content] for doc in combined_docs_list]
-#     scores = cross_encoder.predict(model_input_pairs)
-#     docs_with_scores = sorted(zip(combined_docs_list, scores), key=lambda x: x[1], reverse=True)
-#     return [doc for doc, score in docs_with_scores[:k]]
-
-# # -----------------------------------------------------------------------------
-# # 🧠 بث الإجابة (النسخة فائقة السرعة)
-# # -----------------------------------------------------------------------------
-# async def get_answer_stream(question: str, tenant_id: str, k_results: int = 4) -> AsyncGenerator[str, None]:
-#     if not classifier:
-#         raise RuntimeError("⚠️ الوكيل فائق السرعة غير مُهيأ.")
-    
-#     logging.info(f"📩 استقبال سؤال من '{tenant_id}': {question}")
-#     try:
-#         # 🔴🔴🔴 --- 1. مرحلة التوجيه فائقة السرعة --- 🔴🔴🔴
-#         perf_logger.start("routing")
-#         candidate_labels = ["سؤال تقني", "محادثة عامة"]
-#         # ملاحظة: لا نستخدم ainvoke هنا لأن pipeline لا تدعمها افتراضيًا
-#         result = classifier(question, candidate_labels, multi_label=False)
-#         # أعلى تصنيف هو القرار
-#         decision = result['labels'][0]
-#         category = "technical" if decision == "سؤال تقني" else "general"
-#         perf_logger.end("routing", tenant_id, question, extra_info={"decision": category, "score": result['scores'][0]})
-#         logging.info(f"🧠 قرار التوجيه فائق السرعة: '{category}' (بثقة: {result['scores'][0]:.2f})")
-
-#         # 2. تنفيذ المسار (نفس المنطق السابق)
-#         if category == "technical":
-#             logging.info("🚀 تنفيذ مسار الدعم الفني (RAG)...")
-#             perf_logger.start("retrieval_rerank")
-#             final_docs = perform_hybrid_retrieval_and_rerank(question, tenant_id, k_results)
-#             perf_logger.end("retrieval_rerank", tenant_id, question, extra_info={"final_doc_count": len(final_docs)})
-            
-#             entity_name = "الخدمة"
-#             if final_docs and "entity_name" in final_docs[0].metadata:
-#                 entity_name = final_docs[0].metadata["entity_name"]
-#             logging.info(f"🏢 الهوية الديناميكية المستنبطة: '{entity_name}'")
-            
-#             async for chunk in full_rag_chain.astream({"question": question, "docs": final_docs, "tenant_name": entity_name}):
-#                 yield chunk
-#         else: # general
-#             logging.info("💬 تنفيذ مسار المحادثة العامة...")
-#             temp_docs = vector_store.similarity_search("", filter={"tenant_id": tenant_id}, k=1)
-#             entity_name = "الخدمة"
-#             if temp_docs and "entity_name" in temp_docs[0].metadata:
-#                 entity_name = temp_docs[0].metadata["entity_name"]
-#             logging.info(f"🏢 الهوية الديناميكية المستنبطة: '{entity_name}'")
-
-#             async for chunk in general_chain.astream({"question": question, "tenant_name": entity_name}):
-#                 yield chunk
-#     except Exception as e:
-#         logging.error(f"❌ خطأ أثناء بث الإجابة: {e}", exc_info=True)
-#         yield "عذرًا، حدث خطأ داخلي أثناء معالجة سؤالك."
-#         perf_logger.end("error", tenant_id, question, extra_info={"error": str(e)})
-
-# /2_central_api_service/agent_app/core_logic.py (النسخة النهائية مع تحسين المصنف)
-
-# /2_central_api_service/agent_app/core_logic.py (النسخة النهائية مع هوية الدعم الفني المتخصص)
-# /2_central_api_service/agent_app/core_logic.py (النسخة النهائية الكاملة)
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# --- الإصدار 12.0: النسخة النهائية مع قالب استخراج الكلمات المفتاحية ---
 
 import os
 import logging
-from typing import List, AsyncGenerator, Dict, Any, Literal
+import asyncio
+import httpx
+from typing import AsyncGenerator, Dict, List
 
-# --- استيراد مكتبات LangChain والمجتمع ---
-from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnableLambda, RunnablePassthrough
-from langchain_core.output_parsers import StrOutputParser
+from dotenv import load_dotenv
 from langchain_core.documents import Document
-from langchain_core.caches import InMemoryCache
-import langchain
-from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.output_parsers import StrOutputParser
 from langchain_community.llms import Ollama
+from langchain_community.embeddings import OllamaEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain.retrievers import BM25Retriever, EnsembleRetriever
+from langchain.chains.combine_documents import create_stuff_documents_chain
 
-# --- استيراد مكتبات البحث وإعادة الترتيب ---
-from sentence_transformers import CrossEncoder
-from rank_bm25 import BM25Okapi
-from transformers import pipeline
+from flashrank import Ranker, RerankRequest
 
-# --- استيراد الوحدات المحلية ---
 from .performance_tracker import PerformanceLogger
 
-# =================================================================================
-# 1. الإعدادات الأولية والأساسية (Configuration & Setup)
-# =================================================================================
+# --- 1. الإعدادات ---
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__ ), "../../"))
+load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# --- إعداد نظام التسجيل (Logging) ---
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - [%(funcName)s] - %(message)s"
-)
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL_NAME", "qwen3-embedding:0.6b")
+CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "qwen2:7b-instruct-q3_K_M")
+OLLAMA_HOST = os.getenv("OLLAMA_HOST")
+UNIFIED_DB_PATH = os.path.join(PROJECT_ROOT, "3_shared_resources", "vector_db")
 
-# --- تفعيل الذاكرة المؤقتة لتحسين الأداء ---
-langchain.llm_cache = InMemoryCache()
-logging.info("تم تفعيل الذاكرة المؤقتة (InMemoryCache) لـ LangChain.")
+# --- 2. الملفات الشخصية للأنظمة ---
+SYSTEM_PROFILES = {
+    "sys": {
+        "name": "نظام إدارة طلبات الاعتماد",
+        "description": "نظام إلكتروني لتتبع رحلة الحصول على الاعتماد.",
+        "keywords": ["إنشاء حساب", "تسجيل الدخول", "طلب اعتماد", "قوائم التحقق", "دراسة مكتبية", "زيارة ميدانية", "إجراءات تصحيحية", "فاتورة", "شهادة"]
+    },
+    "university_alpha": {
+        "name": "تطبيق Plant Care",
+        "description": "تطبيق ذكي لتشخيص أمراض النباتات والآفات الزراعية.",
+        "keywords": ["تشخيص النبات", "آفات زراعية", "متطلبات وظيفية", "حالات استخدام", "تصميم النظام", "plant care"]
+    },
+    "school_beta": {
+        "name": "مستندات الشبكات العصبية",
+        "description": "مادة تعليمية عن الشبكات العصبية و TensorFlow.",
+        "keywords": ["شبكة عصبية", "tensorflow", "cnn", "layer", "relu", "pooling", "optimizer"]
+    },
+    "un": {
+        "name": "بوابة المشتريات الإلكترونية للأمم المتحدة",
+        "description": "دليل إرشادي للموردين لاستخدام نظام الشراء الإلكتروني.",
+        "keywords": ["مناقصات", "تسجيل الدخول", "عطاءات", "unops", "esourcing", "ungm.org", "موردين"]
+    }
+}
 
-# --- تحميل متغيرات البيئة ---
-from dotenv import load_dotenv
-load_dotenv()
+# --- 3. القالب النهائي (الإصدار 12.0: استخراج الكلمات المفتاحية) ---
+REWRITE_PROMPT_TEMPLATE = """
+مهمتك هي استخراج الكلمات المفتاحية الأكثر أهمية من سؤال المستخدم لتحسين البحث.
 
-# --- تعريف الثوابت ونماذج الذكاء الاصطناعي ---
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL_NAME", "default_embedding_model")
-CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "default_chat_model")
-RERANK_MODEL = "BAAI/bge-reranker-base"
-CLASSIFIER_MODEL = "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli"
-VECTOR_DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../3_shared_resources/vector_db"))
+**سياق النظام:** {system_name}
+**مصطلحات هامة:** {system_keywords}
 
-# --- إعداد مسجل الأداء ---
+---
+**القواعد:**
+1.  **إذا كان السؤال عامًا عن النظام** (مثل "ما هو هذا النظام؟")، أرجع اسم النظام فقط: `{system_name}`.
+2.  **إذا كان السؤال عن خطوات أو كيفية فعل شيء** (مثل "كيف أضيف مستخدم؟")، أرجع الفعل والمفعول به: `إضافة مستخدم جديد`.
+3.  **إذا كان السؤال عن تعريف مصطلح** (مثل "ماهي الشبكات العصبية؟")، أرجع المصطلح نفسه: `الشبكات العصبية`.
+4.  **إذا كان السؤال خارج السياق تمامًا** (مثل "من هو ميسي؟")، أرجع السؤال الأصلي كما هو.
+5.  **الناتج يجب أن يكون قصيرًا جدًا ومباشرًا.** لا تستخدم جمل كاملة.
+
+---
+**أمثلة:**
+
+سؤال المستخدم: ماهو هذا النظام باختصار
+الاستعلام المحسّن: نظام إدارة طلبات الاعتماد
+
+سؤال المستخدم: كيفيه الوصول للنظام
+الاستعلام المحسّن: كيفية تسجيل الدخول
+
+سؤال المستخدم: ماهي الشبكات العصبيه
+الاستعلام المحسّن: الشبكات العصبية
+
+سؤال المستخدم: من هي جورجينا
+الاستعلام المحسّن: من هي جورجينا
+---
+
+**المهمة المطلوبة:**
+
+سؤال المستخدم: {question}
+
+الاستعلام المحسّن:
+"""
+
+# --- باقي القوالب ---
+ANSWER_PROMPT = ChatPromptTemplate.from_template("أنت \"مرشد الدعم\"، مساعد ذكي وخبير. مهمتك هي الإجابة على سؤال المستخدم بالاعتماد **حصرياً** على \"السياق\" المقدم.\n- كن دائماً متعاوناً ومحترفاً.\n- إذا كان السياق يحتوي على إجابة، قدمها بشكل مباشر ومنظم.\n- إذا كانت المعلومات غير موجودة بشكل واضح في السياق، قل بأسلوب لطيف: \"بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال.\"\n- لا تخترع إجابات أبداً. التزم بالسياق.\n\nالسياق:\n{context}\n\nالسؤال: {input}\nالإجابة:")
+
+# --- 4. المتغيرات العالمية ---
+llm: Ollama = None
+vector_store: FAISS = None
+reranker: Ranker = None
+chat_history: Dict[str, List[HumanMessage | AIMessage]] = {}
+initialization_lock = asyncio.Lock()
 perf_logger = PerformanceLogger()
 
-# =================================================================================
-# 2. قوالب التوجيه (Prompts) المحسّنة لهوية الدعم الفني
-# =================================================================================
+# --- 5. الدوال الأساسية (معظمها يبقى كما هو) ---
 
-# --- قالب الإجابة الفنية (RAG) ---
-RAG_PROMPT_TEMPLATE = """
-### المهمة الأساسية ###
-أنت "ساعد"، مساعد الدعم الفني الذكي والمتخصص في نظام **{tenant_name}**. مهمتك هي تحليل سؤال المستخدم وتقديم حلول وإجابات دقيقة بالاعتماد **فقط** على المعلومات التقنية المتوفرة في قسم "السياق".
+def _load_all_docs_from_faiss(vs: FAISS) -> List[Document]:
+    return list(vs.docstore._dict.values())
 
-### قواعد صارمة ###
-1.  **الالتزام بالسياق:** لا تستخدم أي معلومات خارج قاعدة المعرفة التقنية المتاحة في السياق.
-2.  **حل المشاكل:** ركز على تقديم خطوات عملية، إرشادات، أو تفسيرات تقنية تساعد المستخدم على حل مشكلته أو فهم النظام.
-3.  **عدم وجود معلومات:** إذا كانت الإجابة غير موجودة، أجب حصريًا: "عفواً، لا أملك المعلومات الكافية حول هذه الجزئية في نظام {tenant_name}. هل يمكنك إعادة صياغة السؤال، أو هل تود توجيهك لخيارات دعم متقدمة؟"
-4.  **اللغة:** أجب دائمًا بلغة عربية واضحة وموجهة للمستخدم التقني.
+def _clean_rewritten_query(raw_query: str) -> str:
+    lines = raw_query.strip().split('\n')
+    for line in reversed(lines):
+        cleaned_line = line.strip()
+        if cleaned_line:
+            if cleaned_line.startswith("الاستعلام المحسّن:"):
+                return cleaned_line.replace("الاستعلام المحسّن:", "").strip()
+            return cleaned_line
+    return raw_query.strip()
 
-### السياق (قاعدة المعرفة التقنية للنظام) ###
-{context}
+async def initialize_agent():
+    global llm, vector_store, reranker
+    async with initialization_lock:
+        if vector_store is not None: return
+        logging.info("بدء تهيئة النماذج وقاعدة البيانات و Reranker...")
+        try:
+            async with httpx.AsyncClient( ) as client:
+                await client.get(OLLAMA_HOST, timeout=10.0)
+            
+            llm = Ollama(model=CHAT_MODEL, base_url=OLLAMA_HOST, temperature=0.0)
+            embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL, base_url=OLLAMA_HOST)
+            
+            if not os.path.isdir(UNIFIED_DB_PATH):
+                raise FileNotFoundError("قاعدة البيانات الموحدة غير موجودة.")
 
-### سؤال المستخدم ###
-{question}
+            vector_store = await asyncio.to_thread(
+                FAISS.load_local, UNIFIED_DB_PATH, embeddings, allow_dangerous_deserialization=True
+            )
+            
+            reranker = Ranker()
+            
+            logging.info("✅ الوكيل جاهز للعمل (مع Reranker).")
+        except Exception as e:
+            logging.error(f"فشل فادح أثناء التهيئة: {e}", exc_info=True)
+            raise
 
-### الإجابة الفنية ###
-"""
+def agent_ready() -> bool:
+    return vector_store is not None and llm is not None and reranker is not None
 
-# --- قالب المحادثة العامة وتعريف الهوية ---
-GENERAL_PROMPT_TEMPLATE = """
-### المهمة الأساسية ###
-أنت "ساعد"، مساعد الدعم الفني الآلي لنظام **{tenant_name}**. مهمتك هي التفاعل باحترافية وتوجيه المستخدم نحو طرح استفساراته الفنية.
+async def get_answer_stream(request_info: Dict) -> AsyncGenerator[Dict, None]:
+    question = request_info.get("question", "")
+    tenant_id = request_info.get("tenant_id", "default_session")
+    k_results = request_info.get("k_results", 10)
+    session_id = tenant_id or "default_session"
 
-### قواعد التفاعل ###
-- **التعريف بالهوية:** إذا سُئلت "من أنت؟" أو ما شابه، أجب: "أنا ساعد، مساعد الدعم الفني الذكي لنظام {tenant_name}. أنا هنا لمساعدتك في حل المشاكل والإجابة على استفساراتك التقنية المتعلقة بالنظام."
-- **التحية:** رد على التحيات بشكل احترافي ومباشر، مثل: "أهلاً بك في خدمة الدعم الفني لنظام {tenant_name}. كيف يمكنني مساعدتك اليوم؟"
-- **الأسئلة خارج النطاق:** إذا كان السؤال عامًا جدًا ولا يتعلق بالدعم الفني، وجه المستخدم بلطف: "مهمتي الأساسية هي تقديم الدعم الفني لنظام {tenant_name}. هل لديك استفسار تقني أو مشكلة تواجهك داخل النظام؟"
-- **التعامل مع الإساءة أو الكلام غير المفهوم:** إذا كان الإدخال عبارة عن إهانة أو كلام غير مترابط، أجب باحترافية وهدوء: "أنا هنا لتقديم المساعدة الفنية. يرجى طرح استفسارك بوضوح حتى أتمكن من مساعدتك."
-- **اللغة:** استخدم اللغة العربية الرسمية دائمًا.
-
-### سؤال المستخدم ###
-{question}
-
-### الإجابة ###
-"""
-
-# --- قالب توجيه المستخدم عند الحاجة للمساعدة ---
-FALLBACK_PROMPT_TEMPLATE = """
-عفواً، لم أتمكن من العثور على إجابة دقيقة في قاعدة المعرفة.
-
-**خيارات المساعدة:**
-1.  **إعادة صياغة السؤال:** قد يساعد استخدام كلمات مختلفة في العثور على الإجابة.
-2.  **زيارة مركز المساعدة:** يمكنك تصفح التوثيقات الكاملة عبر الرابط التالي: [أدخل رابط التوثيقات هنا]
-3.  **التواصل مع الدعم الفني:** إذا استمرت المشكلة، يمكنك التواصل مباشرة مع فريق الدعم البشري.
-
-هل تود تجربة خيار آخر؟
-"""
-
-# =================================================================================
-# 3. المتغيرات العالمية وسلاسل العمل (Global State & Chains)
-# =================================================================================
-
-vector_store: FAISS | None = None
-llm: Ollama | None = None
-embeddings_model: OllamaEmbeddings | None = None
-cross_encoder: CrossEncoder | None = None
-classifier: Any | None = None
-all_docs_for_bm25: List[Document] = []
-rag_chain: Any = None
-general_chain: Any = None
-fallback_chain: Any = None
-
-# =================================================================================
-# 4. دالة التهيئة الشاملة (Initialization Function)
-# =================================================================================
-
-def initialize_agent():
-    """
-    تقوم بتهيئة جميع مكونات الوكيل (النماذج، قواعد البيانات، السلاسل) مرة واحدة عند بدء التشغيل.
-    """
-    global vector_store, llm, embeddings_model, cross_encoder, classifier, all_docs_for_bm25
-    global rag_chain, general_chain, fallback_chain
-
-    if rag_chain:
-        logging.info("الوكيل مُهيأ بالفعل وجاهز للعمل.")
+    if not agent_ready():
+        yield {"type": "error", "content": "الوكيل غير جاهز. يرجى إعادة تحميل الصفحة."}
         return
 
-    logging.info("بدء تهيئة وكيل الدعم الفني الذكي...")
+    user_chat_history = chat_history.get(session_id, [])
 
     try:
-        logging.info(f"تحميل نموذج المحادثة: {CHAT_MODEL}")
-        llm = Ollama(model=CHAT_MODEL, temperature=0.1)
+        effective_question = question
+        profile = SYSTEM_PROFILES.get(tenant_id)
         
-        logging.info(f"تحميل نموذج التضمين: {EMBEDDING_MODEL}")
-        embeddings_model = OllamaEmbeddings(model=EMBEDDING_MODEL)
-
-        logging.info(f"تحميل نموذج إعادة الترتيب: {RERANK_MODEL}")
-        cross_encoder = CrossEncoder(RERANK_MODEL)
-
-        logging.info(f"تحميل مصنف الأسئلة: {CLASSIFIER_MODEL}")
-        classifier = pipeline("zero-shot-classification", model=CLASSIFIER_MODEL)
-
-        if not os.path.exists(VECTOR_DB_PATH):
-            logging.error(f"خطأ فادح: مجلد قاعدة المعرفة غير موجود في المسار: {VECTOR_DB_PATH}")
-            raise FileNotFoundError("مجلد قاعدة المعرفة مفقود.")
-        
-        logging.info(f"تحميل قاعدة المعرفة من: {VECTOR_DB_PATH}")
-        vector_store = FAISS.load_local(
-            VECTOR_DB_PATH,
-            embeddings=embeddings_model,
-            allow_dangerous_deserialization=True
-        )
-        all_docs_for_bm25 = list(vector_store.docstore._dict.values())
-        logging.info(f"تم تحميل قاعدة المعرفة بنجاح ({len(all_docs_for_bm25)} مستند).")
-
-        logging.info("بناء سلاسل العمل المنطقية...")
-        
-        rag_prompt = PromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
-        rag_chain = (
-            RunnablePassthrough.assign(context=lambda x: _format_docs(x["docs"]))
-            | rag_prompt
-            | llm
-            | StrOutputParser()
-        )
-
-        general_prompt = PromptTemplate.from_template(GENERAL_PROMPT_TEMPLATE)
-        general_chain = general_prompt | llm | StrOutputParser()
-
-        fallback_prompt = PromptTemplate.from_template(FALLBACK_PROMPT_TEMPLATE)
-        fallback_chain = fallback_prompt | llm | StrOutputParser()
-
-        logging.info("اكتملت تهيئة الوكيل بنجاح وهو الآن جاهز لاستقبال الطلبات.")
-
-    except Exception as e:
-        logging.critical(f"فشل حاسم أثناء تهيئة الوكيل: {e}", exc_info=True)
-        raise
-
-# =================================================================================
-# 5. الدوال المساعدة والمنطق الداخلي (Helper & Logic Functions)
-# =================================================================================
-
-def _format_docs(docs: List[Document]) -> str:
-    """تنسق المستندات المسترجعة لتقديمها كـ "سياق" للنموذج اللغوي."""
-    if not docs:
-        return "لا توجد معلومات متاحة."
-    return "\n\n---\n\n".join([doc.page_content for doc in docs])
-
-def _get_dynamic_identity(tenant_id: str) -> str:
-    """تستنبط اسم النظام (الهوية الديناميكية) من قاعدة المعرفة."""
-    if not vector_store: return "النظام الحالي"
-    docs = vector_store.similarity_search("", filter={"tenant_id": tenant_id}, k=1)
-    if docs and "entity_name" in docs[0].metadata:
-        return docs[0].metadata["entity_name"]
-    return "النظام الحالي"
-
-def _classify_question(question: str) -> Literal["technical", "general", "inappropriate"]:
-    """
-    يستخدم مصنفًا سريعًا لتحديد نية المستخدم إلى ثلاث فئات.
-    """
-    if not classifier: raise RuntimeError("المصنف غير مهيأ.")
-    
-    perf_logger.start("routing")
-    
-    labels = [
-        "سؤال فني أو استفسار عن معلومات محددة", 
-        "تحية، شكر، أو سؤال عام عن الهوية مثل من أنت",
-        "إهانة، كلام بذيء، أو عبارات عشوائية غير مفهومة"
-    ]
-    
-    result = classifier(question, labels, multi_label=False)
-    
-    top_label = result['labels'][0]
-    decision: Literal["technical", "general", "inappropriate"]
-    if top_label == labels[0]:
-        decision = "technical"
-    elif top_label == labels[1]:
-        decision = "general"
-    else:
-        decision = "inappropriate"
-    
-    perf_logger.end("routing", "N/A", question, {"decision": decision, "confidence": result['scores'][0]})
-    logging.info(f"قرار التوجيه: '{decision}' (بثقة: {result['scores'][0]:.2f})")
-    
-    return decision
-
-def _hybrid_retrieval_and_rerank(question: str, tenant_id: str, k: int) -> List[Document]:
-    """تنفذ استراتيجية بحث هجينة ثم تعيد ترتيب النتائج."""
-    if not vector_store or not cross_encoder: raise RuntimeError("مكونات البحث غير مهيأة.")
-    
-    perf_logger.start("retrieval_rerank")
-    
-    faiss_retriever = vector_store.as_retriever(
-        search_type="similarity",
-        search_kwargs={'k': k * 5, 'filter': {'tenant_id': tenant_id}}
-    )
-    faiss_docs = faiss_retriever.invoke(question)
-
-    tenant_docs = [doc for doc in all_docs_for_bm25 if doc.metadata.get("tenant_id") == tenant_id]
-    bm25_docs = []
-    if tenant_docs:
-        corpus = [doc.page_content.split() for doc in tenant_docs]
-        bm25 = BM25Okapi(corpus)
-        tokenized_query = question.split()
-        doc_scores = bm25.get_scores(tokenized_query)
-        top_indices = sorted(range(len(doc_scores)), key=lambda i: doc_scores[i], reverse=True)[:k * 5]
-        bm25_docs = [tenant_docs[i] for i in top_indices]
-
-    combined_docs = list({doc.page_content: doc for doc in faiss_docs + bm25_docs}.values())
-    if not combined_docs:
-        perf_logger.end("retrieval_rerank", tenant_id, question, {"status": "no_docs_found"})
-        return []
-
-    pairs = [[question, doc.page_content] for doc in combined_docs]
-    scores = cross_encoder.predict(pairs)
-    
-    reranked_results = sorted(zip(scores, combined_docs), key=lambda x: x[0], reverse=True)
-    
-    final_docs = [doc for score, doc in reranked_results[:k]]
-    
-    perf_logger.end("retrieval_rerank", tenant_id, question, {"retrieved_count": len(final_docs)})
-    logging.info(f"تم استرجاع وإعادة ترتيب {len(final_docs)} مستندًا ذا صلة.")
-    
-    return final_docs
-
-# =================================================================================
-# 6. نقطة الدخول الرئيسية (Main Entrypoint)
-# =================================================================================
-
-async def get_answer_stream(question: str, tenant_id: str, k_results: int = 4) -> AsyncGenerator[str, None]:
-    """
-    الدالة الرئيسية التي تعالج سؤال المستخدم وتبث الإجابة بشكل تفاعلي.
-    """
-    if not rag_chain or not general_chain or not fallback_chain:
-        raise RuntimeError("الوكيل غير مُهيأ. يرجى استدعاء initialize_agent() أولاً.")
-
-    logging.info(f"استلام طلب جديد من العميل '{tenant_id}'.")
-    
-    try:
-        category = _classify_question(question)
-        tenant_name = _get_dynamic_identity(tenant_id)
-        logging.info(f"الهوية الديناميكية المحددة: '{tenant_name}'")
-
-        if category == "technical":
-            logging.info("تنفيذ مسار الدعم الفني (RAG)...")
-            relevant_docs = _hybrid_retrieval_and_rerank(question, tenant_id, k_results)
+        if profile:
+            logging.info(f"[{session_id}] استخدام ملف شخصي متقدم لإعادة صياغة السؤال...")
+            rewrite_prompt = ChatPromptTemplate.from_template(REWRITE_PROMPT_TEMPLATE)
+            rewriter_chain = rewrite_prompt | llm | StrOutputParser()
             
-            if not relevant_docs:
-                logging.warning("لم يتم العثور على مستندات ذات صلة. سيتم استخدام إجابة الطوارئ.")
-                async for chunk in fallback_chain.astream({}):
-                    yield chunk
-                return
-
-            async for chunk in rag_chain.astream({
-                "question": question,
-                "docs": relevant_docs,
-                "tenant_name": tenant_name
-            }):
-                yield chunk
-        
-        elif category == "inappropriate":
-            logging.info("تنفيذ مسار الرد على المدخلات غير الملائمة...")
-            async for chunk in general_chain.astream({
-                "question": question,
-                "tenant_name": tenant_name
-            }):
-                yield chunk
-
-        else: # category == "general"
-            logging.info("تنفيذ مسار المحادثة العامة...")
-            async for chunk in general_chain.astream({
-                "question": question,
-                "tenant_name": tenant_name
-            }):
-                yield chunk
-
-    except Exception as e:
-        logging.error(f"حدث خطأ غير متوقع أثناء معالجة الطلب: {e}", exc_info=True)
-        yield "عذرًا، حدث خطأ فني. فريقنا يعمل على إصلاحه."
-        perf_logger.end("error", tenant_id, question, {"error": str(e)})
-# /2_central_api_service/agent_app/core_logic.py (النسخة النهائية الكاملة)
-
-import os
-import logging
-from typing import List, AsyncGenerator, Dict, Any, Literal
-
-# --- استيراد مكتبات LangChain والمجتمع ---
-from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnableLambda, RunnablePassthrough
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.documents import Document
-from langchain_core.caches import InMemoryCache
-import langchain
-from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import OllamaEmbeddings
-from langchain_community.llms import Ollama
-
-# --- استيراد مكتبات البحث وإعادة الترتيب ---
-from sentence_transformers import CrossEncoder
-from rank_bm25 import BM25Okapi
-from transformers import pipeline
-
-# --- استيراد الوحدات المحلية ---
-from .performance_tracker import PerformanceLogger
-
-# =================================================================================
-# 1. الإعدادات الأولية والأساسية (Configuration & Setup)
-# =================================================================================
-
-# --- إعداد نظام التسجيل (Logging) ---
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - [%(funcName)s] - %(message)s"
-)
-
-# --- تفعيل الذاكرة المؤقتة لتحسين الأداء ---
-langchain.llm_cache = InMemoryCache()
-logging.info("تم تفعيل الذاكرة المؤقتة (InMemoryCache) لـ LangChain.")
-
-# --- تحميل متغيرات البيئة ---
-from dotenv import load_dotenv
-load_dotenv()
-
-# --- تعريف الثوابت ونماذج الذكاء الاصطناعي ---
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL_NAME", "default_embedding_model")
-CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "default_chat_model")
-RERANK_MODEL = "BAAI/bge-reranker-base"
-CLASSIFIER_MODEL = "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli"
-VECTOR_DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../3_shared_resources/vector_db"))
-
-# --- إعداد مسجل الأداء ---
-perf_logger = PerformanceLogger()
-
-# =================================================================================
-# 2. قوالب التوجيه (Prompts) المحسّنة لهوية الدعم الفني
-# =================================================================================
-
-# --- قالب الإجابة الفنية (RAG) ---
-RAG_PROMPT_TEMPLATE = """
-### المهمة الأساسية ###
-أنت "ساعد"، مساعد الدعم الفني الذكي والمتخصص في نظام **{tenant_name}**. مهمتك هي تحليل سؤال المستخدم وتقديم حلول وإجابات دقيقة بالاعتماد **فقط** على المعلومات التقنية المتوفرة في قسم "السياق".
-
-### قواعد صارمة ###
-1.  **الالتزام بالسياق:** لا تستخدم أي معلومات خارج قاعدة المعرفة التقنية المتاحة في السياق.
-2.  **حل المشاكل:** ركز على تقديم خطوات عملية، إرشادات، أو تفسيرات تقنية تساعد المستخدم على حل مشكلته أو فهم النظام.
-3.  **عدم وجود معلومات:** إذا كانت الإجابة غير موجودة، أجب حصريًا: "عفواً، لا أملك المعلومات الكافية حول هذه الجزئية في نظام {tenant_name}. هل يمكنك إعادة صياغة السؤال، أو هل تود توجيهك لخيارات دعم متقدمة؟"
-4.  **اللغة:** أجب دائمًا بلغة عربية واضحة وموجهة للمستخدم التقني.
-
-### السياق (قاعدة المعرفة التقنية للنظام) ###
-{context}
-
-### سؤال المستخدم ###
-{question}
-
-### الإجابة الفنية ###
-"""
-
-# --- قالب المحادثة العامة وتعريف الهوية ---
-GENERAL_PROMPT_TEMPLATE = """
-### المهمة الأساسية ###
-أنت "ساعد"، مساعد الدعم الفني الآلي لنظام **{tenant_name}**. مهمتك هي التفاعل باحترافية وتوجيه المستخدم نحو طرح استفساراته الفنية.
-
-### قواعد التفاعل ###
-- **التعريف بالهوية:** إذا سُئلت "من أنت؟" أو ما شابه، أجب: "أنا ساعد، مساعد الدعم الفني الذكي لنظام {tenant_name}. أنا هنا لمساعدتك في حل المشاكل والإجابة على استفساراتك التقنية المتعلقة بالنظام."
-- **التحية:** رد على التحيات بشكل احترافي ومباشر، مثل: "أهلاً بك في خدمة الدعم الفني لنظام {tenant_name}. كيف يمكنني مساعدتك اليوم؟"
-- **الأسئلة خارج النطاق:** إذا كان السؤال عامًا جدًا ولا يتعلق بالدعم الفني، وجه المستخدم بلطف: "مهمتي الأساسية هي تقديم الدعم الفني لنظام {tenant_name}. هل لديك استفسار تقني أو مشكلة تواجهك داخل النظام؟"
-- **التعامل مع الإساءة أو الكلام غير المفهوم:** إذا كان الإدخال عبارة عن إهانة أو كلام غير مترابط، أجب باحترافية وهدوء: "أنا هنا لتقديم المساعدة الفنية. يرجى طرح استفسارك بوضوح حتى أتمكن من مساعدتك."
-- **اللغة:** استخدم اللغة العربية الرسمية دائمًا.
-
-### سؤال المستخدم ###
-{question}
-
-### الإجابة ###
-"""
-
-# --- قالب توجيه المستخدم عند الحاجة للمساعدة ---
-FALLBACK_PROMPT_TEMPLATE = """
-عفواً، لم أتمكن من العثور على إجابة دقيقة في قاعدة المعرفة.
-
-**خيارات المساعدة:**
-1.  **إعادة صياغة السؤال:** قد يساعد استخدام كلمات مختلفة في العثور على الإجابة.
-2.  **زيارة مركز المساعدة:** يمكنك تصفح التوثيقات الكاملة عبر الرابط التالي: [أدخل رابط التوثيقات هنا]
-3.  **التواصل مع الدعم الفني:** إذا استمرت المشكلة، يمكنك التواصل مباشرة مع فريق الدعم البشري.
-
-هل تود تجربة خيار آخر؟
-"""
-
-# =================================================================================
-# 3. المتغيرات العالمية وسلاسل العمل (Global State & Chains)
-# =================================================================================
-
-vector_store: FAISS | None = None
-llm: Ollama | None = None
-embeddings_model: OllamaEmbeddings | None = None
-cross_encoder: CrossEncoder | None = None
-classifier: Any | None = None
-all_docs_for_bm25: List[Document] = []
-rag_chain: Any = None
-general_chain: Any = None
-fallback_chain: Any = None
-
-# =================================================================================
-# 4. دالة التهيئة الشاملة (Initialization Function)
-# =================================================================================
-
-def initialize_agent():
-    """
-    تقوم بتهيئة جميع مكونات الوكيل (النماذج، قواعد البيانات، السلاسل) مرة واحدة عند بدء التشغيل.
-    """
-    global vector_store, llm, embeddings_model, cross_encoder, classifier, all_docs_for_bm25
-    global rag_chain, general_chain, fallback_chain
-
-    if rag_chain:
-        logging.info("الوكيل مُهيأ بالفعل وجاهز للعمل.")
-        return
-
-    logging.info("بدء تهيئة وكيل الدعم الفني الذكي...")
-
-    try:
-        logging.info(f"تحميل نموذج المحادثة: {CHAT_MODEL}")
-        llm = Ollama(model=CHAT_MODEL, temperature=0.1)
-        
-        logging.info(f"تحميل نموذج التضمين: {EMBEDDING_MODEL}")
-        embeddings_model = OllamaEmbeddings(model=EMBEDDING_MODEL)
-
-        logging.info(f"تحميل نموذج إعادة الترتيب: {RERANK_MODEL}")
-        cross_encoder = CrossEncoder(RERANK_MODEL)
-
-        logging.info(f"تحميل مصنف الأسئلة: {CLASSIFIER_MODEL}")
-        classifier = pipeline("zero-shot-classification", model=CLASSIFIER_MODEL)
-
-        if not os.path.exists(VECTOR_DB_PATH):
-            logging.error(f"خطأ فادح: مجلد قاعدة المعرفة غير موجود في المسار: {VECTOR_DB_PATH}")
-            raise FileNotFoundError("مجلد قاعدة المعرفة مفقود.")
-        
-        logging.info(f"تحميل قاعدة المعرفة من: {VECTOR_DB_PATH}")
-        vector_store = FAISS.load_local(
-            VECTOR_DB_PATH,
-            embeddings=embeddings_model,
-            allow_dangerous_deserialization=True
-        )
-        all_docs_for_bm25 = list(vector_store.docstore._dict.values())
-        logging.info(f"تم تحميل قاعدة المعرفة بنجاح ({len(all_docs_for_bm25)} مستند).")
-
-        logging.info("بناء سلاسل العمل المنطقية...")
-        
-        rag_prompt = PromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
-        rag_chain = (
-            RunnablePassthrough.assign(context=lambda x: _format_docs(x["docs"]))
-            | rag_prompt
-            | llm
-            | StrOutputParser()
-        )
-
-        general_prompt = PromptTemplate.from_template(GENERAL_PROMPT_TEMPLATE)
-        general_chain = general_prompt | llm | StrOutputParser()
-
-        fallback_prompt = PromptTemplate.from_template(FALLBACK_PROMPT_TEMPLATE)
-        fallback_chain = fallback_prompt | llm | StrOutputParser()
-
-        logging.info("اكتملت تهيئة الوكيل بنجاح وهو الآن جاهز لاستقبال الطلبات.")
-
-    except Exception as e:
-        logging.critical(f"فشل حاسم أثناء تهيئة الوكيل: {e}", exc_info=True)
-        raise
-
-# =================================================================================
-# 5. الدوال المساعدة والمنطق الداخلي (Helper & Logic Functions)
-# =================================================================================
-
-def _format_docs(docs: List[Document]) -> str:
-    """تنسق المستندات المسترجعة لتقديمها كـ "سياق" للنموذج اللغوي."""
-    if not docs:
-        return "لا توجد معلومات متاحة."
-    return "\n\n---\n\n".join([doc.page_content for doc in docs])
-
-def _get_dynamic_identity(tenant_id: str) -> str:
-    """تستنبط اسم النظام (الهوية الديناميكية) من قاعدة المعرفة."""
-    if not vector_store: return "النظام الحالي"
-    docs = vector_store.similarity_search("", filter={"tenant_id": tenant_id}, k=1)
-    if docs and "entity_name" in docs[0].metadata:
-        return docs[0].metadata["entity_name"]
-    return "النظام الحالي"
-
-def _classify_question(question: str) -> Literal["technical", "general", "inappropriate"]:
-    """
-    يستخدم مصنفًا سريعًا لتحديد نية المستخدم إلى ثلاث فئات.
-    """
-    if not classifier: raise RuntimeError("المصنف غير مهيأ.")
-    
-    perf_logger.start("routing")
-    
-    labels = [
-        "سؤال فني أو استفسار عن معلومات محددة", 
-        "تحية، شكر، أو سؤال عام عن الهوية مثل من أنت",
-        "إهانة، كلام بذيء، أو عبارات عشوائية غير مفهومة"
-    ]
-    
-    result = classifier(question, labels, multi_label=False)
-    
-    top_label = result['labels'][0]
-    decision: Literal["technical", "general", "inappropriate"]
-    if top_label == labels[0]:
-        decision = "technical"
-    elif top_label == labels[1]:
-        decision = "general"
-    else:
-        decision = "inappropriate"
-    
-    perf_logger.end("routing", "N/A", question, {"decision": decision, "confidence": result['scores'][0]})
-    logging.info(f"قرار التوجيه: '{decision}' (بثقة: {result['scores'][0]:.2f})")
-    
-    return decision
-
-def _hybrid_retrieval_and_rerank(question: str, tenant_id: str, k: int) -> List[Document]:
-    """تنفذ استراتيجية بحث هجينة ثم تعيد ترتيب النتائج."""
-    if not vector_store or not cross_encoder: raise RuntimeError("مكونات البحث غير مهيأة.")
-    
-    perf_logger.start("retrieval_rerank")
-    
-    faiss_retriever = vector_store.as_retriever(
-        search_type="similarity",
-        search_kwargs={'k': k * 5, 'filter': {'tenant_id': tenant_id}}
-    )
-    faiss_docs = faiss_retriever.invoke(question)
-
-    tenant_docs = [doc for doc in all_docs_for_bm25 if doc.metadata.get("tenant_id") == tenant_id]
-    bm25_docs = []
-    if tenant_docs:
-        corpus = [doc.page_content.split() for doc in tenant_docs]
-        bm25 = BM25Okapi(corpus)
-        tokenized_query = question.split()
-        doc_scores = bm25.get_scores(tokenized_query)
-        top_indices = sorted(range(len(doc_scores)), key=lambda i: doc_scores[i], reverse=True)[:k * 5]
-        bm25_docs = [tenant_docs[i] for i in top_indices]
-
-    combined_docs = list({doc.page_content: doc for doc in faiss_docs + bm25_docs}.values())
-    if not combined_docs:
-        perf_logger.end("retrieval_rerank", tenant_id, question, {"status": "no_docs_found"})
-        return []
-
-    pairs = [[question, doc.page_content] for doc in combined_docs]
-    scores = cross_encoder.predict(pairs)
-    
-    reranked_results = sorted(zip(scores, combined_docs), key=lambda x: x[0], reverse=True)
-    
-    final_docs = [doc for score, doc in reranked_results[:k]]
-    
-    perf_logger.end("retrieval_rerank", tenant_id, question, {"retrieved_count": len(final_docs)})
-    logging.info(f"تم استرجاع وإعادة ترتيب {len(final_docs)} مستندًا ذا صلة.")
-    
-    return final_docs
-
-# =================================================================================
-# 6. نقطة الدخول الرئيسية (Main Entrypoint)
-# =================================================================================
-
-async def get_answer_stream(question: str, tenant_id: str, k_results: int = 4) -> AsyncGenerator[str, None]:
-    """
-    الدالة الرئيسية التي تعالج سؤال المستخدم وتبث الإجابة بشكل تفاعلي.
-    """
-    if not rag_chain or not general_chain or not fallback_chain:
-        raise RuntimeError("الوكيل غير مُهيأ. يرجى استدعاء initialize_agent() أولاً.")
-
-    logging.info(f"استلام طلب جديد من العميل '{tenant_id}'.")
-    
-    try:
-        category = _classify_question(question)
-        tenant_name = _get_dynamic_identity(tenant_id)
-        logging.info(f"الهوية الديناميكية المحددة: '{tenant_name}'")
-
-        if category == "technical":
-            logging.info("تنفيذ مسار الدعم الفني (RAG)...")
-            relevant_docs = _hybrid_retrieval_and_rerank(question, tenant_id, k_results)
+            raw_rewritten_query = await rewriter_chain.ainvoke({
+                "system_name": profile.get("name", ""),
+                "system_description": profile.get("description", ""),
+                "system_keywords": ", ".join(profile.get("keywords", [])),
+                "question": question
+            })
             
-            if not relevant_docs:
-                logging.warning("لم يتم العثور على مستندات ذات صلة. سيتم استخدام إجابة الطوارئ.")
-                async for chunk in fallback_chain.astream({}):
-                    yield chunk
-                return
+            effective_question = _clean_rewritten_query(raw_rewritten_query)
+            logging.info(f"[{session_id}] السؤال الأصلي: '{question}' -> الاستعلام المحسّن: '{effective_question}'")
 
-            async for chunk in rag_chain.astream({
-                "question": question,
-                "docs": relevant_docs,
-                "tenant_name": tenant_name
-            }):
-                yield chunk
+        all_docs = _load_all_docs_from_faiss(vector_store)
+        tenant_docs = [doc for doc in all_docs if doc.metadata.get("tenant_id") == tenant_id]
+
+        if not tenant_docs:
+            yield {"type": "error", "content": f"لا توجد بيانات للعميل '{tenant_id}'."}
+            return
+
+        bm25_retriever = BM25Retriever.from_documents(tenant_docs, k=k_results)
+        faiss_retriever = vector_store.as_retriever(
+            search_kwargs={'k': k_results, 'filter': {'tenant_id': tenant_id}}
+        )
+        ensemble_retriever = EnsembleRetriever(retrievers=[bm25_retriever, faiss_retriever], weights=[0.5, 0.5])
         
-        elif category == "inappropriate":
-            logging.info("تنفيذ مسار الرد على المدخلات غير الملائمة...")
-            async for chunk in general_chain.astream({
-                "question": question,
-                "tenant_name": tenant_name
-            }):
-                yield chunk
+        logging.info(f"[{session_id}] بدء الاسترجاع الأولي لـ '{effective_question}'...")
+        initial_docs = await ensemble_retriever.ainvoke(effective_question)
+        logging.info(f"[{session_id}] تم استرجاع {len(initial_docs)} مستند أولي.")
 
-        else: # category == "general"
-            logging.info("تنفيذ مسار المحادثة العامة...")
-            async for chunk in general_chain.astream({
-                "question": question,
-                "tenant_name": tenant_name
-            }):
-                yield chunk
+        logging.info(f"[{session_id}] بدء إعادة الترتيب والفلترة...")
+        
+        passages = [{"id": i, "text": doc.page_content} for i, doc in enumerate(initial_docs)]
+        
+        rerank_request = RerankRequest(query=question, passages=passages)
+        all_reranked_results = reranker.rerank(rerank_request)
+        top_4_results = all_reranked_results[:4]
+        
+        original_docs_map = {doc.page_content: doc for doc in initial_docs}
+        reranked_docs = [original_docs_map[res["text"]] for res in top_4_results if res["text"] in original_docs_map]
+        
+        logging.info(f"[{session_id}] تم فلترة المستندات إلى {len(reranked_docs)} مستند عالي الصلة.")
+
+        document_chain = create_stuff_documents_chain(llm, ANSWER_PROMPT)
+        
+        logging.info(f"[{session_id}] بدء توليد الإجابة النهائية...")
+        full_answer = ""
+        
+        async for chunk in document_chain.astream({"input": question, "context": reranked_docs, "chat_history": user_chat_history}):
+            if chunk:
+                full_answer += chunk
+                yield {"type": "chunk", "content": chunk}
+
+        user_chat_history.extend([HumanMessage(content=question), AIMessage(content=full_answer)])
+        chat_history[session_id] = user_chat_history[-10:]
+        logging.info(f"[{session_id}] الإجابة الكاملة: '{full_answer}'")
 
     except Exception as e:
-        logging.error(f"حدث خطأ غير متوقع أثناء معالجة الطلب: {e}", exc_info=True)
-        yield "عذرًا، حدث خطأ فني. فريقنا يعمل على إصلاحه."
-        perf_logger.end("error", tenant_id, question, {"error": str(e)})
+        logging.error(f"[{session_id}] فشل في سلسلة RAG. الخطأ: {e}", exc_info=True)
+        yield {"type": "error", "content": "عذراً، حدث خطأ فادح."}

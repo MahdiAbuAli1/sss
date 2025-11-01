@@ -1,0 +1,173 @@
+# المسار: 1_retrieval_methods_lab/final_showdown_lab.py
+# --- مختبر المواجهة النهائية: 7 طرق استرجاع في اختبار شامل ---
+
+import asyncio
+import os
+import time
+from typing import List, Dict, Set
+from dotenv import load_dotenv
+
+# --- 1. استيراد المكونات ---
+from langchain_core.documents import Document
+from langchain_community.embeddings import OllamaEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain.retrievers import BM25Retriever, EnsembleRetriever
+from langchain.storage import InMemoryStore
+from langchain.retrievers.parent_document_retriever import ParentDocumentRetriever
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from flashrank import Ranker, RerankRequest
+
+# --- 2. الإعدادات الأساسية ---
+load_dotenv()
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL_NAME", "qwen3-embedding:0.6b")
+OLLAMA_HOST = os.getenv("OLLAMA_HOST")
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+UNIFIED_DB_PATH = os.path.join(PROJECT_ROOT, "3_shared_resources", "vector_db")
+TOP_K = 7
+
+# --- 3. دالة مساعدة لعرض النتائج (لا تغيير) ---
+def print_results(docs: List[Document], title: str, duration: float, scores: List[float] = None):
+    print("\n" + "="*80)
+    print(f"🔬 نتائج طريقة: {title}")
+    print(f"⏱️ زمن الاسترجاع: {duration:.4f} ثانية")
+    print(f"📄 عدد النتائج: {len(docs)}")
+    print("="*80)
+    if not docs:
+        print("   -> لم يتم العثور على نتائج.")
+        return
+    for i, doc in enumerate(docs):
+        source = doc.metadata.get('source', 'غير معروف').split('\\')[-1]
+        content_preview = ' '.join(doc.page_content.replace('\n', ' ').split())[:110]
+        score_info = f"[الدرجة: {scores[i]:.4f}]" if scores and i < len(scores) else ""
+        print(f"   {i+1}. {score_info} [المصدر: {source}] -> \"{content_preview}...\"")
+    print("-" * 80)
+
+# --- 4. المختبر الرئيسي ---
+async def run_final_showdown_lab(question: str, tenant_id: str, embeddings: OllamaEmbeddings, vector_store: FAISS, reranker: Ranker, all_tenant_docs: Dict[str, List[Document]]):
+    print("\n" + "#"*30 + f" بدء الاختبار للعميل: '{tenant_id}' | السؤال: '{question}' " + "#"*30)
+    
+    tenant_docs = all_tenant_docs.get(tenant_id)
+    if not tenant_docs:
+        print(f"❌ خطأ: لا توجد مستندات للعميل '{tenant_id}'.")
+        return
+
+    # --- إعداد المسترجعات ---
+    faiss_retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={'k': TOP_K, 'filter': {'tenant_id': tenant_id}})
+    bm25_retriever = BM25Retriever.from_documents(tenant_docs, k=TOP_K)
+    ensemble_retriever = EnsembleRetriever(retrievers=[bm25_retriever, faiss_retriever], weights=[0.5, 0.5])
+    store = InMemoryStore()
+    parent_document_retriever = ParentDocumentRetriever(vectorstore=vector_store, docstore=store, child_splitter=RecursiveCharacterTextSplitter(chunk_size=400))
+    parent_document_retriever.add_documents(tenant_docs, ids=None)
+
+    # --- تنفيذ الاختبارات والمقارنة ---
+    
+    # 1. BM25 (Keywords)
+    start_time = time.time(); bm25_docs = await bm25_retriever.ainvoke(question); duration = time.time() - start_time
+    print_results(bm25_docs, "1. البحث بالكلمات المفتاحية (BM25)", duration)
+
+    # 2. Vector Search
+    start_time = time.time(); vector_docs = await faiss_retriever.ainvoke(question); duration = time.time() - start_time
+    print_results(vector_docs, "2. البحث بالمعنى (Vector Search)", duration)
+
+    # 3. Hybrid
+    start_time = time.time(); hybrid_docs = await ensemble_retriever.ainvoke(question); duration = time.time() - start_time
+    print_results(hybrid_docs, "3. البحث الهجين (Hybrid)", duration)
+
+    # 4. Hybrid + Reranker
+    if hybrid_docs:
+        start_time = time.time()
+        passages = [{"id": i, "text": doc.page_content} for i, doc in enumerate(hybrid_docs)]
+        reranked_results = reranker.rerank(RerankRequest(query=question, passages=passages))
+        duration = time.time() - start_time
+        original_docs_map = {i: doc for i, doc in enumerate(hybrid_docs)}
+        final_docs = [original_docs_map[res["id"]] for res in reranked_results]
+        final_scores = [res["score"] for res in reranked_results]
+        print_results(final_docs, "4. البحث الهجين + إعادة الترتيب (Hybrid + Reranker)", duration, scores=final_scores)
+
+    # 5. Parent Document
+    start_time = time.time(); parent_docs = await asyncio.to_thread(parent_document_retriever.invoke, question); duration = time.time() - start_time
+    print_results(parent_docs, "5. مسترجع المستندات الأصلية (Parent Document)", duration)
+
+    # 6. Parent + Reranker
+    if parent_docs:
+        start_time = time.time()
+        passages = [{"id": i, "text": doc.page_content} for i, doc in enumerate(parent_docs)]
+        reranked_results = reranker.rerank(RerankRequest(query=question, passages=passages))
+        duration = time.time() - start_time
+        original_docs_map = {i: doc for i, doc in enumerate(parent_docs)}
+        super_hybrid_docs = [original_docs_map[res["id"]] for res in reranked_results]
+        super_hybrid_scores = [res["score"] for res in reranked_results]
+        print_results(super_hybrid_docs, "6. المسترجع الفائق (Parent + Reranker)", duration, scores=super_hybrid_scores)
+
+    # 7. المسترجع الشامل (Hybrid + Parent + Reranker)
+    # دمج نتائج البحث الهجين والمستندات الأصلية
+    combined_initial_docs = hybrid_docs + parent_docs
+    # إزالة التكرار مع الحفاظ على الترتيب
+    unique_docs_map = {doc.page_content: doc for doc in reversed(combined_initial_docs)}
+    unique_docs = list(unique_docs_map.values())[::-1]
+    
+    if unique_docs:
+        start_time = time.time()
+        passages = [{"id": i, "text": doc.page_content} for i, doc in enumerate(unique_docs)]
+        reranked_results = reranker.rerank(RerankRequest(query=question, passages=passages))
+        duration = time.time() - start_time
+        original_docs_map = {i: doc for i, doc in enumerate(unique_docs)}
+        ultimate_docs = [original_docs_map[res["id"]] for res in reranked_results]
+        ultimate_scores = [res["score"] for res in reranked_results]
+        print_results(ultimate_docs, "7. المسترجع الشامل (Hybrid + Parent + Reranker)", duration, scores=ultimate_scores)
+
+
+# --- 5. الدالة الرئيسية للتنفيذ ---
+async def main():
+    print("--- 🚀 بدء تهيئة مختبر المواجهة النهائية 🚀 ---")
+    try:
+        embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL, base_url=OLLAMA_HOST)
+        vector_store = FAISS.load_local(UNIFIED_DB_PATH, embeddings, allow_dangerous_deserialization=True)
+        reranker = Ranker()
+        
+        all_docs = list(vector_store.docstore._dict.values())
+        all_tenant_docs = {}
+        for doc in all_docs:
+            tenant_id = doc.metadata.get("tenant_id")
+            if tenant_id:
+                if tenant_id not in all_tenant_docs:
+                    all_tenant_docs[tenant_id] = []
+                all_tenant_docs[tenant_id].append(doc)
+        print("--- ✅ البيئة جاهزة. ---")
+    except Exception as e:
+        print(f"❌ فشل فادح في تهيئة البيئة: {e}")
+        return
+
+    # --- تعريف حالات الاختبار (نفس الأسئلة العميقة) ---
+    test_cases = [
+        {
+            "tenant_id": "sys",
+            "question": "ما هي الإجراءات التصحيحية المطلوبة بعد تقرير الزيارة الميدانية؟"
+        },
+        {
+            "tenant_id": "un",
+            "question": "ماذا يحدث بعد تقديم العطاء وقبل إرساء العقد؟"
+        },
+        {
+            "tenant_id": "school_beta",
+            "question": "قارن بين طبقة التجميع الأقصى (Max Pooling) والتجميع المتوسط (Average Pooling)."
+        },
+        {
+            "tenant_id": "university_alpha",
+            "question": "كيف يساهم التطبيق في تحقيق عائد مالي للمزارعين وما هي حدوده؟"
+        }
+    ]
+
+    # --- تشغيل جميع حالات الاختبار ---
+    for case in test_cases:
+        await run_final_showdown_lab(
+            question=case["question"],
+            tenant_id=case["tenant_id"],
+            embeddings=embeddings,
+            vector_store=vector_store,
+            reranker=reranker,
+            all_tenant_docs=all_tenant_docs
+        )
+
+if __name__ == "__main__":
+    asyncio.run(main())
