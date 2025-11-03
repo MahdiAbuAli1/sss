@@ -1,14 +1,14 @@
 --- إجمالي عدد الأجزاء: 20 ---
 
 --- Chunk 1 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0, 'entity_name': 'نظام الكتروني سع'}
 ---
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
 دﻟﻴﻞ اﺳﺘﺨـــﺪام ﻧﻈﺎم
 إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 
 --- Chunk 2 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 1}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 1, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -50,7 +50,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 اﻟﻤﺮاﺣﻞ اﻟﺮﺋﻴﺴﺔ
 
 --- Chunk 3 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 2}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 2, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -58,7 +58,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 اﻟﻤﺮاﺣﻞ اﻟﺮﺋﻴﺴﺔ ﻟﺮﺣﻠﺔ اﻟﺤﺼﻮل ﻋﻠﻰ اﻻﻋﺘﻤﺎد:
 
 --- Chunk 4 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 3}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 3, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -71,7 +71,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 5 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 4}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 4, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -86,7 +86,7 @@ mﻋﻠﻰ اﻟﺒﺮﻳﺪ اﻟﻤُﺪﺧﻞ
 
 
 --- Chunk 6 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 5}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 5, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -99,7 +99,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 7 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 6}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 6, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -111,7 +111,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 8 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 7}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 7, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -122,7 +122,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 9 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 8}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 8, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -135,7 +135,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 10 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 9}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 9, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -155,7 +155,7 @@ Excel- رﻓﻊ ﻧﻤﻮذج إﻛﺴﻞ4.2
 
 
 --- Chunk 11 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 10}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 10, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -173,7 +173,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 ﺗﻘﺪﻳﻢ ﻃﻠﺐ اﻋﺘﻤﺎد ﺟﺪﻳﺪ
 
 --- Chunk 12 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 11}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 11, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -184,7 +184,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 ﺗﻘﺪﻳﻢ ﻃﻠﺐ اﻋﺘﻤﺎد ﺟﺪﻳﺪ
 
 --- Chunk 13 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 12}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 12, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -207,7 +207,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 14 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 13}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 13, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -230,7 +230,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 اﻟﺪراﺳﺔ اﻟﻤﻜﺘﺒﻴﺔ
 
 --- Chunk 15 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 14}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 14, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -246,7 +246,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 16 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 15}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 15, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -266,7 +266,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 17 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 16}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 16, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -283,7 +283,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 18 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 17}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 17, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -298,7 +298,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 19 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 18}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 18, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -317,7 +317,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 اﺗﺨﺎذ اﻟﻘﺮار
 
 --- Chunk 20 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 19}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 19, 'entity_name': 'نظام الكتروني سع'}
 ---
 ﺷﻜـــﺮًا ﻟﻜـــﻢ 
 

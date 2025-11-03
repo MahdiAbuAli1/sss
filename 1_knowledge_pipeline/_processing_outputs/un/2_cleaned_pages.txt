@@ -1,13 +1,16 @@
---- إجمالي عدد الأجزاء: 24 ---
+--- إجمالي عدد الأجزاء: 35 ---
 
 --- Chunk 1 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات'}
 ---
 نظام الشراء الإلكتروني
 لبوابة الأمم المتحدة العالمية 
 للمشتريات ومكتب الأمم المتحدة 
 لخدمات المشاريع
 
+--- Chunk 2 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 1, 'entity_name': 'المنظمات'}
+---
 مقدمة
 UNOPS eSourcing training for Vendors v1.3
 2
@@ -25,6 +28,9 @@ UNOPS eSourcing training for Vendors v1.3
 PDF عشإ هذا الرابط: 
 https://esourcing.unops.org/#/Help/Guides
 
+--- Chunk 3 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 2, 'entity_name': 'المنظمات'}
+---
 UNOPS eSourcing training for Vendors v1.3
 3
 1
@@ -45,8 +51,8 @@ UNOPS eSourcing training for Vendors v1.3
 الاتصال والموارد
 جشسة الاسئشة والاجوبة
 
---- Chunk 2 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 4 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 3, 'entity_name': 'المنظمات'}
 ---
 مقدمة حول نظةام الشةراء الإلكترونةي
 لبوابةةةةةةة الأمةةةةةةم المتحةةةةةةدة العالميةةةةةةة 
@@ -54,8 +60,8 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 لخةةةةةةةةةةةةةةةةةةةةةةةةةدمات المشةةةةةةةةةةةةةةةةةةةةةةةةةاريع
 1
 
---- Chunk 3 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 5 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 4, 'entity_name': 'المنظمات'}
 ---
 بوابة الأمم المتحدة العالمية للمشتريات
 UNOPS eSourcing training for Vendors v1.3
@@ -75,8 +81,8 @@ UNOPS eSourcing training for Vendors v1.3
 المتحدة لخدمات المشاريع.
 1 .مقدمة حول نظام الشراء الإلكتروني لبوابة الأمم المتحدة العالمية للمشتريات ومكتب الأمم المتحدة لخدمات المشاريع
 
---- Chunk 4 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 6 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 5, 'entity_name': 'المنظمات'}
 ---
 UNOPS eSourcing training for Vendors v1.3
 6
@@ -96,8 +102,8 @@ UNOPS eSourcing training for Vendors v1.3
 1 .مقدمة حول نظام الشراء الإلكتروني لبوابة الأمم المتحدة العالمية للمشتريات ومكتب الأمم المتحدة لخدمات المشاريع
 نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع
 
---- Chunk 5 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 7 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 6, 'entity_name': 'المنظمات'}
 ---
 نطاق نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع
 UNOPS eSourcing training for Vendors v1.3
@@ -143,8 +149,8 @@ oneUNOPS)
 مكتبالأممالمتحدةلخدماتالمشاريع
 ومورةينابتنفةذعمشةامالشراء
 
---- Chunk 6 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 8 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 7, 'entity_name': 'المنظمات'}
 ---
 لماذا يتم ينفيا نظام الشراء الإلكتروني: مزايا لمورةينا
 UNOPS eSourcing training for Vendors v1.3
@@ -159,8 +165,8 @@ UNOPS eSourcing training for Vendors v1.3
 الدولةة
 1 .مقدمة حول نظام الشراء الإلكتروني لبوابة الأمم المتحدة العالمية للمشتريات ومكتب الأمم المتحدة لخدمات المشاريع
 
---- Chunk 7 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 9 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 8, 'entity_name': 'المنظمات'}
 ---
 لماذا يتم ينفيا نظام الشراء الإلكتروني: مزايا لمورةينا
 UNOPS eSourcing training for Vendors v1.3
@@ -179,17 +185,16 @@ UNOPS eSourcing training for Vendors v1.3
 يسةةةةال يتبةةةةع العطةةةةاء وحالةالتقةةةةديم. إ ةةةةعارات البريةةةةد 
 الإلكتروني التلقائية
 
-التسجيل في بوابة الأمم
-المتحدة العالمية للمشتريات
-2
-
---- Chunk 8 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 10 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 9, 'entity_name': 'المنظمات'}
 ---
 التسجيل في بوابة الأمم
 المتحدة العالمية للمشتريات
 2
 
+--- Chunk 11 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 10, 'entity_name': 'المنظمات'}
+---
 UNOPS eSourcing training for Vendors v1.3
 11
 التسجيل أمر بالغ الأهمية: لان من ةجدل الوصدول الدإ التفاصدةل الكامشدة لمناقصدة مكتدب الأمدم 
@@ -203,8 +208,8 @@ UNOPS eSourcing training for Vendors v1.3
 التسجيل في بوابة الأمم المتحدة العالمية للمشتريات
 2 .التسجيل في بوابة الأمم المتحدة العالمية للمشتريات
 
---- Chunk 9 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 12 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 11, 'entity_name': 'المنظمات'}
 ---
 كيفية التسجيل
 UNOPS eSourcing training for Vendors v1.3
@@ -224,8 +229,8 @@ UNOPS eSourcing training for Vendors v1.3
 الاتصال، الإقرار، الترمةز، منظمام الأمم المتحد 
 2 .التسجيل في بوابة الأمم المتحدة العالمية للمشتريات
 
---- Chunk 10 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 13 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 12, 'entity_name': 'المنظمات'}
 ---
 إذا كنت مسجلاً من قبل، يُرجى التأكد من أن معلومايك مكتملة
 UNOPS eSourcing training for Vendors v1.3
@@ -239,6 +244,9 @@ UNOPS eSourcing training for Vendors v1.3
 استخدام نظام الشراء الإلكتروني لمكتب الأمم المتحد لخدمام المشار ع
 2 .التسجيل في بوابة الأمم المتحدة العالمية للمشتريات
 
+--- Chunk 14 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 13, 'entity_name': 'المنظمات'}
+---
 إذا كنت مسجلاً من قبل، يُرجى التأكد من أن معلومايك مكتملة
 UNOPS eSourcing training for Vendors v1.3
 14 2 .التسجيل في بوابة الأمم المتحدة العالمية للمشتريات
@@ -250,19 +258,17 @@ o جهام الاتصال: عناو ن البر دد الإلكتروندي ال
 o الو ددالام: تد ددد مددن تسددجةشك مددورد لمكتددب الأمددم المتحددد لخدددمام المشددار ع حتددإ تددتمكنمددن 
 استخدام نظام الشراء الإلكتروني لمكتب الأمم المتحد لخدمام المشار ع
 
-البحةةع عةةن إ ةةعارات المناقصةةات/ 
-التعبير عةن الاهتمةام / الوصةول إلةى 
-نظام الشراء الإلكتروني
-3
-
---- Chunk 11 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 15 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 14, 'entity_name': 'المنظمات'}
 ---
 البحةةع عةةن إ ةةعارات المناقصةةات/ 
 التعبير عةن الاهتمةام / الوصةول إلةى 
 نظام الشراء الإلكتروني
 3
 
+--- Chunk 16 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 15, 'entity_name': 'المنظمات'}
+---
 البحع عن إ عارات المناقصات
 UNOPS eSourcing training for Vendors v1.3
 16
@@ -282,8 +288,8 @@ UNOPS eSourcing training for Vendors v1.3
 المناقصام عبر نظام الشراء الإلكتروني لمكتب الأمم المتحد لخدمام المشار ع.
 3 .البحع عن إ عارات المناقصات/ التعبير عن الاهتمام / الوصول إلى نظام الشراء الإلكتروني
 
---- Chunk 12 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 17 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 16, 'entity_name': 'المنظمات'}
 ---
 البحع عن إ عارات المناقصات
 UNOPS eSourcing training for Vendors v1.3
@@ -296,6 +302,9 @@ UNOPS eSourcing training for Vendors v1.3
 القائمة الموجود عشإ الجانب الأ سر
 3 .البحع عن إ عارات المناقصات/ التعبير عن الاهتمام / الوصول إلى نظام الشراء الإلكتروني
 
+--- Chunk 18 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 17, 'entity_name': 'المنظمات'}
+---
 البحع عن إ عارات المناقصات
 UNOPS eSourcing training for Vendors v1.3
 18
@@ -308,8 +317,8 @@ UNOPS eSourcing training for Vendors v1.3
 التفاصةل الكامشة لشمناقصة والتجاوب ماها.
 3 .البحع عن إ عارات المناقصات/ التعبير عن الاهتمام / الوصول إلى نظام الشراء الإلكتروني
 
---- Chunk 13 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 19 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 18, 'entity_name': 'المنظمات'}
 ---
 التعبير عن الاهتمام
 UNOPS eSourcing training for Vendors v1.3
@@ -323,8 +332,8 @@ UNOPS eSourcing training for Vendors v1.3
 المتحد لخدمام المشار ع
 3 .البحع عن إ عارات المناقصات/ التعبير عن الاهتمام / الوصول إلى نظام الشراء الإلكتروني
 
---- Chunk 14 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 20 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 19, 'entity_name': 'المنظمات'}
 ---
 الوصول إلى نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع
 UNOPS eSourcing training for Vendors v1.3
@@ -338,6 +347,9 @@ UNOPS eSourcing training for Vendors v1.3
  تاةن عشةك القةام بذلك مباشر في بوابة الأمم المتحد الاالمةة لشمشتر ام.
 3 .البحع عن إ عارات المناقصات/ التعبير عن الاهتمام / الوصول إلى نظام الشراء الإلكتروني
 
+--- Chunk 21 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 20, 'entity_name': 'المنظمات'}
+---
 يصفح نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع
 UNOPS eSourcing training for Vendors v1.3
 21
@@ -347,8 +359,8 @@ UNOPS eSourcing training for Vendors v1.3
 التفاصةل
 3 .البحع عن إ عارات المناقصات/ التعبير عن الاهتمام / الوصول إلى نظام الشراء الإلكتروني
 
---- Chunk 15 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 22 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 21, 'entity_name': 'المنظمات'}
 ---
 نظةةام الشةةراء الإلكترونةةي لمكتةةب 
 الأمم المتحدة لخدمات المشاريع: 
@@ -356,6 +368,9 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 الرئيسية
 4
 
+--- Chunk 23 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 22, 'entity_name': 'المنظمات'}
+---
 يحديد الوظائو الرئيسية لنظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات 
 المشاريع
 UNOPS eSourcing training for Vendors v1.3
@@ -372,8 +387,8 @@ UNOPS eSourcing training for Vendors v1.3
 المستخدم
 4 .نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع: لمحة عامة على الوظائو الرئيسية
 
---- Chunk 16 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 24 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 23, 'entity_name': 'المنظمات'}
 ---
 1 .إبلاغ مكتب الأمم المتحدة لخدمات المشاريع عن نيتك لتقديم رة(أو لا)
 UNOPS eSourcing training for Vendors v1.3
@@ -387,6 +402,9 @@ UNOPS eSourcing training for Vendors v1.3
 المورد
 4 .نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع: لمحة عامة على الوظائو الرئيسية
 
+--- Chunk 25 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 24, 'entity_name': 'المنظمات'}
+---
 2 .طلب يو يح بشأن المناقصة
 UNOPS eSourcing training for Vendors v1.3
 25
@@ -402,8 +420,8 @@ UNOPS eSourcing training for Vendors v1.3
  مكن الإطلاع عشإ هذا الموعد النهائي في علامة التبو بمعلومات عامة
 4 .نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع: لمحة عامة على الوظائو الرئيسية
 
---- Chunk 17 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 26 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 25, 'entity_name': 'المنظمات'}
 ---
 3 .يقديم رة على المناقصة
 UNOPS eSourcing training for Vendors v1.3
@@ -423,8 +441,8 @@ UNOPS eSourcing training for Vendors v1.3
 بمجرد الإرسال، تتغةر الحالة منمسوةةالإ يم التقديم وستتشقإ اشاارا عبر البر د الإلكتروني
 4 .نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع: لمحة عامة على الوظائو الرئيسية
 
---- Chunk 18 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 27 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 26, 'entity_name': 'المنظمات'}
 ---
 4 .يقديم عرض بديل للمناقصة
 UNOPS eSourcing training for Vendors v1.3
@@ -439,8 +457,8 @@ UNOPS eSourcing training for Vendors v1.3
 عرض بديل
 4 .نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع: لمحة عامة على الوظائو الرئيسية
 
---- Chunk 19 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 28 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 27, 'entity_name': 'المنظمات'}
 ---
 5 .عرض ويحرير وسحب رة على المناقصة
 UNOPS eSourcing training for Vendors v1.3
@@ -458,8 +476,8 @@ UNOPS eSourcing training for Vendors v1.3
 بمجرد انتهاء الموعد النهائي لشتقد م
 4 .نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع: لمحة عامة على الوظائو الرئيسية
 
---- Chunk 20 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 29 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 28, 'entity_name': 'المنظمات'}
 ---
 6 .الرة على أي يو يح يتعلق بالتقييم
 UNOPS eSourcing training for Vendors v1.3
@@ -472,8 +490,8 @@ UNOPS eSourcing training for Vendors v1.3
 ةو ااهب الإ علامة التبو بيو يحات التقييم الخاصة بالمناقصة
 4 .نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع: لمحة عامة على الوظائو الرئيسية
 
---- Chunk 21 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 30 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 29, 'entity_name': 'المنظمات'}
 ---
 7 .التحقق من حالة المناقصة
 UNOPS eSourcing training for Vendors v1.3
@@ -493,24 +511,21 @@ UNOPS eSourcing training for Vendors v1.3
 المشددار ع مددن تقةددةم الايدداء، مددع ماشومددام حددول النتةجددة. سددتاشمك هددذه الرسددالة الإلكترونةددة 
 بالنتةجددة: مددا ااا تددم ادراجددك فددي القائمددة المختصددر ةم لا (فددي مناقصددام التابةددر عددن الاهتمددام 
 والتدهةل المسب ) ةو ما ااا نت قد حصشت عشدإ عقدد ةم لا (فدي التمدا تقدد م الادروض: طشدب 
-عرض سار، دعو لتقد م عياءام، طشب تقدد م عدرض). ة ضدا ، سدوف تتضدمن رسدائل البر دد
-
---- Chunk 22 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
----
-والتدهةل المسب ) ةو ما ااا نت قد حصشت عشدإ عقدد ةم لا (فدي التمدا تقدد م الادروض: طشدب 
 عرض سار، دعو لتقد م عياءام، طشب تقدد م عدرض). ة ضدا ، سدوف تتضدمن رسدائل البر دد 
 الإلكترونددي هددذه تفاصددةل الاتصددال الخاصددة بمددوظفي مكتددب الأمددم المتحددد لخدددمام المشددار ع 
 المسؤولةن عن المناقصة ااا رغبت في الحصول عشإ مز د من الماشومام.
 في حالة وجود ةيعقوة يم منحاا نتةجة لهذه المناقصدة، فإنهدا سدتوفر ة ضدا رابيدا الدإ صدفحة 
 4 .نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات المشاريع: لمحة عامة على الوظائو الرئيسية
 
---- Chunk 23 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 31 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 30, 'entity_name': 'المنظمات'}
 ---
 يوصيات رئيسية للمورةين
 5
 
+--- Chunk 32 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 31, 'entity_name': 'المنظمات'}
+---
 يوصيات رئيسية للمورةين الاين يستخدمون نظام الشراء الإلكتروني لمكتب الأمم المتحدة لخدمات 
 المشاريع
 UNOPS eSourcing training for Vendors v1.3
@@ -534,15 +549,15 @@ UNOPS eSourcing training for Vendors v1.3
 قم عشإ الفور بالرد عشإ توفةحام تقةةم مكتب الأمم المتحد لخدمام 
 المشار ع
 
-الايصالات والموارة
-6
-
---- Chunk 24 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 0, 'entity_name': 'المنظمات', 'tenant_id': 'un'}
+--- Chunk 33 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 32, 'entity_name': 'المنظمات'}
 ---
 الايصالات والموارة
 6
 
+--- Chunk 34 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 33, 'entity_name': 'المنظمات'}
+---
 الايصالات والموارة
 UNOPS eSourcing training for Vendors v1.3
 34
@@ -564,6 +579,9 @@ esourcing@unops.org ُرجدإ تقدد م اسدم المسدتخدم الخد�
 المتحد الاالمةة لشمشتر ام ومرجع المناقصة (عشإ سبةل الم ال RFP/2016/296)
 6 .الايصالات والموارة
 
+--- Chunk 35 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\un\\UNOPS_eSourcing_eSourcing-system-Arabic.pdf', 'page': 34, 'entity_name': 'المنظمات'}
+---
 جلسةالاسئلة والإجابات
 7
 

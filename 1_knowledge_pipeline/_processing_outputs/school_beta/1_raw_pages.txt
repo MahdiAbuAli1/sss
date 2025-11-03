@@ -1,7 +1,7 @@
 --- إجمالي عدد الأجزاء: 37 ---
 
 --- Chunk 1 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 0}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 0, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 الشبكاتالعصبية  
 م. أحمد  شمسان  أحمد  علي  . 
@@ -39,7 +39,7 @@ Windows 10 19044 أو أعلى64 بت). يتوافق هذا مع إصدار Wind
 
 
 --- Chunk 2 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 1}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 1, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 2. إعداد وحدة معالجة الرسوميات GPU) 
@@ -91,7 +91,7 @@ Kepler-90i. بذلك يكون كبلر-90  هو النظام الآخر الوح
 الشكل (1): نظام كبلر-90-اي  
 
 --- Chunk 3 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 2}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 2, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
  
@@ -125,7 +125,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 4 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 3}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 3, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 في حال أردنا 
 استخدام    جافا سكريبت  
@@ -173,7 +173,7 @@ Internet of Things متيحًا بذلك سرعة
 
 
 --- Chunk 5 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 4}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 4, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
  
@@ -207,7 +207,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 6 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 5}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 5, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
  
@@ -229,7 +229,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 الشكل(8): مخزن تينسر فلو  
 
 --- Chunk 7 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 6}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 6, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 • مثال يستخدمTensorflow   :  
  
@@ -245,7 +245,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 8 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 7}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 7, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 ١.١ مُدخَلات الشبكة العصبية  
@@ -266,7 +266,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 9 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 8}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 8, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 • التصنيف Classification): في حالة التصنيف الثنائي (مثل: تصنيف البريد إلى مزعج وغير مزعج سنحتاج لخلية عصبية واحدة بحيث يُمَثّل 
 الناتج احتمال انتماء المُدخَل للفئة الإيجابية. بالنسبة للتصنيف متعدد الفئات (على سبيل المثال: التعرف على كائنات مختلفة مثل سيارة أو كلب  
@@ -299,7 +299,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 10 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 9}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 9, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 • الانحدار Regression): دالة متوسط الخطأ التربيعي Mean Squared Error) من أكثر دوال الخسارة استخداماً في خوارزميات التحسين في  
@@ -324,7 +324,7 @@ Error) أو خطأ هوبر.
 
 
 --- Chunk 11 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 10}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 10, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 • قبل استخدام بياناتك كمدخلات للشبكة العصبية تحقق من أن جميع الخصائص على مقياس واحد فهذا يضمن الحصول على تقارب أسرع. 
@@ -341,7 +341,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 12 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 11}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 11, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 • أفضل قيمة لمعدل التعلم عادة ما تكون نصف قيمة معدل التعلم الذي يبدأ بعدها النموذج في التباعد. حاول تجربة قيم مختلفة لمعدل التعلم  
 ولاحظ كيف تؤثر على أداء النموذج لتطوير حدسك حول معدلات التعلم. 
@@ -377,7 +377,7 @@ logistic→ tanh → ReLU → Leaky ReLU → ELU → SELU
 
 
 --- Chunk 13 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 12}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 12, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 • لتقليل التأخير في وقت التشغيل استخدم Leaky ReLU 
 • لمجموعات التدريب الضخمة استخدم PReLU 
@@ -435,7 +435,7 @@ softplus.
 الوصول لنقطة التقارب وكان الوقت الذي يستغرقه التقارب ليس بالأهمية القصوى. 
 
 --- Chunk 14 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 13}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 13, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 • إذا كانت الأولوية لوقت التقارب وليس لجودة نقطة التقارب أي أن الوصول إلى أي نقطة قريبة من نقطة التقارب المثلى يعتبر كافياً بالنسبة  
 لك، جرب خوارزميات مثل Adam و Nadam و RMSProp و Adamax. 
@@ -463,7 +463,7 @@ mkdir tensorflow-demo
 
 
 --- Chunk 15 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 14}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 14, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 cd tensorflow-demo 
 سننفذّ الأوامر التالية لإنشاء البيئة الافتراضية: 
@@ -496,7 +496,7 @@ tensorflow==2.6.0
 
 
 --- Chunk 16 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 15}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 15, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 import tensorflow as tf 
 import numpy as np 
@@ -557,7 +557,7 @@ n_output = 10 # output layer (0-9 digits)
 يُوضح الرسم البياني التالي تصورًا للبِنية التي صمّمناها، مع توصيل كلّ طبقةٍ بالطبقات المحيطة بها توصيلًا كاملًا : 
 
 --- Chunk 17 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 16}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 16, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 ويرتبط مصطلح الشبكة العصبية العميقة Deep Neural Network بعدد الطبقات المخفية، وعادةً ما تُشير كلمة السطحية في
@@ -600,7 +600,7 @@ keep_prob = tf.compat.v1.placeholder(tf.float32)
 
 
 --- Chunk 18 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 17}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 17, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 وسنستخدم في المتغير keep_prob tensor من نوع placeholders للتحكم في معدل dropout، وسنجعله من
 نوع placeholders وذلك لجعله متغيرًا من نوعٍ قابلٍ للتعديل، بدلًا من كونه متغيرًا من نوعٍ غير قابلٍ للتعديل  immutable variable،
@@ -661,7 +661,7 @@ train_step = tf.compat.v1.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 لتدريبها، ومن ثَمّ اختبارها للتحقق فيما إن كانت تعلمت شيئًا بالفعل أم لا. 
 
 --- Chunk 19 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 18}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 18, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 5. التدريب والاختبار 
 تتضمن عملية التدريب تغذية المخطط البياني للشبكة بمجموعة بيانات التدريب، وتحسين نتيجة دالة الخسارة، إذ أن في كلّ مرةٍ تمر  
@@ -723,7 +723,7 @@ for i in range(n_iterations):
 لتلك الدفعة. وينبغي ألّا نتوقع هنا انخفاض معدل الخسارة وزيادة الدقة، لأن القيم لكل دفعةٍ صغيرةٍ. إذ أن النتائج ليست للنموذج  
 
 --- Chunk 20 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 19}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 19, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 بأكمله. فنحن نستخدم مجموعاتٍ صغيرةٍ من الصور بدلًا من إرسال كلّ صورةٍ بمفردها، وذلك لتسريع عملية التدريب والسماح
 للشبكة برؤية عددٍ من الأمثلة المختلفة قبل تحديث الوسطاء. 
@@ -782,7 +782,7 @@ Prediction for test image: 4
 
 
 --- Chunk 21 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 20}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 20, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 ❖ متغيرات وطبقات الشبكات العصبية[7] : 
  
@@ -839,7 +839,7 @@ activation function) لإدخال غير خطية.
 الشبكات العصبية التكرارية RNNs) للبيانات التسلسلية مثل السلاسل الزمنية أو اللغة الطبيعية. تحتوي هذه الطبقات
 
 --- Chunk 22 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 21}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 21, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 على اتصالات تعود للخلف، مما يسمح للمعلومات بالاستمرار عبر الخطوات الزمنية. وهذا يجعلها مناسبة للمهام التي
 تكون فيها السياق والاعتمادية الزمنية مهمة. 
@@ -881,7 +881,7 @@ Pooling).
 الصورة. 
 
 --- Chunk 23 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 22}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 22, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 Archiبنية الشبكة العصبية التلافيفية CNN) 
 تتكون الصورة من مجموعة من البكسلات ذات الارتفاع والعرض. تحتوي الصورة ذات التدرج الرمادي على قناة واحدة فقط بينما تحتوي الصورة  
@@ -898,7 +898,7 @@ Archiبنية الشبكة العصبية التلافيفية CNN)
 
 
 --- Chunk 24 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 23}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 23, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 أثناء الجزء التلافيفي، تحافظ الشبكة على السمات الأساسية للصورة وتستبعد الضوضاء غير ذات الصلة. على سبيل المثال، يتعلم النموذجكيفية  
 التعرف على الفيل من صورة بها جبل في الخلفية. إذا كنت تستخدم شبكة عصبية تقليدية، فسيقوم النموذج بتعيين وزن لجميع وحدات البكسل،   
@@ -923,7 +923,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 25 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 24}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 24, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 هناك العديد من القنوات المتاحة. أدناه، قمنا بإدراج بعض القنوات. يمكنك أن ترى أن كل مرشح له غرض محدد. ملاحظة في الصورة أدناه؛النواة  
@@ -931,7 +931,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 26 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 25}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 25, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 الحساب وراء الإلتواء 
@@ -941,7 +941,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 27 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 26}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 26, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 لاحظت أن عرض الإخراج وارتفاعه يمكن أن يختلفا عن عرض الإدخال وارتفاعه. يحدث ذلك بسبب تأثير الحدود. 
@@ -954,7 +954,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 28 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 27}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 27, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 عند تحديد الشبكة، يتم التحكم في الميزات المجمعة بواسطة ثلاث معلمات: 
@@ -964,7 +964,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 29 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 28}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 28, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 2. خطوة:يحدد عدد "قفزات البكسل" بين شريحتين. إذا كانت الخطوة تساوي  1، ستتحرك النوافذ بمسافة بكسل واحدة. إذا كانت الخطوة
@@ -981,7 +981,7 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 
 
 --- Chunk 30 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 29}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 29, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 Pooling Operaالإنتاج 
 هذه الخطوة سهلة الفهم. الغرض من التجميع هو تقليل أبعاد الصورة المدخلة. يتم تنفيذ الخطوات لتقليل التعقيد  الحسابي للعملية. من خلال  
@@ -1012,7 +1012,7 @@ Pooling Operaالإنتاج
 
 
 --- Chunk 31 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 30}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 30, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 إن إعداد البيانات هو نفس ما تم في البرنامج التعليمي السابق. يمكنك تشغيل التعليمات البرمجية والانتقال مباشرة إلى بنية CNN. 
 ستتبع الخطوات أدناه لتصنيف الصور باستخدام CNN: 
@@ -1035,7 +1035,7 @@ CNN.
 
 
 --- Chunk 32 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 31}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 31, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 تعريف    CNN    : 
@@ -1080,7 +1080,7 @@ Relu لإضافة عدم الخطية إلى الشبكة.
 
 
 --- Chunk 33 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 32}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 32, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 الخطوة  4   Poolinطبقة ز  :  
 الخطوة التالية بعد الالتفاف هي حساب التجميع.  
@@ -1133,7 +1133,7 @@ Calculate Loss (for both TRAIN and EVAL modes)
 
 
 --- Chunk 34 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 33}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 33, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits) 
  
@@ -1154,13 +1154,13 @@ return tf.estimator.EstimatorSpec(mode=mode, loss=loss, eval_metric_ops=eval_met
 كود الخطوات السابقة كاملَا 
 
 --- Chunk 35 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 34}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 34, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
  
 
 
 --- Chunk 36 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 35}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 35, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 ....بإختصار 
 أولاً، عليك تحديد مُقدِّر باستخدام نموذج  CNN لتصنيف الصور. 
@@ -1218,7 +1218,7 @@ CNN. أداء CNN مثيرللإعجاب مع صورة أكبر  طقم سواء
  
 
 --- Chunk 37 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 36}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\school_beta\\CNN.pdf', 'page': 36, 'entity_name': 'مدرسة المعرفة النموذجية'}
 ---
 ❖ المراجع 
  

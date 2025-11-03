@@ -1,12 +1,15 @@
---- إجمالي عدد الأجزاء: 8 ---
+--- إجمالي عدد الأجزاء: 20 ---
 
 --- Chunk 1 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0, 'entity_name': 'نظام الكتروني سع', 'tenant_id': 'sys'}
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0, 'entity_name': 'نظام الكتروني سع'}
 ---
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
 دﻟﻴﻞ اﺳﺘﺨـــﺪام ﻧﻈﺎم
 إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 
+--- Chunk 2 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 1, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
@@ -46,11 +49,17 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 19
 اﻟﻤﺮاﺣﻞ اﻟﺮﺋﻴﺴﺔ
 
+--- Chunk 3 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 2, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
 اﻟﻤﺮاﺣﻞ اﻟﺮﺋﻴﺴﺔ ﻟﺮﺣﻠﺔ اﻟﺤﺼﻮل ﻋﻠﻰ اﻻﻋﺘﻤﺎد:
 
+--- Chunk 4 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 3, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
@@ -60,8 +69,8 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
   اﻧﻘﺮ ﻋﻠﻰ "إﻧﺸﺎء ﺣﺴﺎب ﺟﺪﻳﺪ".2
   اﺧﺘﺮ ﻧﻮع ﺟﻬﺔ اﻟﻌﻤﻞ3
 
---- Chunk 2 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0, 'entity_name': 'نظام الكتروني سع', 'tenant_id': 'sys'}
+--- Chunk 5 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 4, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -74,6 +83,9 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 mﻋﻠﻰ اﻟﺒﺮﻳﺪ اﻟﻤُﺪﺧﻞ 
   اﺿﻐﻂ ﻋﻠﻰ ﺗﺴﺠﻴﻞ ﻹﺗﻤﺎم ﻋﻤﻠﻴﺔ إﻧﺸﺎء ﺣﺴﺎب ﺟﺪﻳﺪ.6
 
+--- Chunk 6 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 5, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
@@ -83,6 +95,9 @@ mﻋﻠﻰ اﻟﺒﺮﻳﺪ اﻟﻤُﺪﺧﻞ
   أدﺧﻞ ﺑﺮﻳﺪك اﻹﻟﻜﺘﺮوﻧﻲ وﻛﻠﻤﺔ اﻟﻤﺮور، ﺛﻢ اﺿﻐﻂ ﻋﻠﻰ ﺗﺴﺠﻴﻞ اﻟﺪﺧﻮل.2
   ﻗﻢ ﺑﺘﻌﺒﺌﺔ ﺑﻴﺎﻧﺎﺗﻚ اﻟﺸﺨﺼﻴﺔ، ﺛﻢ اﺿﻐﻂ ﻋﻠﻰ ﺣﻔﻆ3
 
+--- Chunk 7 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 6, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
@@ -91,15 +106,8 @@ mﻋﻠﻰ اﻟﺒﺮﻳﺪ اﻟﻤُﺪﺧﻞ
 ﻳﻤﻜﻨﻚ إدارة اﻟﻤﺴﺘﺨﺪﻣﻴﻦ )إﺿﺎﻓﺔ، ﺗﻌﺪﻳﻞ، ﺣﺬف، أو ﺗﻨﺸﻴﻂ( ﻛﺎﻵﺗﻲ:
 إدارة اﻟﻤﺴﺘﺨﺪﻣﻴﻦ
 
-دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
-اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
-2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
-ﺗﻌﺪﻳﻞ ﻣﺴﺘﺨﺪم ﻣُﻀﺎف ﻣﺴﺒﻘًﺎ 
-ﺣـــــــــــــــﺬف ﻣﺴــﺘــﺨــــــــــــــــــــــــﺪم
-إدارة اﻟﻤﺴﺘﺨﺪﻣﻴﻦ
-
---- Chunk 3 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0, 'entity_name': 'نظام الكتروني سع', 'tenant_id': 'sys'}
+--- Chunk 8 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 7, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -108,6 +116,9 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 ﺣـــــــــــــــﺬف ﻣﺴــﺘــﺨــــــــــــــــــــــــﺪم
 إدارة اﻟﻤﺴﺘﺨﺪﻣﻴﻦ
 
+--- Chunk 9 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 8, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
@@ -117,6 +128,9 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 ﺛﻢ اﺿﻐﻂ ﻋﻠﻰ اﻟﺘﺎﻟﻲ
 ﺗﻘﺪﻳﻢ ﻃﻠﺐ اﻋﺘﻤﺎد ﺟﺪﻳﺪ
 
+--- Chunk 10 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 9, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
@@ -133,8 +147,8 @@ Excel  رﻓﻊ ﻧﻤﻮذج إﻛﺴﻞ4.2
 ” )ﺗﺨﺘﻠﻒ ﺑﻨﻮد اﻟﻤﺠﺎل وﻓﻘﺎ ﻟﻨﻮع اﻟﻨﺸﺎط(، ﺛﻢ اﻟﻨﻘﺮ ﻋﻠﻰ اﻟﺘﺎﻟﻲ.Excelﻧﻤﻮذج إﻛﺴﻞ
 ﺗﻘﺪﻳﻢ ﻃﻠﺐ اﻋﺘﻤﺎد ﺟﺪﻳﺪ
 
---- Chunk 4 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0, 'entity_name': 'نظام الكتروني سع', 'tenant_id': 'sys'}
+--- Chunk 11 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 10, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -151,16 +165,8 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 اﻟﻤﺒﺪﺋﻴﺔ ﻟﻠﺠﻬﺔ
 ﺗﻘﺪﻳﻢ ﻃﻠﺐ اﻋﺘﻤﺎد ﺟﺪﻳﺪ
 
-دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
-اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
-2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
-دﻓﻊ اﻟﻔﺎﺗﻮرة اﻟﻤﺒﺪﺋﻴﺔ
-  ﺗﻈﻬﺮ اﻟﻔﺎﺗﻮرة ﻟﺪى اﻟﺠﻬﺔ ﺑﺎﻟﺸﻜﻞ اﻟﺘﺎﻟﻲ:1
-  ﻗﻢ ﺑﺎﻟﻀﻐﻂ ﻋﻠﻰ إﺻﺪار رﻗﻢ اﻟﻔﺎﺗﻮرة، وﻣﻦ ﺛﻢ ﻗﻢ ﺑﺴﺪادﻫﺎ2
-ﺗﻘﺪﻳﻢ ﻃﻠﺐ اﻋﺘﻤﺎد ﺟﺪﻳﺪ
-
---- Chunk 5 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0, 'entity_name': 'نظام الكتروني سع', 'tenant_id': 'sys'}
+--- Chunk 12 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 11, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -170,6 +176,9 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
   ﻗﻢ ﺑﺎﻟﻀﻐﻂ ﻋﻠﻰ إﺻﺪار رﻗﻢ اﻟﻔﺎﺗﻮرة، وﻣﻦ ﺛﻢ ﻗﻢ ﺑﺴﺪادﻫﺎ2
 ﺗﻘﺪﻳﻢ ﻃﻠﺐ اﻋﺘﻤﺎد ﺟﺪﻳﺪ
 
+--- Chunk 13 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 12, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
@@ -189,8 +198,8 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 وأﻋﺪ إرﺳﺎل اﻟﻄﻠﺐ ﻣﺮة أﺧﺮى
 ﻗﻮاﺋﻢ اﻟﺘﺤﻘﻖ
 
---- Chunk 6 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0, 'entity_name': 'نظام الكتروني سع', 'tenant_id': 'sys'}
+--- Chunk 14 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 13, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -212,6 +221,9 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 إﻟﻰ ﻣﺮﺣﻠﺔ اﻟﺰﻳﺎرة اﻟﻤﻴﺪاﻧﻴﺔ
 اﻟﺪراﺳﺔ اﻟﻤﻜﺘﺒﻴﺔ
 
+--- Chunk 15 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 14, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
@@ -224,8 +236,8 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
   ﺗﻨﺘﻬﻲ أﻋﻤﺎل ﻫﺬه اﻟﻤﺮﺣﻠﺔ ﺑﺈﺻﺪار ﺗﻘﺮﻳﺮ ﻟﻠﺰﻳﺎرة اﻟﻤﻴﺪاﻧﻴﺔ4
 اﻟﺰﻳﺎرة اﻟﻤﻴﺪاﻧﻴﺔ
 
---- Chunk 7 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0, 'entity_name': 'نظام الكتروني سع', 'tenant_id': 'sys'}
+--- Chunk 16 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 15, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -243,6 +255,9 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 اﻟﻤﻄﺎﺑﻘﺔ وﻓﻖ اﻟﻤﺪة اﻟﺰﻣﻨﻴﺔ اﻟﻤﺘﻔﻖ ﻋﻠﻴﻬﺎ
 اﻹﺟﺮاءات اﻟﺘﺼﺤﻴﺤﻴﺔ
 
+--- Chunk 17 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 16, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
@@ -256,8 +271,8 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 رﻓﺾ ﺑﻌﺾ اﻹﺟﺮاءات اﻟﺘﺼﺤﻴﺤﻴﺔ وﻃﻠﺐ إﻋﺎدة ﺗﻨﻔﻴﺬﻫﺎ
 إﻏﻼق اﻟﻄﻠﺐ
 
---- Chunk 8 ---
-Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 0, 'entity_name': 'نظام الكتروني سع', 'tenant_id': 'sys'}
+--- Chunk 18 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 17, 'entity_name': 'نظام الكتروني سع'}
 ---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
@@ -270,6 +285,9 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 اﻹﻏﻼق، واﻻﻧﺘﻘﺎل إﻟﻰ اﻟﻤﺮﺣﻠﺔ اﻷﺧﻴﺮة ﻣﻦ رﺣﻠﺔ اﻻﻋﺘﻤﺎد
 إﻏﻼق اﻟﻄﻠﺐ
 
+--- Chunk 19 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 18, 'entity_name': 'نظام الكتروني سع'}
+---
 دﻟﻴﻞ اﺳﺘﺨﺪام ﻧﻈﺎم إدارة ﻃﻠﺒﺎت اﻻﻋﺘﻤﺎد
 اﻹدارة اﻟﻌﺎﻣﺔ ﻟﺘﻘﻨﻴﺔ اﻟﻤﻌﻠﻮﻣﺎت
 2.0ﻟﺠﻬﺎت ﺗﻘﻮﻳﻢ اﻟﻤﻄﺎﺑﻘﺔ – اﻹﺻﺪار
@@ -286,5 +304,8 @@ Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\
 اﻟﺼﻮرة
 اﺗﺨﺎذ اﻟﻘﺮار
 
+--- Chunk 20 ---
+Metadata: {'source': 'C:\\Users\\mahdi\\support_service_platform\\4_client_docs\\sys\\sys.pdf', 'page': 19, 'entity_name': 'نظام الكتروني سع'}
+---
 ﺷﻜـــﺮًا ﻟﻜـــﻢ
 
