@@ -1260,11 +1260,350 @@
 # المسار: 2_central_api_service/agent_app/agent_logic.py
 # --- الإصدار المباشر: بناء فوري عند الطلب (بدون تخزين مؤقت) ---
 # main_rag_chain.py - السلسلة النهائية للـ RAG المبنية على القرارات الهندسية
-# 2_central_api_service/agent_app/core_logic.py (النسخة النهائية v4.0 - مع المسار السريع)
+# # 2_central_api_service/agent_app/core_logic.py (النسخة النهائية v4.0 - مع المسار السريع)
+
+# import os
+# import logging
+# import asyncio
+# from typing import AsyncGenerator, Dict, List
+
+# from dotenv import load_dotenv
+# from langchain_core.documents import Document
+# from langchain_core.prompts import ChatPromptTemplate
+# from langchain_core.output_parsers import StrOutputParser
+# from langchain_community.llms import Ollama
+# from langchain_community.embeddings import HuggingFaceEmbeddings
+# from langchain_community.vectorstores import FAISS
+# from langchain_community.retrievers import BM25Retriever
+# from langchain.retrievers import EnsembleRetriever
+
+# # --- 1. الإعدادات ---
+# # (تبقى كما هي)
+# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+# load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
+# logging.basicConfig(level=logging.INFO, format='[%(asctime)s] [%(levelname)s] - %(message)s')
+# EMBEDDING_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+# CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "qwen2:7b") 
+# OLLAMA_HOST = os.getenv("OLLAMA_HOST")
+# UNIFIED_DB_PATH = os.path.join(PROJECT_ROOT, "3_shared_resources", "vector_db")
+
+# # --- 2. القوالب ---
+# # (تبقى كما هي)
+# ANSWER_PROMPT = ChatPromptTemplate.from_template(
+#     """
+# أنت "مرشد الدعم"، مساعد ذكي وخبير. مهمتك هي الإجابة على سؤال المستخدم بالاعتماد **حصرياً** على "السياق" المقدم.
+# - كن دائماً متعاوناً ومحترفاً.
+# - إذا كان السياق يحتوي على إجابة، قدمها بشكل مباشر ومنظم.
+# - إذا كانت المعلومات غير موجودة بشكل واضح في السياق، قل بأسلوب لطيف: "بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال."
+# - إذا كان السياق فارغًا (لا توجد مستندات)، اعتذر بلطف عن عدم وجود معلومات.
+# - لا تخترع إجابات أبداً. التزم بالسياق.
+# السياق:
+# {context}
+# السؤال: {input}
+# الإجابة:
+# """
+# )
+
+# # --- **التحسين 1: إضافة قاموس الردود السريعة** ---
+# FAST_PATH_RESPONSES = {
+#     "السلام عليكم": "وعليكم السلام! كيف يمكنني مساعدتك اليوم؟",
+#     "مرحبا": "أهلاً بك! كيف يمكنني خدمتك؟",
+#     "أهلا": "أهلاً بك! كيف يمكنني خدمتك؟",
+#     "شكرا": "على الرحب والسعة! هل هناك أي شيء آخر يمكنني المساعدة به؟",
+#     "شكرا لك": "على الرحب والسعة! هل هناك أي شيء آخر يمكنني المساعدة به؟",
+#     "يعطيك العافية": "الله يعافيك. في خدمتك دائمًا.",
+#     "كيف حالك": "أنا بخير، شكراً لسؤالك! أنا جاهز لمساعدتك.",
+# }
+# # قائمة الكلمات التي تدل على تحية أو حديث قصير
+# SMALL_TALK_KEYWORDS = [
+#     "السلام عليكم", "مرحبا", "أهلا", "شكرا", "يعطيك العافية", "كيف حالك",
+#     "صباح الخير", "مساء الخير"
+# ]
+
+# # --- 3. المتغيرات العالمية (Cache) ---
+# # (تبقى كما هي)
+# llm: Ollama = None
+# vector_store: FAISS = None
+# retrievers_cache: Dict[str, EnsembleRetriever] = {}
+# initialization_lock = asyncio.Lock()
+
+# # --- 4. دوال التهيئة ---
+# # (دالة initialize_agent تبقى كما هي دون تغيير)
+# async def initialize_agent():
+#     """
+#     يقوم بتهيئة جميع المكونات اللازمة للوكيل عند بدء التشغيل.
+#     """
+#     global llm, vector_store, retrievers_cache
+#     async with initialization_lock:
+#         if llm is not None: return
+
+#         logging.info("🚀 بدء التهيئة الشاملة للوكيل...")
+#         try:
+#             llm = Ollama(model=CHAT_MODEL, base_url=OLLAMA_HOST, temperature=0.0)
+#             logging.info(f"تم تهيئة النموذج اللغوي: {CHAT_MODEL}.")
+#             embeddings_model = HuggingFaceEmbeddings(
+#                 model_name=EMBEDDING_MODEL_NAME,
+#                 model_kwargs={'device': 'cpu'}
+#             )
+#             logging.info(f"تم تهيئة نموذج التضمين: {EMBEDDING_MODEL_NAME}.")
+#             if not os.path.isdir(UNIFIED_DB_PATH):
+#                 raise FileNotFoundError(f"قاعدة البيانات المتجهة غير موجودة في المسار: {UNIFIED_DB_PATH}")
+            
+#             vector_store = await asyncio.to_thread(
+#                 FAISS.load_local, UNIFIED_DB_PATH, embeddings_model, allow_dangerous_deserialization=True
+#             )
+#             logging.info("تم تحميل قاعدة البيانات المتجهة بنجاح.")
+#             logging.info("بناء وتخزين المسترجعات الهجينة لكل عميل...")
+#             all_docs = list(vector_store.docstore._dict.values())
+            
+#             tenant_docs_map = {}
+#             for doc in all_docs:
+#                 tenant_id = doc.metadata.get("tenant_id")
+#                 if tenant_id:
+#                     if tenant_id not in tenant_docs_map:
+#                         tenant_docs_map[tenant_id] = []
+#                     tenant_docs_map[tenant_id].append(doc)
+
+#             for tenant_id, docs in tenant_docs_map.items():
+#                 bm25_retriever = BM25Retriever.from_documents(docs)
+#                 faiss_retriever = vector_store.as_retriever(
+#                     search_type="similarity",
+#                     search_kwargs={'k': 5, 'filter': {'tenant_id': tenant_id}}
+#                 )
+#                 ensemble_retriever = EnsembleRetriever(
+#                     retrievers=[bm25_retriever, faiss_retriever],
+#                     weights=[0.3, 0.7]
+#                 )
+#                 retrievers_cache[tenant_id] = ensemble_retriever
+#                 logging.info(f"  -> تم بناء المسترجع للعميل: {tenant_id}")
+
+#             logging.info("✅ الوكيل جاهز للعمل بكامل طاقته.")
+#         except Exception as e:
+#             logging.critical(f"❌ فشل فادح أثناء التهيئة: {e}", exc_info=True)
+#             llm, vector_store, retrievers_cache = None, None, {}
+#             raise
+
+# def agent_ready() -> bool:
+#     """يتحقق مما إذا كان الوكيل قد تم تهيئته بالكامل."""
+#     return llm is not None and vector_store is not None and bool(retrievers_cache)
+
+# # --- 5. المنطق الأساسي للمعالجة (مع المسار السريع) ---
+
+# async def get_answer_stream(request_info: Dict) -> AsyncGenerator[Dict, None]:
+#     """
+#     الدالة الرئيسية لمعالجة طلب المستخدم، مع مرشح للردود السريعة.
+#     """
+#     session_id = request_info.get("tenant_id", "unknown_session")
+#     question = request_info.get("question", "").strip()
+#     tenant_id = request_info.get("tenant_id")
+
+#     # --- **التحسين 2: تطبيق مرشح المسار السريع** ---
+#     # البحث عن تطابق كامل أولاً
+#     if question in FAST_PATH_RESPONSES:
+#         logging.info(f"[{session_id}] تم العثور على تطابق في المسار السريع للسؤال: '{question}'")
+#         yield {"type": "chunk", "content": FAST_PATH_RESPONSES[question]}
+#         return # إنهاء التنفيذ فورًا
+
+#     # إذا لم يوجد تطابق كامل، تحقق من الكلمات الرئيسية
+#     for keyword in SMALL_TALK_KEYWORDS:
+#         if keyword in question:
+#             logging.info(f"[{session_id}] تم العثور على كلمة رئيسية للحديث القصير: '{keyword}'")
+#             # استخدام الرد العام للتحيات
+#             yield {"type": "chunk", "content": "أهلاً بك! كيف يمكنني مساعدتك اليوم؟"}
+#             return # إنهاء التنفيذ فورًا
+
+#     # --- المسار الكامل (إذا لم يكن السؤال حديثًا قصيرًا) ---
+#     try:
+#         logging.info(f"[{session_id}] بدء المسار الكامل (RAG) للسؤال: '{question}'...")
+        
+#         ensemble_retriever = retrievers_cache.get(tenant_id)
+#         if not ensemble_retriever:
+#             yield {"type": "error", "content": f"لا يوجد مسترجع مهيأ للعميل '{tenant_id}'."}
+#             return
+
+#         retrieved_docs = await ensemble_retriever.ainvoke(question)
+#         logging.info(f"[{session_id}] تم استرجاع {len(retrieved_docs)} مستند.")
+
+#         logging.info(f"[{session_id}] بدء توليد الإجابة النهائية...")
+        
+#         answer_chain = ANSWER_PROMPT | llm | StrOutputParser()
+        
+#         async for chunk in answer_chain.astream({
+#             "input": question, 
+#             "context": retrieved_docs
+#         }):
+#             if chunk:
+#                 yield {"type": "chunk", "content": chunk}
+
+#     except Exception as e:
+#         logging.error(f"[{session_id}] فشل في سلسلة RAG: {e}", exc_info=True)
+#         yield {"type": "error", "content": "عذراً، حدث خطأ فادح أثناء معالجة طلبك."}
+# core_logic.py (v9.0 - The Final Production-Ready Logic)
+#هذا الكود ممتاز جدا في البحث الاجابه يبحث ويعيد نتائج ممتازه ويتعرف على لاسئله العامه بقي اسماء العلم مثل مهدي عبد السلام وغيرها من اسماء 
+# import os
+# import logging
+# import asyncio
+# import json
+# import random
+# import time
+# import uuid
+# from typing import AsyncGenerator, Dict, List
+
+# from dotenv import load_dotenv
+# from langchain_core.documents import Document
+# from langchain_core.prompts import ChatPromptTemplate
+# from langchain_core.messages import HumanMessage, AIMessage
+# from langchain_core.output_parsers import StrOutputParser
+# from langchain_community.llms import Ollama
+# from langchain_community.embeddings import HuggingFaceEmbeddings
+
+# from langchain_community.embeddings import OllamaEmbeddings
+# from langchain_community.vectorstores import FAISS
+# from langchain.retrievers import BM25Retriever, EnsembleRetriever
+
+# # --- 1. الإعدادات ---
+# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+# load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
+
+# logging.basicConfig(level=logging.INFO, format='[%(asctime)s] [%(levelname)s] - %(message)s')
+
+# # استخدام النماذج التي أثبتت فعاليتها
+# EMBEDDING_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+# CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "qwen2:7b")
+# OLLAMA_HOST = os.getenv("OLLAMA_HOST")
+# UNIFIED_DB_PATH = os.path.join(PROJECT_ROOT, "3_shared_resources", "vector_db")
+
+# # **الإصلاح: تحديد مسار قاعدة البيانات الهرمية**
+# HIERARCHICAL_DB_PATH = os.path.join(os.path.dirname(__file__), "hierarchical_db.json")
+
+# TOP_K = 7
+# MIN_QUESTION_LENGTH = 3
+
+# # --- 2. القوالب ---
+# ANSWER_PROMPT = ChatPromptTemplate.from_template(
+#     "أنت \"مساعد الدعم الذكي\". مهمتك هي الإجابة على سؤال المستخدم بالاعتماد **حصريًا** على \"السياق\" المقدم.\n"
+#     "- كن دائمًا متعاونًا ومحترفاً.\n"
+#     "- إذا كانت المعلومات غير موجودة بشكل واضح في السياق، قل بأسلوب لطيف: \"لقد بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال.\"\n"
+#     "- لا تخترع إجابات أبداً. التزم بالسياق.\n\n"
+#     "السياق:\n{context}\n\n"
+#     "السؤال: {input}\n"
+#     "الإجابة:"
+# )
+
+# # --- 3. المتغيرات العالمية (Cache) ---
+# llm: Ollama = None
+# vector_store: FAISS = None
+# retrievers_cache: Dict[str, EnsembleRetriever] = {}
+# # **الإصلاح: استخدام القواميس الهرمية التي بنيناها**
+# input_map: Dict[str, str] = {}
+# response_map: Dict[str, List[str]] = {}
+# initialization_lock = asyncio.Lock()
+
+# # --- 4. دوال التهيئة ---
+# async def initialize_agent():
+#     global llm, vector_store, retrievers_cache, input_map, response_map
+#     async with initialization_lock:
+#         if llm is not None: return
+#         logging.info("🚀 بدء التهيئة الشاملة للوكيل (v9.0)...")
+#         try:
+#             llm = Ollama(model=CHAT_MODEL, base_url=OLLAMA_HOST, temperature=0.1)
+#             embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
+            
+#             vector_store = await asyncio.to_thread(
+#                 FAISS.load_local, UNIFIED_DB_PATH, embeddings, allow_dangerous_deserialization=True
+#             )
+#             logging.info("✅ تم تحميل قاعدة البيانات المتجهة بنجاح.")
+
+#             all_docs = list(vector_store.docstore._dict.values())
+#             tenants = {doc.metadata.get("tenant_id") for doc in all_docs if doc.metadata.get("tenant_id")}
+            
+#             logging.info("⏳ بناء وتخزين المسترجعات الهجينة لكل عميل...")
+#             for tenant_id in tenants:
+#                 tenant_docs = [doc for doc in all_docs if doc.metadata.get("tenant_id") == tenant_id]
+#                 bm25_retriever = BM25Retriever.from_documents(tenant_docs)
+#                 faiss_retriever = vector_store.as_retriever(search_kwargs={'k': TOP_K, 'filter': {'tenant_id': tenant_id}})
+#                 retrievers_cache[tenant_id] = EnsembleRetriever(retrievers=[bm25_retriever, faiss_retriever], weights=[0.3, 0.7])
+#                 logging.info(f"  -> تم بناء المسترجع للعميل: {tenant_id}")
+
+#             # **الإصلاح: تحميل قاعدة البيانات الهرمية**
+#             if os.path.exists(HIERARCHICAL_DB_PATH):
+#                 with open(HIERARCHICAL_DB_PATH, 'r', encoding='utf-8') as f:
+#                     db_data = json.load(f)
+#                     input_map = db_data.get("input_map", {})
+#                     response_map = db_data.get("response_map", {})
+#                 logging.info(f"⚡ تم تحميل قاعدة البيانات الهرمية بنجاح ({len(input_map)} مدخل، {len(response_map)} مفهوم).")
+#             else:
+#                 logging.warning(f"⚠️ تحذير: ملف قاعدة البيانات الهرمية غير موجود في '{HIERARCHICAL_DB_PATH}'. ستعمل الردود الفورية.")
+
+#             logging.info("✅ الوكيل جاهز للعمل بكامل طاقته.")
+#         except Exception as e:
+#             logging.critical(f"❌ فشل فادح أثناء التهيئة: {e}", exc_info=True)
+#             raise
+
+# def agent_ready() -> bool:
+#     return llm is not None and vector_store is not None
+
+# # --- 5. الدالة الرئيسية لتوليد الإجابة (العقل المبسط والفعال) ---
+# async def get_answer_stream(request_info: Dict) -> AsyncGenerator[Dict, None]:
+#     session_id = request_info.get("tenant_id", "unknown_session")
+#     question = request_info.get("question", "").strip()
+    
+#     # --- البوابة 1: جودة المدخل ---
+#     if len(question) < MIN_QUESTION_LENGTH:
+#         yield {"type": "chunk", "content": "عذرًا، لم أفهم سؤالك. هل يمكنك توضيحه أكثر؟"}
+#         return
+
+#     normalized_question = question.lower()
+
+#     # --- البوابة 2: محرك الحوارات الهرمي (المسار السريع) ---
+#     concept_id = input_map.get(normalized_question)
+#     if concept_id and concept_id in response_map:
+#         logging.info(f"[{session_id}] ⚡ تطابق مسار سريع هرمي: '{question}' -> المفهوم '{concept_id}'")
+#         response = random.choice(response_map[concept_id])
+#         yield {"type": "chunk", "content": response}
+#         return
+
+#     # --- المسار الافتراضي: محرك RAG المعرفي (مبسط وفعال) ---
+#     logging.info(f"[{session_id}] 🧠 بدء المسار الكامل (RAG) للسؤال: '{question}'")
+    
+#     try:
+#         retriever = retrievers_cache.get(session_id)
+#         if not retriever:
+#             yield {"type": "error", "content": f"لا يوجد مسترجع معرفي مهيأ للعميل '{session_id}'."}
+#             return
+
+#         # **الإصلاح: استخدام المسترجع الهجين الفعال فقط**
+#         docs = await retriever.ainvoke(question)
+#         logging.info(f"[{session_id}] تم استرجاع {len(docs)} مستند.")
+
+#         if not docs:
+#             yield {"type": "chunk", "content": "لقد بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال."}
+#             return
+
+#         # بناء سلسلة الإجابة
+#         answer_chain = ANSWER_PROMPT | llm | StrOutputParser()
+        
+#         logging.info(f"[{session_id}] بدء توليد الإجابة النهائية...")
+#         full_answer = ""
+#         async for chunk in answer_chain.astream({"input": question, "context": docs}):
+#             if chunk:
+#                 full_answer += chunk
+#                 yield {"type": "chunk", "content": chunk}
+        
+#         logging.info(f"[{session_id}] الإجابة الكاملة: '{full_answer}'")
+
+#     except Exception as e:
+#         logging.error(f"[{session_id}] فشل في سلسلة RAG. الخطأ: {e}", exc_info=True)
+#         yield {"type": "error", "content": "عذرًا، حدث خطأ فادح أثناء معالجة طلبك."}
+
+# المسار: 2_central_api_service/agent_app/core_logic.py
+# الإصدار: v9.3 - The Denial Wall (النسخة النهائية والمحصّنة)
 
 import os
 import logging
 import asyncio
+import json
+import random
 from typing import AsyncGenerator, Dict, List
 
 from dotenv import load_dotenv
@@ -1278,163 +1617,174 @@ from langchain_community.retrievers import BM25Retriever
 from langchain.retrievers import EnsembleRetriever
 
 # --- 1. الإعدادات ---
-# (تبقى كما هي)
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
 load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
+
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] [%(levelname)s] - %(message)s')
+
+# استخدام النماذج التي أثبتت فعاليتها
 EMBEDDING_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
-CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "qwen2:7b") 
+CHAT_MODEL = os.getenv("CHAT_MODEL_NAME", "qwen2:7b")
 OLLAMA_HOST = os.getenv("OLLAMA_HOST")
 UNIFIED_DB_PATH = os.path.join(PROJECT_ROOT, "3_shared_resources", "vector_db")
+HIERARCHICAL_DB_PATH = os.path.join(os.path.dirname(__file__), "hierarchical_db.json")
+
+TOP_K = 7
+MIN_QUESTION_LENGTH = 3
 
 # --- 2. القوالب ---
-# (تبقى كما هي)
 ANSWER_PROMPT = ChatPromptTemplate.from_template(
-    """
-أنت "مرشد الدعم"، مساعد ذكي وخبير. مهمتك هي الإجابة على سؤال المستخدم بالاعتماد **حصرياً** على "السياق" المقدم.
-- كن دائماً متعاوناً ومحترفاً.
-- إذا كان السياق يحتوي على إجابة، قدمها بشكل مباشر ومنظم.
-- إذا كانت المعلومات غير موجودة بشكل واضح في السياق، قل بأسلوب لطيف: "بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال."
-- إذا كان السياق فارغًا (لا توجد مستندات)، اعتذر بلطف عن عدم وجود معلومات.
-- لا تخترع إجابات أبداً. التزم بالسياق.
-السياق:
-{context}
-السؤال: {input}
-الإجابة:
-"""
+    "أنت \"مساعد الدعم الذكي\". مهمتك هي الإجابة على سؤال المستخدم بالاعتماد **حصريًا** على \"السياق\" المقدم.\n"
+    "- كن دائمًا متعاونًا ومحترفاً.\n"
+    "- إذا كانت المعلومات غير موجودة بشكل واضح في السياق، قل بأسلوب لطيف: \"لقد بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال.\"\n"
+    "- لا تخترع إجابات أبداً. التزم بالسياق.\n\n"
+    "السياق:\n{context}\n\n"
+    "السؤال: {input}\n"
+    "الإجابة:"
 )
 
-# --- **التحسين 1: إضافة قاموس الردود السريعة** ---
-FAST_PATH_RESPONSES = {
-    "السلام عليكم": "وعليكم السلام! كيف يمكنني مساعدتك اليوم؟",
-    "مرحبا": "أهلاً بك! كيف يمكنني خدمتك؟",
-    "أهلا": "أهلاً بك! كيف يمكنني خدمتك؟",
-    "شكرا": "على الرحب والسعة! هل هناك أي شيء آخر يمكنني المساعدة به؟",
-    "شكرا لك": "على الرحب والسعة! هل هناك أي شيء آخر يمكنني المساعدة به؟",
-    "يعطيك العافية": "الله يعافيك. في خدمتك دائمًا.",
-    "كيف حالك": "أنا بخير، شكراً لسؤالك! أنا جاهز لمساعدتك.",
-}
-# قائمة الكلمات التي تدل على تحية أو حديث قصير
-SMALL_TALK_KEYWORDS = [
-    "السلام عليكم", "مرحبا", "أهلا", "شكرا", "يعطيك العافية", "كيف حالك",
-    "صباح الخير", "مساء الخير"
-]
-
 # --- 3. المتغيرات العالمية (Cache) ---
-# (تبقى كما هي)
 llm: Ollama = None
 vector_store: FAISS = None
 retrievers_cache: Dict[str, EnsembleRetriever] = {}
+input_map: Dict[str, str] = {}
+response_map: Dict[str, List[str]] = {}
+concept_to_inputs_map: Dict[str, List[str]] = {}
 initialization_lock = asyncio.Lock()
 
 # --- 4. دوال التهيئة ---
-# (دالة initialize_agent تبقى كما هي دون تغيير)
 async def initialize_agent():
-    """
-    يقوم بتهيئة جميع المكونات اللازمة للوكيل عند بدء التشغيل.
-    """
-    global llm, vector_store, retrievers_cache
+    global llm, vector_store, retrievers_cache, input_map, response_map, concept_to_inputs_map
     async with initialization_lock:
         if llm is not None: return
-
-        logging.info("🚀 بدء التهيئة الشاملة للوكيل...")
+        logging.info("🚀 بدء التهيئة الشاملة للوكيل (v9.3)...")
         try:
-            llm = Ollama(model=CHAT_MODEL, base_url=OLLAMA_HOST, temperature=0.0)
-            logging.info(f"تم تهيئة النموذج اللغوي: {CHAT_MODEL}.")
-            embeddings_model = HuggingFaceEmbeddings(
-                model_name=EMBEDDING_MODEL_NAME,
-                model_kwargs={'device': 'cpu'}
-            )
-            logging.info(f"تم تهيئة نموذج التضمين: {EMBEDDING_MODEL_NAME}.")
-            if not os.path.isdir(UNIFIED_DB_PATH):
-                raise FileNotFoundError(f"قاعدة البيانات المتجهة غير موجودة في المسار: {UNIFIED_DB_PATH}")
+            llm = Ollama(model=CHAT_MODEL, base_url=OLLAMA_HOST, temperature=0.1)
+            embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
             
             vector_store = await asyncio.to_thread(
-                FAISS.load_local, UNIFIED_DB_PATH, embeddings_model, allow_dangerous_deserialization=True
+                FAISS.load_local, UNIFIED_DB_PATH, embeddings, allow_dangerous_deserialization=True
             )
-            logging.info("تم تحميل قاعدة البيانات المتجهة بنجاح.")
-            logging.info("بناء وتخزين المسترجعات الهجينة لكل عميل...")
-            all_docs = list(vector_store.docstore._dict.values())
-            
-            tenant_docs_map = {}
-            for doc in all_docs:
-                tenant_id = doc.metadata.get("tenant_id")
-                if tenant_id:
-                    if tenant_id not in tenant_docs_map:
-                        tenant_docs_map[tenant_id] = []
-                    tenant_docs_map[tenant_id].append(doc)
+            logging.info("✅ تم تحميل قاعدة البيانات المتجهة بنجاح.")
 
-            for tenant_id, docs in tenant_docs_map.items():
-                bm25_retriever = BM25Retriever.from_documents(docs)
-                faiss_retriever = vector_store.as_retriever(
-                    search_type="similarity",
-                    search_kwargs={'k': 5, 'filter': {'tenant_id': tenant_id}}
-                )
-                ensemble_retriever = EnsembleRetriever(
-                    retrievers=[bm25_retriever, faiss_retriever],
-                    weights=[0.3, 0.7]
-                )
-                retrievers_cache[tenant_id] = ensemble_retriever
+            all_docs = list(vector_store.docstore._dict.values())
+            tenants = {doc.metadata.get("tenant_id") for doc in all_docs if doc.metadata.get("tenant_id")}
+            
+            logging.info("⏳ بناء وتخزين المسترجعات الهجينة لكل عميل...")
+            for tenant_id in tenants:
+                tenant_docs = [doc for doc in all_docs if doc.metadata.get("tenant_id") == tenant_id]
+                bm25_retriever = BM25Retriever.from_documents(tenant_docs)
+                faiss_retriever = vector_store.as_retriever(search_kwargs={'k': TOP_K, 'filter': {'tenant_id': tenant_id}})
+                retrievers_cache[tenant_id] = EnsembleRetriever(retrievers=[bm25_retriever, faiss_retriever], weights=[0.3, 0.7])
                 logging.info(f"  -> تم بناء المسترجع للعميل: {tenant_id}")
+
+            if os.path.exists(HIERARCHICAL_DB_PATH):
+                with open(HIERARCHICAL_DB_PATH, 'r', encoding='utf-8') as f:
+                    db_data = json.load(f)
+                    input_map = db_data.get("input_map", {})
+                    response_map = db_data.get("response_map", {})
+                
+                for inp, concept in input_map.items():
+                    if concept not in concept_to_inputs_map:
+                        concept_to_inputs_map[concept] = []
+                    concept_to_inputs_map[concept].append(inp)
+
+                logging.info(f"⚡ تم تحميل قاعدة البيانات الهرمية بنجاح ({len(input_map)} مدخل، {len(response_map)} مفهوم).")
+            else:
+                logging.warning(f"⚠️ تحذير: ملف قاعدة البيانات الهرمية غير موجود.")
 
             logging.info("✅ الوكيل جاهز للعمل بكامل طاقته.")
         except Exception as e:
             logging.critical(f"❌ فشل فادح أثناء التهيئة: {e}", exc_info=True)
-            llm, vector_store, retrievers_cache = None, None, {}
             raise
 
 def agent_ready() -> bool:
-    """يتحقق مما إذا كان الوكيل قد تم تهيئته بالكامل."""
-    return llm is not None and vector_store is not None and bool(retrievers_cache)
+    return llm is not None and vector_store is not None
 
-# --- 5. المنطق الأساسي للمعالجة (مع المسار السريع) ---
+def smart_match(question: str) -> str | None:
+    normalized_question = question.lower().strip()
+    
+    if normalized_question in input_map:
+        return input_map[normalized_question]
+        
+    for concept_id, inputs in concept_to_inputs_map.items():
+        for keyword in inputs:
+            if len(keyword) >= 3 and keyword in normalized_question:
+                return concept_id
+                
+    return None
 
+# --- 5. الدالة الرئيسية لتوليد الإجابة (العقل المحصّن بجدار صدّ) ---
 async def get_answer_stream(request_info: Dict) -> AsyncGenerator[Dict, None]:
-    """
-    الدالة الرئيسية لمعالجة طلب المستخدم، مع مرشح للردود السريعة.
-    """
     session_id = request_info.get("tenant_id", "unknown_session")
     question = request_info.get("question", "").strip()
-    tenant_id = request_info.get("tenant_id")
+    
+    # --- البوابة 1: جدار الصدّ الذكي ---
+    if len(question) < MIN_QUESTION_LENGTH:
+        logging.info(f"[{session_id}] 🛡️ تم صد السؤال (قصير جدًا): '{question}'")
+        yield {"type": "chunk", "content": "عذرًا، لم أفهم سؤالك. هل يمكنك توضيحه أكثر؟"}
+        return
 
-    # --- **التحسين 2: تطبيق مرشح المسار السريع** ---
-    # البحث عن تطابق كامل أولاً
-    if question in FAST_PATH_RESPONSES:
-        logging.info(f"[{session_id}] تم العثور على تطابق في المسار السريع للسؤال: '{question}'")
-        yield {"type": "chunk", "content": FAST_PATH_RESPONSES[question]}
-        return # إنهاء التنفيذ فورًا
-
-    # إذا لم يوجد تطابق كامل، تحقق من الكلمات الرئيسية
-    for keyword in SMALL_TALK_KEYWORDS:
-        if keyword in question:
-            logging.info(f"[{session_id}] تم العثور على كلمة رئيسية للحديث القصير: '{keyword}'")
-            # استخدام الرد العام للتحيات
-            yield {"type": "chunk", "content": "أهلاً بك! كيف يمكنني مساعدتك اليوم؟"}
-            return # إنهاء التنفيذ فورًا
-
-    # --- المسار الكامل (إذا لم يكن السؤال حديثًا قصيرًا) ---
-    try:
-        logging.info(f"[{session_id}] بدء المسار الكامل (RAG) للسؤال: '{question}'...")
-        
-        ensemble_retriever = retrievers_cache.get(tenant_id)
-        if not ensemble_retriever:
-            yield {"type": "error", "content": f"لا يوجد مسترجع مهيأ للعميل '{tenant_id}'."}
+    question_words = question.split()
+    interrogative_words = ["ما", "ماذا", "كيف", "هل", "اين", "متى", "لماذا", "بكم", "قارن", "اشرح", "وضح"]
+    
+    if len(question_words) <= 2 and not any(word in question.lower() for word in interrogative_words):
+        concept_id_check = smart_match(question)
+        if not concept_id_check:
+            logging.info(f"[{session_id}] 🛡️ تم صد السؤال (كلمة مفردة غير استفهامية): '{question}'")
+            yield {"type": "chunk", "content": "عذرًا، لم أفهم سؤالك. هل يمكنك تقديم سؤال كامل؟"}
             return
 
-        retrieved_docs = await ensemble_retriever.ainvoke(question)
-        logging.info(f"[{session_id}] تم استرجاع {len(retrieved_docs)} مستند.")
+    alpha_chars = sum(1 for char in question if char.isalpha())
+    total_chars = len(question)
+    if total_chars > 0 and (alpha_chars / total_chars) < 0.5:
+        concept_id_check = smart_match(question)
+        if not concept_id_check:
+            logging.info(f"[{session_id}] 🛡️ تم صد السؤال (محتوى غير أبجدي): '{question}'")
+            yield {"type": "chunk", "content": "عذرًا، يبدو أن المدخل يحتوي على رموز غير مفهومة."}
+            return
 
-        logging.info(f"[{session_id}] بدء توليد الإجابة النهائية...")
+    # --- البوابة 2: محرك الحوارات الهرمي ---
+    normalized_question = question.lower()
+    concept_id = smart_match(normalized_question)
+    
+    if concept_id and concept_id in response_map:
+        if concept_id.startswith(('abusive_', 'gibberish_', 'sql_injection', 'xss_')):
+            logging.warning(f"[{session_id}] 🛡️ تطابق جدار الحماية: '{question}' -> المفهوم '{concept_id}'")
+        else:
+            logging.info(f"[{session_id}] ⚡ تطابق مسار سريع: '{question}' -> المفهوم '{concept_id}'")
         
+        response = random.choice(response_map[concept_id])
+        yield {"type": "chunk", "content": response}
+        return
+
+    # --- المسار الافتراضي: محرك RAG المعرفي ---
+    logging.info(f"[{session_id}] 🧠 بدء المسار الكامل (RAG) للسؤال: '{question}'")
+    
+    try:
+        retriever = retrievers_cache.get(session_id)
+        if not retriever:
+            yield {"type": "error", "content": f"لا يوجد مسترجع معرفي مهيأ للعميل '{session_id}'."}
+            return
+
+        docs = await retriever.ainvoke(question)
+        logging.info(f"[{session_id}] تم استرجاع {len(docs)} مستند.")
+
+        if not docs:
+            yield {"type": "chunk", "content": "لقد بحثت في قاعدة المعرفة، ولكن لم أجد إجابة واضحة بخصوص هذا السؤال."}
+            return
+
         answer_chain = ANSWER_PROMPT | llm | StrOutputParser()
         
-        async for chunk in answer_chain.astream({
-            "input": question, 
-            "context": retrieved_docs
-        }):
+        logging.info(f"[{session_id}] بدء توليد الإجابة النهائية...")
+        full_answer = ""
+        async for chunk in answer_chain.astream({"input": question, "context": docs}):
             if chunk:
+                full_answer += chunk
                 yield {"type": "chunk", "content": chunk}
+        
+        logging.info(f"[{session_id}] الإجابة الكاملة: '{full_answer}'")
 
     except Exception as e:
-        logging.error(f"[{session_id}] فشل في سلسلة RAG: {e}", exc_info=True)
-        yield {"type": "error", "content": "عذراً، حدث خطأ فادح أثناء معالجة طلبك."}
+        logging.error(f"[{session_id}] فشل في سلسلة RAG. الخطأ: {e}", exc_info=True)
+        yield {"type": "error", "content": "عذرًا، حدث خطأ فادح أثناء معالجة طلبك."}
