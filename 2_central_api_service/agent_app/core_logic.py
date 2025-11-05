@@ -1788,3 +1788,55 @@ async def get_answer_stream(request_info: Dict) -> AsyncGenerator[Dict, None]:
     except Exception as e:
         logging.error(f"[{session_id}] فشل في سلسلة RAG. الخطأ: {e}", exc_info=True)
         yield {"type": "error", "content": "عذرًا، حدث خطأ فادح أثناء معالجة طلبك."}
+
+
+
+# 025-11-04 17:33:13,915] [INFO] - تم إنشاء اتصال WebSocket للعميل: un
+# INFO:     connection open
+# [2025-11-04 17:34:02,175] [INFO] - تم قطع اتصال WebSocket للعميل: un
+# INFO:     connection closed
+# INFO:     127.0.0.1:8104 - "WebSocket /ws/university_alpha" [accepted]
+# [2025-11-04 17:34:02,466] [INFO] - تم إنشاء اتصال WebSocket للعميل: university_alpha
+# INFO:     connection open
+# [2025-11-04 17:34:10,459] [INFO] - [university_alpha] ⚡ تطابق مسار سريع: 'كيفك' -> المفهوم 'greetings_005'
+# [2025-11-04 17:34:18,762] [INFO] - [university_alpha] 🛡️ تم صد السؤال (كلمة مفردة غير استفهامية): 'احبك'
+# [2025-11-04 17:34:25,907] [INFO] - [university_alpha] 🛡️ تم صد السؤال (كلمة مفردة غير استفهامية): 'غني لي'
+# [2025-11-04 17:36:38,684] [INFO] - تم قطع اتصال WebSocket للعميل: university_alpha
+# INFO:     connection closed
+# INFO:     127.0.0.1:10933 - "WebSocket /ws/un" [accepted]
+# [2025-11-04 17:36:39,168] [INFO] - تم إنشاء اتصال WebSocket للعميل: un
+# INFO:     connection open
+# [2025-11-04 17:36:43,032] [INFO] - تم قطع اتصال WebSocket للعميل: un
+# INFO:     connection closed
+# INFO:     127.0.0.1:11012 - "WebSocket /ws/school_beta" [accepted]
+# [2025-11-04 17:36:43,381] [INFO] - تم إنشاء اتصال WebSocket للعميل: school_beta
+# INFO:     connection open
+# [2025-11-04 17:36:55,259] [INFO] - [school_beta] 🛡️ تم صد السؤال (كلمة مفردة غير استفهامية): 'لفيو'
+# [2025-11-04 17:40:23,321] [INFO] - [un] الإجابة الكاملة: 'الإجابة:
+# السؤال: انا اعلم انك لست مجرد برنامج اليس كذلك
+# الإجابة: /think'
+# [2025-11-04 17:41:04,878] [WARNING] - [un] 🛡️ تطابق جدار الحماية: 'غبي' -> المفهوم 'abusive_001'
+# [2025-11-04 17:41:17,482] [INFO] - [un] 🧠 بدء المسار الكامل (RAG) للسؤال: 'من هو مبسي'
+# [2025-11-04 17:41:17,870] [INFO] - [un] تم استرجاع 10 مستند.
+# [2025-11-04 17:41:17,871] [INFO] - [un] بدء توليد الإجابة النهائية...
+# [2025-11-04 17:47:47,528] [INFO] - [un] الإجابة الكاملة: 'المبيسي (MBSI) يُشير إلى **مكتبة الأمم المتحدة (United Nations Library)**، وهي جزء من نظام الشرا
+# ء الإلكتروني لبوابة الأمم المتحدة العالمية. تُعتبر المبيسي مسؤولًا عن الحفظ والوصول إلى مصنفات الأمم المتحدة، وتقع في مدينة نيويورك. في السياق المذكور، ت
+# ظهر المبيسي دورًا في إدارة الموارد والاتصالات المتعلقة بالمشاريع والمنح.'
+# INFO:     Shutting down
+# [2025-11-04 17:50:48,315] [INFO] - تم قطع اتصال WebSocket للعميل: un
+# INFO:     connection closed
+# [2025-11-04 17:50:48,337] [INFO] - تم قطع اتصال WebSocket للعميل: school_beta
+# INFO:     connection closed
+# INFO:     Waiting for application shutdown.
+# [2025-11-04 17:50:48,464] [INFO] - إيقاف تشغيل خادم الـ API...
+# INFO:     Application shutdown complete.
+# INFO:     Finished server process [202628]
+# forrtl: error (200): program aborting due to control-C event
+# Image              PC                Routine            Line        Source
+# KERNELBASE.dll     00007FFBC1A47E23  Unknown               Unknown  Unknown
+# KERNEL32.DLL       00007FFBC3E38364  Unknown               Unknown  Unknown
+# ntdll.dll          00007FFBC4AC5E91  Unknown               Unknown  Unknown
+# INFO:     Stopping reloader process [522944]
+
+# (test_env) C:\Users\mahdi\support_service_platform>
+# (test_env) C:\Users\mahdi\support_service_platform>^XCC

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مساعد الدعم الذكي (إصدار الإنتاج)</title>
+    
+    <script src="/static/marked.min.js"></script>
+    <script src="/static/dompurify.min.js"></script>
+
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin: 0; background-color: #f4f7f9; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        #chat-container { width: 90%; max-width: 800px; height: 90vh; background-color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
+        #header { padding: 20px; background-color: #fff; border-bottom: 1px solid #e0e0e0; text-align: center; }
+        #header h1 { margin: 0; font-size: 1.5em; color: #333; }
+        #messages { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .message { max-width: 75%; padding: 12px 18px; border-radius: 20px; line-height: 1.5; word-wrap: break-word; }
+        .user-message { background-color: #007bff; color: white; align-self: flex-end; border-bottom-right-radius: 5px; }
+        .bot-message { background-color: #e9e9eb; color: #333; align-self: flex-start; border-bottom-left-radius: 5px; }
+        .bot-message h1, .bot-message h2, .bot-message h3 { margin-top: 10px; margin-bottom: 5px; }
+        .bot-message ul, .bot-message ol { padding-right: 20px; }
+        .bot-message p { margin: 5px 0; }
+        #input-area { display: flex; padding: 15px; border-top: 1px solid #e0e0e0; background-color: #fff; }
+        #message-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-size: 1em; resize: none; }
+        #send-button { background-color: #007bff; color: white; border: none; border-radius: 50%; width: 45px; height: 45px; margin-left: 10px; cursor: pointer; font-size: 1.5em; }
+        #tenant-selector { padding: 10px; font-size: 1em; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 10px; width: 100%; }
+        #controls { padding: 10px 20px; background-color: #f8f9fa; border-bottom: 1px solid #e0e0e0; }
+
+        /* --- CSS جديد لعرض المصادر --- */
+        .sources-container {
+            background-color: #f0f8ff;
+            border: 1px solid #d1e7fd;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            align-self: flex-start;
+            width: 100%;
+        }
+        .sources-header {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #0c5460;
+            user-select: none;
+        }
+        .sources-content {
+            padding: 0 12px 12px 12px;
+            border-top: 1px solid #d1e7fd;
+            display: none; /* مخفي بشكل افتراضي */
+        }
+        .source-item {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #bce8f1;
+        }
+        .source-item:first-child {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
+        }
+        .source-meta {
+            font-weight: bold;
+            color: #31708f;
+        }
+        .source-preview {
+            color: #555;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="header"><h1>مساعد الدعم الذكي</h1></div>
+        <div id="controls"><select id="tenant-selector"><option>جاري تحميل الأنظمة...</option></select></div>
+        <div id="messages"></div>
+        <div id="input-area">
+            <input id="message-input" type="text" placeholder="اكتب رسالتك هنا..." autocomplete="off">
+            <button id="send-button">➤</button>
+        </div>
+    </div>
+
+    <script>
+        const messagesDiv = document.getElementById('messages');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const tenantSelector = document.getElementById('tenant-selector');
+        
+        let ws;
+        let session_id = 'session_' + Date.now() + Math.random();
+        let currentBotMessage = null;
+
+        function addMessage(content, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', `${sender}-message`);
+
+            if (sender === 'bot') {
+                const rawHtml = marked.parse(content);
+                messageElement.innerHTML = DOMPurify.sanitize(rawHtml);
+            } else {
+                messageElement.textContent = content;
+            }
+            messagesDiv.appendChild(messageElement);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            return messageElement;
+        }
+
+        function connectWebSocket() {
+            if (ws && ws.readyState === WebSocket.OPEN) ws.close();
+            
+            const selectedTenantId = tenantSelector.value;
+            if (!selectedTenantId) return;
+
+            const wsUrl = `ws://${window.location.host}/ws/${selectedTenantId}/${session_id}`;
+            ws = new WebSocket(wsUrl);
+
+            ws.onopen = () => {
+                messagesDiv.innerHTML = ''; 
+                addMessage("أهلاً بك! أنا جاهز للمساعدة في نظام " + tenantSelector.options[tenantSelector.selectedIndex].text, 'bot');
+            };
+
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+
+                if (data.type === 'sources') {
+                    const sourcesContainer = document.createElement('div');
+                    sourcesContainer.className = 'sources-container';
+
+                    const header = document.createElement('div');
+                    header.className = 'sources-header';
+                    header.textContent = `📚 المصادر المسترجعة (${data.content.length})`;
+                    
+                    const content = document.createElement('div');
+                    content.className = 'sources-content';
+
+                    data.content.forEach(source => {
+                        const item = document.createElement('div');
+                        item.className = 'source-item';
+                        const sourceName = source.source.split(/[\\/]/).pop();
+                        item.innerHTML = `
+                            <div class="source-meta">المصدر: ${sourceName} (الصلة: ${source.score})</div>
+                            <div class="source-preview">${DOMPurify.sanitize(source.content_preview)}</div>
+                        `;
+                        content.appendChild(item);
+                    });
+
+                    sourcesContainer.appendChild(header);
+                    sourcesContainer.appendChild(content);
+                    messagesDiv.appendChild(sourcesContainer);
+
+                    header.onclick = () => {
+                        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                    };
+                } else if (data.type === 'chunk') {
+                    if (!currentBotMessage) {
+                        currentBotMessage = addMessage(data.content, 'bot');
+                        currentBotMessage.dataset.rawText = data.content;
+                    } else {
+                        currentBotMessage.dataset.rawText += data.content;
+                        currentBotMessage.innerHTML = DOMPurify.sanitize(marked.parse(currentBotMessage.dataset.rawText));
+                    }
+                } else if (data.type === 'end_of_stream') {
+                    if (currentBotMessage) {
+                        delete currentBotMessage.dataset.rawText;
+                    }
+                    currentBotMessage = null;
+                } else if (data.type === 'error') {
+                    addMessage(`حدث خطأ: ${data.content}`, 'bot');
+                }
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            };
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || !ws || ws.readyState !== WebSocket.OPEN) return;
+            addMessage(message, 'user');
+            ws.send(message);
+            messageInput.value = '';
+        }
+
+        async function loadTenants() {
+            try {
+                const response = await fetch('/tenants');
+                const tenants = await response.json();
+                if (tenants.length === 0) {
+                    tenantSelector.innerHTML = '<option value="">لا توجد أنظمة متاحة</option>';
+                    return;
+                }
+                tenantSelector.innerHTML = tenants.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+                connectWebSocket();
+            } catch (error) {
+                console.error("Error loading tenants:", error);
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+        tenantSelector.addEventListener('change', connectWebSocket);
+
+        loadTenants();
+    </script>
+</body>
+</html>
