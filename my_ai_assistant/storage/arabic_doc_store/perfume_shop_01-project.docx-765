@@ -1,0 +1,1 @@
+Shared preferences: مكون إضافي (Plugin) لـ Flutter لقراءة وكتابة قوائم أزواج المفاتيح والقيم البسيطة. يقوم بتغليف NSUserDefaults على نظام iOS وShared Preferences على نظام Android.

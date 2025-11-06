@@ -1,0 +1,1 @@
+x_test = x_test.reshape(-1,784) test_accuracy = sess.run(accuracy, feed_dict={X: x_test, Y: y_test.toarray(), keep_prob: 1.0}) print("\nAccuracy on test set:", test_accuracy)

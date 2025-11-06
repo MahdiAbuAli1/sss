@@ -1,0 +1,1 @@
+# Logits Layer logits = tf.layers.dense(inputs=dropout, units=10)

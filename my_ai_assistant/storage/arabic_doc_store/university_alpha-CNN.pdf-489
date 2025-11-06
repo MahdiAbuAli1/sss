@@ -1,0 +1,1 @@
+loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits)

@@ -1,0 +1,1 @@
+pool2_flat = tf.reshape(pool2, [-1, 7 * 7 * 36])

@@ -1,0 +1,1 @@
+init = tf.compat.v1.global_variables_initializer() sess = tf.compat.v1.Session() sess.run(init)

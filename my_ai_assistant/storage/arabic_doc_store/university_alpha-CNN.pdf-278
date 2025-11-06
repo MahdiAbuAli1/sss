@@ -1,0 +1,1 @@
+biases = { 'b1': tf.Variable(tf.constant(0.1, shape=[n_hidden1])), 'b2': tf.Variable(tf.constant(0.1, shape=[n_hidden2])), 'b3': tf.Variable(tf.constant(0.1, shape=[n_hidden3])), 'out': tf.Variable(tf.constant(0.1, shape=[n_output])) }

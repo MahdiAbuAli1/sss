@@ -1,0 +1,1 @@
+import tensorflow as tf import numpy as np from sklearn.preprocessing import OneHotEncoder # روصلا ةجلاعم ةبتكم from PIL import Image #قباس رادصإ عم ةيقفاوتلا tf.compat.v1.disable_v2_behavior()

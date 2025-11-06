@@ -1,0 +1,1 @@
+X = tf.compat.v1.placeholder("float", [None, n_input]) Y = tf.compat.v1.placeholder("float", [None, n_output]) keep_prob = tf.compat.v1.placeholder(tf.float32)

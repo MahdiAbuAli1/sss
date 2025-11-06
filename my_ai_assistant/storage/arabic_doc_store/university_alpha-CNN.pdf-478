@@ -1,0 +1,1 @@
+dense = tf.layers.dense(inputs=pool2_flat, units=7 * 7 * 36, activation=tf.nn.relu) dropout = tf.layers.dropout( inputs=dense, rate=0.3, training=mode == tf.estimator.ModeKeys.TRAIN)
